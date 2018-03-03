@@ -1,0 +1,50 @@
+import {combineReducers} from 'redux';
+import {reducer as form} from 'redux-form';
+import session from './session';
+
+const appReducer = combineReducers({
+    form,
+    session,
+});
+
+const initialState = {
+    isAuthenticated: false,
+    willAuthenticate: true,
+    currentUser: {},
+};
+
+export default function (state = initialState, action) {
+    switch (action.type) {
+        case 'AUTHENTICATION_REQUEST':
+            return {
+                ...state,
+                willAuthenticate: true,
+            };
+        case 'AUTHENTICATION_SUCCESS':
+            return {
+                ...state,
+                willAuthenticate: false,
+                isAuthenticated: true,
+                currentUser: action.response.data,
+            };
+        case 'AUTHENTICATION_FAILURE':
+            return {
+                ...state,
+                willAuthenticate: false,
+            };
+        case 'LOGOUT':
+            return {
+                ...state,
+                willAuthenticate: false,
+                isAuthenticated: false,
+                currentUser: {},
+            };
+        case 'SOCKET_CONNECTED': // new case
+            return {
+                ...state,
+                socket: action.socket,
+            };
+        default:
+            return state;
+    }
+}

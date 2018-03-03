@@ -1,0 +1,29 @@
+.container {
+    flex: 1;
+    padding: 10px 10px 0 10px;
+    background: #fff;
+    overflow-y: auto;
+}
+
+.dayDivider {
+    position: relative;
+    margin: 1rem 0;
+    text-align: center;
+}
+
+.dayDivider::after {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    left: 0;
+    height: 1px;
+    background: rgb(240, 240, 240);
+    content: "";
+}
+
+.dayText {
+    z-index: 1;
+    position: relative;
+    background: #fff;
+    padding: 0 12px;
+}

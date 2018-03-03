@@ -1,0 +1,16 @@
+.form {
+    padding: 0px 10px 10px 10px;
+    background: #fff;
+}
+
+.input {
+    border-width: 2px;
+    border-color: rgb(214, 214, 214);
+}
+
+.button {
+    color: rgb(80, 80, 80);
+    background: rgb(214, 214, 214);
+    border-width: 2px;
+    border-color: rgb(214, 214, 214);
+}
