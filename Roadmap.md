@@ -18,3 +18,4 @@
 
 - Roles
 - Channel mute
+- Unread messages
