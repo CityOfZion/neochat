@@ -16,6 +16,7 @@ defmodule Api.Web.SessionController do
         new_conn
         |> put_status(:created)
         |> render("show.json", user: user, jwt: jwt)
+
       :error ->
         conn
         |> put_status(:unauthorized)
@@ -34,13 +35,15 @@ defmodule Api.Web.SessionController do
 
   def refresh(conn, _params) do
     user = GPlug.current_resource(conn)
+
     jwt = GPlug.current_token(conn)
-    |> IO.inspect()
+
     case Guardian.refresh(jwt) do
       {:ok, {_, _}, {new_token, _}} ->
         conn
         |> put_status(:ok)
         |> render("show.json", user: user, jwt: new_token)
+
       {:error, _reason} ->
         conn
         |> put_status(:unauthorized)

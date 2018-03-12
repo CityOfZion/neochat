@@ -12,7 +12,8 @@ defmodule Api.Web.ConnCase do
   inside a transaction which is reset at the beginning
   of the test unless the test case is marked as async.
   """
-
+  alias Ecto.Adapters.SQL.Sandbox
+  alias Phoenix.ConnTest
   use ExUnit.CaseTemplate
 
   using do
@@ -26,13 +27,13 @@ defmodule Api.Web.ConnCase do
     end
   end
 
-
   setup tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Api.Repo)
-    unless tags[:async] do
-      Ecto.Adapters.SQL.Sandbox.mode(Api.Repo, {:shared, self()})
-    end
-    {:ok, conn: Phoenix.ConnTest.build_conn()}
-  end
+    :ok = Sandbox.checkout(Api.Repo)
 
+    unless tags[:async] do
+      Sandbox.mode(Api.Repo, {:shared, self()})
+    end
+
+    {:ok, conn: ConnTest.build_conn()}
+  end
 end

@@ -12,6 +12,7 @@ defmodule Api.Web.ChannelCase do
   inside a transaction which is reset at the beginning
   of the test unless the test case is marked as async.
   """
+  alias Ecto.Adapters.SQL.Sandbox
 
   use ExUnit.CaseTemplate
 
@@ -25,13 +26,13 @@ defmodule Api.Web.ChannelCase do
     end
   end
 
-
   setup tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Api.Repo)
+    :ok = Sandbox.checkout(Api.Repo)
+
     unless tags[:async] do
-      Ecto.Adapters.SQL.Sandbox.mode(Api.Repo, {:shared, self()})
+      Sandbox.mode(Api.Repo, {:shared, self()})
     end
+
     :ok
   end
-
 end
