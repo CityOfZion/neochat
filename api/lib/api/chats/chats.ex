@@ -9,7 +9,6 @@ defmodule Api.Chats do
   alias Api.Chats.Channel
   alias Api.Chats.ChannelUser
 
-
   @doc """
   Returns the list of channels.
 
@@ -128,7 +127,7 @@ defmodule Api.Chats do
   def list_messages(channel) do
     Message
     |> where([m], m.channel_id == ^channel.id)
-    |> order_by([desc: :inserted_at, desc: :id])
+    |> order_by(desc: :inserted_at, desc: :id)
     |> preload(:user)
     |> Repo.paginate()
   end
@@ -162,7 +161,8 @@ defmodule Api.Chats do
 
   """
   def create_message(channel, user, attrs) do
-    Ecto.build_assoc(channel, :messages, user_id: user.id)
+    channel
+    |> Ecto.build_assoc(:messages, user_id: user.id)
     |> Message.changeset(attrs)
     |> Repo.insert()
   end

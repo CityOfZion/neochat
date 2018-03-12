@@ -8,7 +8,7 @@ defmodule Api.Web.UserController do
   alias Api.Web.ChannelView
   alias Api.Chats
 
-  action_fallback Api.Web.FallbackController
+  action_fallback(Api.Web.FallbackController)
   #
   #  def index(conn, _params) do
   #    users = Accounts.list_users()
@@ -24,6 +24,7 @@ defmodule Api.Web.UserController do
         conn
         |> put_status(:created)
         |> render(SessionView, "show.json", user: user, jwt: jwt)
+
       {:error, changeset} ->
         conn
         |> put_status(:unprocessable_entity)
@@ -32,10 +33,11 @@ defmodule Api.Web.UserController do
   end
 
   def channels(conn, _) do
-    current_user = GPlug.current_resource(conn) |> IO.inspect()
+    current_user = GPlug.current_resource(conn)
     channels = Chats.get_user_channels(current_user)
     render(conn, ChannelView, "index.json", %{channels: channels})
   end
+
   #
   #  def show(conn, %{"id" => id}) do
   #    user = Accounts.get_user!(id)

@@ -1,4 +1,6 @@
 defmodule Api.Application do
+  @moduledoc false
+  alias Api.Web.Endpoint
   use Application
 
   # See https://hexdocs.pm/elixir/Application.html
@@ -11,7 +13,7 @@ defmodule Api.Application do
       # Start the Ecto repository
       supervisor(Api.Repo, []),
       # Start the endpoint when the application starts
-      supervisor(Api.Web.Endpoint, []),
+      supervisor(Api.Web.Endpoint, [])
       # Start your own worker by calling: Api.Worker.start_link(arg1, arg2, arg3)
       # worker(Api.Worker, [arg1, arg2, arg3]),
     ]
@@ -25,7 +27,7 @@ defmodule Api.Application do
   # Tell Phoenix to update the endpoint configuration
   # whenever the application is updated.
   def config_change(changed, _new, removed) do
-    Api.Web.Endpoint.config_change(changed, removed)
+    Endpoint.config_change(changed, removed)
     :ok
   end
 end
