@@ -1,0 +1,22 @@
+matrix:
+  include:
+    - language: elixir
+      elixir:
+        - 1.6.1
+      otp_release:
+        - 20.1
+      script:
+        - cd api
+        - mix deps.get
+        - mix credo --strict
+
+    - language: node_js
+      node_js:
+        - "stable"
+      cache:
+        directories:
+        - node_modules
+      script:
+        - cd frontend
+        - npm test
+        - npm run build
