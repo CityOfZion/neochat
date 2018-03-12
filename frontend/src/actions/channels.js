@@ -1,5 +1,4 @@
 import api from '../helpers/api';
-import React from 'react'
 
 export function fetchChannels() {
     return dispatch => api.fetch('/channels')
