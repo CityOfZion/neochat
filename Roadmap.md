@@ -2,6 +2,7 @@
 
 ### Phase 1 MVP
 
+- Channel invite
 - Support for private channels
 - Support for Direct messages
 - Channels notifications

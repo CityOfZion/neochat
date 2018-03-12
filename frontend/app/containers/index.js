@@ -1,7 +1,0 @@
-export HomeContainer from './Home/HomeContainer'
-export NotFoundContainer from './NotFound/NotFoundContainer'
-export AppContainer from './App/AppContainer'
-export LoginContainer from './Login/LoginContainer'
-export SignupContainer from './Signup/SignupContainer'
-export ChannelContainer from './Channel/ChannelContainer'
-export MessageFormContainer from './MessageForm/MessageFormContainer'

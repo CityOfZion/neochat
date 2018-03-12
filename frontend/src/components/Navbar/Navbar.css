@@ -1,0 +1,22 @@
+.Navbar {
+    display: flex;
+    align-items: center;
+    padding: 0 1rem;
+    height: 70px;
+    background: #fff;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, .1);
+}
+
+.Link {
+    color: #555459;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.link:hover {
+    text-decoration: none;
+}
+
+.link:focus {
+    text-decoration: none;
+}
