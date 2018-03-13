@@ -4,7 +4,8 @@ defmodule Api.Web.ChannelController do
   alias Api.Chats
   alias Api.Chats.Channel
   alias Api.Web.Guardian.Plug, as: GPlug
-  alias ChatApi.Web.ChangesetView
+  alias Api.Web.ChangesetView
+  alias Api.Web.UserView
 
   action_fallback(Api.Web.FallbackController)
 
@@ -20,7 +21,7 @@ defmodule Api.Web.ChannelController do
          {:ok, _user_channel} = Chats.join_channel(channel, current_user) do
       conn
       |> put_status(:created)
-      # |> put_resp_header("location", channel_path(conn, :show, channel))
+        # |> put_resp_header("location", channel_path(conn, :show, channel))
       |> render("show.json", channel: channel)
     end
   end
@@ -61,5 +62,20 @@ defmodule Api.Web.ChannelController do
         |> put_status(:unprocessable_entity)
         |> render(ChangesetView, "error.json", changeset: changeset)
     end
+  end
+
+  def opted_out_users(conn, %{"id" => channel_id}) do
+    channel_id = String.to_integer(channel_id)
+    users = Chats.opted_out_users(channel_id)
+
+    render(conn, UserView, "index.json", users: users)
+  end
+
+  def opt_in_user(conn, %{"id" => channel_id, "user_id" => user_id}) do
+    channel_id = String.to_integer(channel_id)
+    Chats.join_channel(channel_id, user_id)
+    conn
+    |> put_status(:created)
+    |> json(%{ message: "ok" })
   end
 end

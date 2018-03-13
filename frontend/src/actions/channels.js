@@ -31,3 +31,11 @@ export function joinChannel(channelId, router) {
             router.history.push(`/r/${response.data.id}`);
         });
 }
+
+export function getOptedOutUserChannel(channelId) {
+      return api.fetch(`/channels/${channelId}/opted_out`)
+}
+
+export function optInUserForChannel(channelId, user_id) {
+    return api.post(`/channels/${channelId}/opt_in`, {user_id})
+}

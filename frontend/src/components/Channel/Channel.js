@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {ChannelNavbar, MessageList} from 'components'
-import  {MessageFormContainer} from 'containers'
+import {MessageFormContainer, ChannelOptionContainer} from 'containers'
+import {HashRouter as Router, Route, Switch} from 'react-router-dom'
 
 class Channel extends Component {
     handleMessageCreate = (data) => {
@@ -8,12 +9,26 @@ class Channel extends Component {
     }
 
     render() {
-        return(
+        console.log(this.props)
+        return (
             <div style={{display: 'flex', height: '100vh', width: '100%'}}>
                 <div style={{display: 'flex', flexDirection: 'column', width: '100%'}}>
                     <ChannelNavbar channel={this.props.channel}/>
-                    <MessageList messages={this.props.messages}/>
-                    <MessageFormContainer onSubmit={this.handleMessageCreate}/>
+                    <Router>
+                        <Switch>
+                            <Route exact={true}
+                                   path='/channel/:id' render={() => (
+                                <div>
+                                    <MessageList messages={this.props.messages}/>
+                                    <MessageFormContainer onSubmit={this.handleMessageCreate}/>
+                                </div>
+                            )}/>
+                            <Route exact={true}
+                                   path='/channel/:id/options'
+                                   component={ChannelOptionContainer}
+                                  />
+                        </Switch>
+                    </Router>
                 </div>
             </div>
         )

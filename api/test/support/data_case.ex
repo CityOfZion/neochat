@@ -15,6 +15,8 @@ defmodule Api.DataCase do
   use ExUnit.CaseTemplate
   alias Ecto.Adapters.SQL.Sandbox
   alias Ecto.Changeset
+  alias Api.Accounts
+  alias Api.Chats
 
   using do
     quote do
@@ -34,7 +36,15 @@ defmodule Api.DataCase do
       Sandbox.mode(Api.Repo, {:shared, self()})
     end
 
-    :ok
+    {:ok, channel} = Chats.create_channel(%{name: "chat_#{:rand.uniform(1_000_000)}"})
+
+    %{users: [generate_user(), generate_user()], channel: channel}
+  end
+
+  def generate_user do
+    name = "user_#{:rand.uniform(1_000_000)}"
+    {:ok, user} = Accounts.create_user(%{username: name, email: "#{name}@mail.com", password: name})
+    user
   end
 
   @doc """
@@ -46,10 +56,17 @@ defmodule Api.DataCase do
 
   """
   def errors_on(changeset) do
-    Changeset.traverse_errors(changeset, fn {message, opts} ->
-      Enum.reduce(opts, message, fn {key, value}, acc ->
-        String.replace(acc, "%{#{key}}", to_string(value))
-      end)
-    end)
+    Changeset.traverse_errors(
+      changeset,
+      fn {message, opts} ->
+        Enum.reduce(
+          opts,
+          message,
+          fn {key, value}, acc ->
+            String.replace(acc, "%{#{key}}", to_string(value))
+          end
+        )
+      end
+    )
   end
 end

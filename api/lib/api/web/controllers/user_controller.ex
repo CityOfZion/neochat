@@ -4,7 +4,7 @@ defmodule Api.Web.UserController do
   alias Api.Accounts
   alias Api.Web.Guardian.Plug, as: GPlug
   alias Api.Web.SessionView
-  alias ChatApi.Web.ChangesetView
+  alias Api.Web.ChangesetView
   alias Api.Web.ChannelView
   alias Api.Chats
 
