@@ -6,7 +6,7 @@ defmodule Api.Chats.ChannelUser do
 
   @primary_key false
   schema "channel_users" do
-    belongs_to :channel, Channel
-    belongs_to :user, User
+    belongs_to(:channel, Channel)
+    belongs_to(:user, User)
   end
 end

@@ -6,15 +6,14 @@ use Mix.Config
 # The watchers configuration can be used to run external
 # watchers to your application. For example, we use it
 # with brunch.io to recompile .js and .css sources.
-config :api,
-       Api.Web.Endpoint,
-       http: [
-         port: 4000
-       ],
-       debug_errors: true,
-       code_reloader: true,
-       check_origin: false,
-       watchers: []
+config :api, Api.Web.Endpoint,
+  http: [
+    port: 4000
+  ],
+  debug_errors: true,
+  code_reloader: true,
+  check_origin: false,
+  watchers: []
 
 # ## SSL Support
 #
@@ -40,21 +39,18 @@ config :logger, :console, format: "[$level] $message\n"
 config :phoenix, :stacktrace_depth, 20
 
 # Configure your database
-config :api,
-       Api.Repo,
-       adapter: Ecto.Adapters.Postgres,
-       username: "postgres",
-       password: "postgres",
-       database: "api_dev",
-       hostname: "localhost",
-       pool_size: 10
+config :api, Api.Repo,
+  adapter: Ecto.Adapters.Postgres,
+  username: "postgres",
+  password: "postgres",
+  database: "api_dev",
+  hostname: "localhost",
+  pool_size: 10
 
-config :api,
-       Api.Web.Guardian,
-       issuer: "neochat",
-       secret_key: "7PXewtSUeh3j1oSu53FWE5AdAcsJYu/wUVzUwDfGCnrKTPDfor8LZiQaEHmz7zda"
+config :api, Api.Web.Guardian,
+  issuer: "neochat",
+  secret_key: "7PXewtSUeh3j1oSu53FWE5AdAcsJYu/wUVzUwDfGCnrKTPDfor8LZiQaEHmz7zda"
 
-config :api,
-       Api.Web.AuthPipeline,
-       module: Api.Web.Guardian,
-       error_handler: Api.Web.ErrorHandler
+config :api, Api.Web.AuthPipeline,
+  module: Api.Web.Guardian,
+  error_handler: Api.Web.ErrorHandler

@@ -5,11 +5,10 @@ defmodule Api.Web.UserSocket do
   ## Channels
   # channel "room:*", Api.Web.RoomChannel
 
-  channel "channels:*", ChatChannel
-
+  channel("channels:*", ChatChannel)
 
   ## Transports
-  transport :websocket, Phoenix.Transports.WebSocket
+  transport(:websocket, Phoenix.Transports.WebSocket)
   # transport :longpoll, Phoenix.Transports.LongPoll
 
   # Socket params are passed from the client and can
@@ -27,6 +26,7 @@ defmodule Api.Web.UserSocket do
     case Guardian.resource_from_token(token) do
       {:ok, user, _} ->
         {:ok, assign(socket, :current_user, user)}
+
       {:error, _reason} ->
         :error
     end

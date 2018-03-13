@@ -1,4 +1,4 @@
-defmodule Api.Repo.Migrations.CreateChannels do
+defmodule Api.Repo.Migrations.CreateChannelsUsers do
   use Ecto.Migration
 
   def change do

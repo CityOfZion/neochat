@@ -11,7 +11,6 @@ class ChannelContainer extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        console.log("nextProps", nextProps);
         if (nextProps.match.params.id !== this.props.match.params.id) {
             this.props.leaveChannel(this.props.phx_channel);
             this.props.connectToChannel(nextProps.socket, nextProps.match.params.id);

@@ -1,6 +1,8 @@
 
 ## NeoChat
 
+[![Build Status](https://travis-ci.org/CityOfZion/neochat.svg?branch=master)](https://travis-ci.org/CityOfZion/neochat)
+
 Chat for the Neo community.
 
 ### Prerequisites

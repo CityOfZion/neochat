@@ -1,0 +1,40 @@
+matrix:
+  include:
+    - language: elixir
+      elixir: '1.6.3'
+      otp_release:
+        - 20.1
+      install:
+        - cd api/
+        - mix local.rebar --force
+        - mix local.hex --force
+        - mix deps.get
+      script:
+        - mix credo --strict
+        - mix test
+      cache:
+        directories:
+          - _build
+          - deps
+      services:
+        - postgresql
+      addons:
+        postgresql: "9.4"
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - gcc-4.8
+        hosts:
+          - postgres
+    - language: node_js
+      node_js:
+        - "stable"
+      cache:
+        directories:
+        - node_modules
+      script:
+        - cd frontend
+        - npm install
+        - npm test
+        - npm run build

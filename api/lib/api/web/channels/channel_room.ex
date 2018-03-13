@@ -3,19 +3,24 @@ defmodule Api.Web.ChatChannel do
   use Api.Web, :channel
   alias Api.Chats
   alias Api.Helpers.Pagination
+  alias Api.Web.MessageView
+  alias Api.Web.ChangesetView
+  alias Api.Web.ChannelView
+  alias Phoenix.View
   require Logger
 
   def join("channels:" <> channel_id, _params, socket) do
     channel = Chats.get_channel!(channel_id)
 
-    Logger.info fn ->
+    Logger.info(fn ->
       "channel #{channel.id} joinned"
-    end
+    end)
 
     paged_messages = Chats.list_messages(channel)
+
     response = %{
-      channel: Phoenix.View.render_one(channel, Api.Web.ChannelView, "channel.json"),
-      messages: Phoenix.View.render_many(paged_messages.entries, Api.Web.MessageView, "message.json"),
+      channel: View.render_one(channel, ChannelView, "channel.json"),
+      messages: View.render_many(paged_messages.entries, MessageView, "message.json"),
       pagination: Pagination.pagination(paged_messages)
     }
 
@@ -28,8 +33,6 @@ defmodule Api.Web.ChatChannel do
   end
 
   def handle_in("new_message", params, socket) do
-    IO.inspect(params)
-
     channel = socket.assigns.channel
     user = socket.assigns.current_user
 
@@ -37,14 +40,15 @@ defmodule Api.Web.ChatChannel do
       {:ok, message} ->
         broadcast_message(socket, user, message)
         {:reply, :ok, socket}
+
       {:error, changeset} ->
-        {:reply, {:error, Phoenix.View.render(Api.Web.ChangesetView, "error.json", changeset: changeset)}, socket}
+        {:reply, {:error, View.render(ChangesetView, "error.json", changeset: changeset)}, socket}
     end
   end
 
   defp broadcast_message(socket, user, message) do
     message = %{message | user: user}
-    rendered_message = Phoenix.View.render_one(message, Api.Web.MessageView, "message.json")
+    rendered_message = View.render_one(message, MessageView, "message.json")
     broadcast!(socket, "message_created", rendered_message)
   end
 

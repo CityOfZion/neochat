@@ -1,5 +1,4 @@
 import api from '../helpers/api';
-import React from 'react'
 
 export function fetchChannels() {
     return dispatch => api.fetch('/channels')
@@ -31,4 +30,12 @@ export function joinChannel(channelId, router) {
             console.log(router)
             router.history.push(`/r/${response.data.id}`);
         });
+}
+
+export function getOptedOutUserChannel(channelId) {
+      return api.fetch(`/channels/${channelId}/opted_out`)
+}
+
+export function optInUserForChannel(channelId, user_id) {
+    return api.post(`/channels/${channelId}/opt_in`, {user_id})
 }

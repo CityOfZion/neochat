@@ -1,4 +1,5 @@
 defmodule Api.Chats.Message do
+  @moduledoc false
   use Ecto.Schema
   import Ecto.Changeset
   alias Api.Chats.Message
@@ -6,9 +7,9 @@ defmodule Api.Chats.Message do
   alias Api.Accounts.User
 
   schema "messages" do
-    field :text, :string
-    belongs_to :channel, Channel
-    belongs_to :user, User
+    field(:text, :string)
+    belongs_to(:channel, Channel)
+    belongs_to(:user, User)
 
     timestamps()
   end

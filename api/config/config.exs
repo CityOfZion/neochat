@@ -6,16 +6,14 @@
 use Mix.Config
 
 # General application configuration
-config :api,
-  ecto_repos: [Api.Repo]
+config :api, ecto_repos: [Api.Repo]
 
 # Configures the endpoint
 config :api, Api.Web.Endpoint,
   url: [host: "localhost"],
   secret_key_base: "TFW1R+bV8cVzLdJYXE2wfB0oLmRI7DsV4jkwB3i6UAJFh9Xpx7h3xnwk59p1PXnA",
   render_errors: [view: Api.Web.ErrorView, accepts: ~w(json)],
-  pubsub: [name: Api.PubSub,
-           adapter: Phoenix.PubSub.PG2]
+  pubsub: [name: Api.PubSub, adapter: Phoenix.PubSub.PG2]
 
 # Configures Elixir's Logger
 config :logger, :console,
@@ -24,4 +22,4 @@ config :logger, :console,
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
-import_config "#{Mix.env}.exs"
+import_config "#{Mix.env()}.exs"
