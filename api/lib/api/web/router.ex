@@ -13,7 +13,11 @@ defmodule Api.Web.Router do
 
     get("/users/channels", UserController, :channels)
 
+
     resources("/channels", ChannelController, only: [:index, :create])
     post("/channels/:id/join", ChannelController, :join)
+    get("/channels/:id/opted_out", ChannelController, :opted_out_users)
+    post("/channels/:id/opt_in", ChannelController, :opt_in_user)
+
   end
 end

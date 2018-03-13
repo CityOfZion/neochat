@@ -54,7 +54,7 @@ defmodule Api.Web.SessionController do
   def unauthenticated(conn, _params) do
     conn
     |> put_status(:forbidden)
-    |> render(ChatApi.SessionView, "forbidden.json", error: "Not Authenticated")
+    |> render(Api.Web.SessionView, "forbidden.json", error: "Not Authenticated")
   end
 
   defp authenticate(%{"email" => email, "password" => password}) do

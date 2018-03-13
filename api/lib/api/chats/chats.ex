@@ -8,6 +8,7 @@ defmodule Api.Chats do
 
   alias Api.Chats.Channel
   alias Api.Chats.ChannelUser
+  alias Api.Accounts.User
 
   @doc """
   Returns the list of channels.
@@ -103,9 +104,10 @@ defmodule Api.Chats do
     Channel.changeset(channel, %{})
   end
 
-  def join_channel(channel, user) do
-    Repo.insert(%ChannelUser{channel_id: channel.id, user_id: user.id})
+  def join_channel(channel, user) when is_integer(channel) and is_integer(user) do
+    Repo.insert(%ChannelUser{channel_id: channel, user_id: user})
   end
+  def join_channel(channel, user), do: join_channel(channel.id, user.id)
 
   def get_user_channels(user) do
     user
@@ -212,5 +214,14 @@ defmodule Api.Chats do
   """
   def change_message(%Message{} = message) do
     Message.changeset(message, %{})
+  end
+
+  def opted_out_users(channel_id) do
+    from(
+      u in User,
+      where: fragment("? NOT IN (SELECT user_id from channel_users WHERE channel_id = ?)", u.id, ^channel_id)
+    )
+    |> select([:username, :id, :email])
+    |> Repo.all
   end
 end
