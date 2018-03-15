@@ -1,34 +1,36 @@
-import React, {Component} from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
 
-class ChannelListItem extends Component {
-    static propTypes = {
-        channel: {
-            id: PropTypes.number.isRequired,
-            name: PropTypes.string.isRequired
-        },
-        currentUserChannelIds: PropTypes.array.isRequired,
-        onChannelJoin: PropTypes.func.isRequired
-    }
+const ChannelListItem = ({ channel, currentUserChannelIds, onChannelJoin }) => {
+  const isJoined = currentUserChannelIds.includes(channel.id);
+  return (
+    <div
+      key={channel.id}
+      style={{
+        display: "flex",
+        justifyContent: "space-between",
+        marginBottom: "10px"
+      }}
+    >
+      <span style={{ marginRight: "8px" }}>{channel.name}</span>
+      <button
+        onClick={() => onChannelJoin(channel.id)}
+        className="btn btn-sm"
+        disabled={isJoined}
+      >
+        {isJoined ? "Joined" : "Join"}
+      </button>
+    </div>
+  );
+};
 
-    render() {
-        const {channel, currentUserChannelIds, onChannelJoin} = this.props;
-        const isJoined = currentUserChannelIds.includes(channel.id);
-        return (
-            <div key={channel.id} style={{display: 'flex', justifyContent: 'space-between', marginBottom: '10px'}}>
-                <span style={{marginRight: '8px'}}>{channel.name}</span>
-                <button
-                    onClick={() => onChannelJoin(channel.id)}
-                    className="btn btn-sm"
-                    disabled={isJoined}
-                >
-                    {isJoined ? 'Joined' : 'Join'}
-                </button>
-            </div>
-        )
-    }
-
-
-}
+ChannelListItem.propTypes = {
+  channel: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired
+  }).isRequired,
+  currentUserChannelIds: PropTypes.array.isRequired,
+  onChannelJoin: PropTypes.func.isRequired
+};
 
 export default ChannelListItem;

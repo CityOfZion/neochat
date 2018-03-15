@@ -1,15 +1,14 @@
-import React  from 'react';
+import React from "react";
+import PropTypes from "prop-types";
+import { LoginForm, Navbar } from "components";
 
-import { LoginForm, Navbar } from 'components'
-
-class Login extends React.Component {
-    render() {
-        return (
-            <div style={{flex: '1'}}>
-                <Navbar/>
-                <LoginForm onSubmit={this.props.handleLogin}/>
-            </div>
-        );
-    }
-}
+const Login = ({ handleLogin }) => (
+  <div style={{ flex: "1" }}>
+    <Navbar />
+    <LoginForm onSubmit={handleLogin} />
+  </div>
+);
+Login.propTypes = {
+  handleLogin: PropTypes.func.isRequired
+};
 export default Login;

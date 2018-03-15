@@ -1,50 +1,41 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { Field, reduxForm } from 'redux-form';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { Field, reduxForm } from "redux-form";
 
+const NewChannelForm = ({ handleSubmit, submitting, onSubmit }) => (
+  <form onSubmit={handleSubmit(data => onSubmit(data))}>
+    <div className="input-group">
+      <Field
+        name="name"
+        type="text"
+        placeholder="Name"
+        component="input"
+        className="form-control"
+      />
+      <div className="input-group-btn">
+        <button type="submit" className="btn btn-primary" disabled={submitting}>
+          {submitting ? "Saving..." : "Submit"}
+        </button>
+      </div>
+    </div>
+  </form>
+);
 
-class NewChannelForm extends Component {
-    static propTypes = {
-        handleSubmit: PropTypes.func.isRequired,
-        onSubmit: PropTypes.func.isRequired,
-        submitting: PropTypes.bool.isRequired,
-    }
+const validate = values => {
+  const errors = {};
+  if (!values.name) {
+    errors.name = "Required";
+  }
+  return errors;
+};
 
-    handleSubmit = data => this.props.onSubmit(data);
-
-    render() {
-        const { handleSubmit, submitting } = this.props;
-
-        return (
-            <form onSubmit={handleSubmit(this.handleSubmit)}>
-                <div className="input-group">
-                    <Field
-                        name="name"
-                        type="text"
-                        placeholder="Name"
-                        component="input"
-                        className="form-control"
-                    />
-                    <div className="input-group-btn">
-                        <button type="submit" className="btn btn-primary" disabled={submitting}>
-                            {submitting ? 'Saving...' : 'Submit'}
-                        </button>
-                    </div>
-                </div>
-            </form>
-        );
-    }
-}
-
-const validate = (values) => {
-    const errors = {};
-    if (!values.name) {
-        errors.name = 'Required';
-    }
-    return errors;
+NewChannelForm.propTypes = {
+  handleSubmit: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
+  submitting: PropTypes.bool.isRequired
 };
 
 export default reduxForm({
-    form: 'newChannel',
-    validate,
+  form: "newChannel",
+  validate
 })(NewChannelForm);

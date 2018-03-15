@@ -9,6 +9,23 @@ import {
 } from "../../actions/channel";
 
 class ChannelContainer extends Component {
+  static propTypes = {
+    socket: PropTypes.any.isRequired,
+    phx_channel: PropTypes.any.isRequired,
+    channel: PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      name: PropTypes.string.isRequired
+    }).isRequired,
+    match: PropTypes.shape({
+      params: PropTypes.shape({
+        id: PropTypes.number.isRequired
+      }).isRequired
+    }).isRequired,
+    connectToChannel: PropTypes.func.isRequired,
+    leaveChannel: PropTypes.func.isRequired,
+    createMessage: PropTypes.func.isRequired
+  };
+
   componentDidMount() {
     this.props.connectToChannel(this.props.socket, this.props.match.params.id);
   }
@@ -27,36 +44,17 @@ class ChannelContainer extends Component {
     this.props.leaveChannel(this.props.phx_channel);
   }
 
-  static propTypes = {
-    socket: PropTypes.any.isRequired,
-    phx_channel: PropTypes.any.isRequired,
-    channel: {
-      id: PropTypes.number.isRequired,
-      name: PropTypes.string.isRequired
-    },
-    match: {
-      params: {
-        id: PropTypes.number.isRequired
-      }
-    },
-    connectToChannel: PropTypes.func.isRequired,
-    leaveChannel: PropTypes.func.isRequired,
-    createMessage: PropTypes.func.isRequired
-  };
-
   render() {
     return <Channel {...this.props} />;
   }
 }
 
 export default connect(
-  state => {
-    return {
-      channel: state.channel.currentChannel,
-      socket: state.session.socket,
-      phx_channel: state.channel.channel,
-      messages: state.channel.messages
-    };
-  },
+  state => ({
+    channel: state.channel.currentChannel,
+    socket: state.session.socket,
+    phx_channel: state.channel.channel,
+    messages: state.channel.messages
+  }),
   { connectToChannel, leaveChannel, createMessage }
 )(ChannelContainer);

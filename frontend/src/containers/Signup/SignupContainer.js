@@ -1,25 +1,21 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import { signup } from '../../actions/session';
-import { Signup } from 'components';
+import React from "react";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import { Signup } from "components";
+import { signup } from "../../actions/session";
 
-class SignupContainer extends Component {
-    static contextTypes = {
-        router: PropTypes.object,
-    }
+const SignupContainer = (props, { router }) => {
+  const handleSignup = data => props.signup(data, router);
 
-    static propTypes = {
-        signup: PropTypes.func.isRequired,
-    }
+  return <Signup handleSignup={handleSignup} />;
+};
 
-    handleSignup = (data) => this.props.signup(data, this.context.router);
+SignupContainer.contextTypes = {
+  router: PropTypes.object
+};
 
-    render() {
-        return (
-           <Signup handleSignup={this.handleSignup}/>
-        );
-    }
-}
+SignupContainer.propTypes = {
+  signup: PropTypes.func.isRequired
+};
 
 export default connect(null, { signup })(SignupContainer);
