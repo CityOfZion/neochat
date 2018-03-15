@@ -36,5 +36,6 @@ matrix:
       script:
         - cd frontend
         - npm install
+        - ./node_modules/.bin/eslint --ext .jsx --ext .js src/
         - npm test
         - npm run build
