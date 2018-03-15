@@ -42,7 +42,8 @@
 #  describe "update message" do
 #    setup [:create_message]
 #
-#    test "renders message when data is valid", %{conn: conn, message: %Message{id: id} = message} do
+#    test "renders message when data is valid", %{conn: conn,
+#                                                 message: %Message{id: id} = message} do
 #      conn = put(conn, message_path(conn, :update, message), message: @update_attrs)
 #      assert %{"id" => ^id} = json_response(conn, 200)["data"]
 #
