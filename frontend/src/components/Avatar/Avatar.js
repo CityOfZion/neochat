@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import md5 from 'md5';
 
 class Avatar extends Component {
-    static props = {
+    static propTypes = {
         email: PropTypes.string.isRequired,
         size: PropTypes.string,
         style: PropTypes.object

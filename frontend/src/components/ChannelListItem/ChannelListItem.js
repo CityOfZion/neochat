@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
 class ChannelListItem extends Component {
-    static props = {
+    static propTypes = {
         channel: {
             id: PropTypes.number.isRequired,
             name: PropTypes.string.isRequired

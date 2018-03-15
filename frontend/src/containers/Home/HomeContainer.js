@@ -6,7 +6,7 @@ import {fetchChannels, createChannel, joinChannel} from '../../actions/channels'
 
 
 class HomeContainer extends React.Component {
-    static props = {
+    static propTypes = {
         logout: PropTypes.func.isRequired,
         currentUser: PropTypes.object.isRequired,
         isAuthenticated: PropTypes.bool.isRequired,

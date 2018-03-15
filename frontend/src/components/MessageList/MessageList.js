@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import './MessageList.css'
 
 class MessageList extends Component {
-    static props = {
+    static propTypes = {
         messages: PropTypes.arrayOf({
             id: PropTypes.number.isRequired,
             inserted_at: PropTypes.string.isRequired

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 class Input extends React.Component {
-    static props = {
+    static propTypes = {
         input: PropTypes.object.isRequired,
         label: PropTypes.string,
         type: PropTypes.string,

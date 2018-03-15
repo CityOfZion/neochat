@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {Route, Redirect} from 'react-router-dom';
 
 class RedirectAuthenticated extends Component {
-    static props = {
+    static propTypes = {
         component: PropTypes.any.isRequired,
         path: PropTypes.string.isRequired,
         exact: PropTypes.bool,

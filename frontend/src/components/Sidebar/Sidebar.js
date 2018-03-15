@@ -5,7 +5,7 @@ import './Sidebar.css'
 import {Route} from "react-router-dom";
 
 class ChannelLink extends Component {
-    static props = {
+    static propTypes = {
         channel: PropTypes.shape({
             id: PropTypes.number.isRequired,
             name: PropTypes.string.isRequired,
@@ -34,7 +34,7 @@ class ChannelLink extends Component {
 }
 
 class Sidebar extends Component {
-    static props = {
+    static propTypes = {
         rooms: PropTypes.array.isRequired,
         router: PropTypes.object.isRequired,
         onLogoutClick: PropTypes.func.isRequired,

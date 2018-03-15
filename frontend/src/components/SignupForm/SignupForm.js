@@ -6,7 +6,7 @@ import {Input} from 'components';
 import './SignupForm.css';
 
 class SignupForm extends Component {
-    static props = {
+    static propTypes = {
         onSubmit: PropTypes.func.isRequired,
         handleSubmit: PropTypes.func.isRequired,
         submitting: PropTypes.bool.isRequired,

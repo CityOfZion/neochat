@@ -9,7 +9,7 @@ class LoginContainer extends Component {
         router: PropTypes.object,
     }
 
-    static props = {
+    static propTypes = {
         login: PropTypes.func.isRequired,
     }
 

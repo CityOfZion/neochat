@@ -18,7 +18,7 @@ import {HashRouter as Router, Route, Switch} from 'react-router-dom'
 import './AppContainer.css'
 
 class AppContainer extends Component {
-    static props = {
+    static propTypes = {
         authenticate: PropTypes.func.isRequired,
         unauthenticate: PropTypes.func.isRequired,
         isAuthenticated: PropTypes.bool.isRequired,

@@ -9,7 +9,7 @@ class SignupContainer extends Component {
         router: PropTypes.object,
     }
 
-    static props = {
+    static propTypes = {
         signup: PropTypes.func.isRequired,
     }
 

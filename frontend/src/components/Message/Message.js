@@ -4,7 +4,7 @@ import moment from 'moment';
 import {Avatar} from 'components';
 
 class Message extends Component {
-    static props = {
+    static propTypes = {
         message: {
             text: PropTypes.string.isRequired,
             inserted_at: PropTypes.string.isRequired,

@@ -4,7 +4,7 @@ import { Field, reduxForm } from 'redux-form';
 
 
 class NewChannelForm extends Component {
-    static props = {
+    static propTypes = {
         handleSubmit: PropTypes.func.isRequired,
         onSubmit: PropTypes.func.isRequired,
         submitting: PropTypes.bool.isRequired,

@@ -27,7 +27,7 @@ class ChannelContainer extends Component {
     this.props.leaveChannel(this.props.phx_channel);
   }
 
-  static props = {
+  static propTypes = {
     socket: PropTypes.any.isRequired,
     phx_channel: PropTypes.any.isRequired,
     channel: {
