@@ -1,0 +1,33 @@
+{
+  "parser": "babel-eslint",
+  "plugins": [
+    "react",
+    "flowtype",
+    "jsx-a11y",
+    "prettier"
+  ],
+  "extends": [
+    "airbnb",
+    "plugin:flowtype/recommended",
+    "airbnb",
+    "react-app",
+    "plugin:jsx-a11y/recommended",
+    "prettier",
+    "prettier/flowtype",
+    "prettier/react"
+  ],
+  "rules": {
+    "react/jsx-filename-extension": 0,
+    "import/prefer-default-export": 0,
+    "react/no-unused-prop-types": 0,
+    "camelcase": 0,
+    "jsx-a11y/href-no-hash": "off",
+    "jsx-a11y/anchor-is-valid": ["warn", { "aspects": ["invalidHref"] }]
+  },
+  "globals": {
+    "fetch": true,
+    "window": true,
+    "document": true,
+    "localStorage": true
+  }
+}
