@@ -29,5 +29,12 @@
     "window": true,
     "document": true,
     "localStorage": true
+  },
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "paths": ["src"]
+      }
+    }
   }
 }
