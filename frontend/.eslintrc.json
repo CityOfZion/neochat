@@ -23,6 +23,7 @@
     "camelcase": 0,
     "jsx-a11y/href-no-hash": "off",
     "react/forbid-prop-types": "off",
+    "jsx-a11y/label-has-for": "off",
     "jsx-a11y/anchor-is-valid": ["warn", { "aspects": ["invalidHref"] }]
   },
   "globals": {
