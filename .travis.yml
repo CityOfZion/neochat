@@ -19,11 +19,6 @@ matrix:
         - postgresql
       addons:
         postgresql: "9.4"
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-            - gcc-4.8
         hosts:
           - postgres
     - language: node_js
