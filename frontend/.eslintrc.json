@@ -22,6 +22,8 @@
     "react/no-unused-prop-types": 0,
     "camelcase": 0,
     "jsx-a11y/href-no-hash": "off",
+    "react/forbid-prop-types": "off",
+    "jsx-a11y/label-has-for": "off",
     "jsx-a11y/anchor-is-valid": ["warn", { "aspects": ["invalidHref"] }]
   },
   "globals": {
@@ -29,5 +31,12 @@
     "window": true,
     "document": true,
     "localStorage": true
+  },
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "paths": ["src"]
+      }
+    }
   }
 }

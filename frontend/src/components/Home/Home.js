@@ -1,11 +1,18 @@
 import React from "react";
 import { Navbar, NewChannelForm, ChannelListItem } from "components";
-import "./Home.css";
 import PropTypes from "prop-types";
+import "./Home.css";
 
 class Home extends React.Component {
   static contextTypes = {
     router: PropTypes.object
+  };
+
+  static propTypes = {
+    createChannel: PropTypes.func.isRequired,
+    joinChannel: PropTypes.func.isRequired,
+    currentUserChannels: PropTypes.array.isRequired,
+    channels: PropTypes.array.isRequired
   };
   handleNewChannelSubmit = data =>
     this.props.createChannel(data, this.context.router);

@@ -4,7 +4,7 @@ import {Field, reduxForm} from 'redux-form';
 import './MessageFormContainer.css'
 
 class MessageFormContainer extends Component {
-    static props = {
+    static propTypes = {
         onSubmit: PropTypes.func.isRequired,
         handleSubmit: PropTypes.func.isRequired,
         submitting: PropTypes.bool.isRequired

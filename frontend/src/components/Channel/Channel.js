@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { ChannelNavbar, MessageList } from "components";
 import { MessageFormContainer, ChannelOptionContainer } from "containers";
 import { HashRouter as Router, Route, Switch } from "react-router-dom";
+import PropTypes from "prop-types";
 
 class Channel extends Component {
   handleMessageCreate = data => {
@@ -18,7 +19,7 @@ class Channel extends Component {
           <Router>
             <Switch>
               <Route
-                exact={true}
+                exact
                 path="/channel/:id"
                 render={() => (
                   <div>
@@ -28,7 +29,7 @@ class Channel extends Component {
                 )}
               />
               <Route
-                exact={true}
+                exact
                 path="/channel/:id/options"
                 component={ChannelOptionContainer}
               />
@@ -40,4 +41,10 @@ class Channel extends Component {
   }
 }
 
+Channel.propTypes = {
+  createMessage: PropTypes.func.isRequired,
+  phx_channel: PropTypes.object.isRequired,
+  channel: PropTypes.object.isRequired,
+  messages: PropTypes.array.isRequired
+};
 export default Channel;

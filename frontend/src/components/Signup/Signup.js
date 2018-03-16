@@ -1,15 +1,16 @@
-import React from 'react'
-import { SignupForm, Navbar } from 'components'
+import React from "react";
+import { SignupForm, Navbar } from "components";
+import PropTypes from "prop-types";
 
-class Signup extends React.Component {
-    render() {
-        return (
-            <div style={{ flex: '1' }}>
-                <Navbar />
-                <SignupForm onSubmit={this.props.handleSignup} />
-            </div>
-        )
-    }
-}
+const Signup = props => (
+  <div style={{ flex: "1" }}>
+    <Navbar />
+    <SignupForm onSubmit={props.handleSignup} />
+  </div>
+);
+
+Signup.propTypes = {
+  handleSignup: PropTypes.func.isRequired
+};
 
 export default Signup;
