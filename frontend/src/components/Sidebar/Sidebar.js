@@ -5,7 +5,9 @@ import "./Sidebar.css";
 
 const Sidebar = ({ channels, router, onLogoutClick, username: user }) => (
   <div className="sidebar">
-    <div className="header">NeoChat</div>
+    <div className="header">
+      <Link to="/">NeoChat</Link>
+    </div>
     <div className="username">{user}</div>
     <div className="channelsTitle">Channels</div>
     {channels.map(channel => (

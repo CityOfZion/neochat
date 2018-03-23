@@ -5,6 +5,11 @@ import { HashRouter as Router, Route, Switch } from "react-router-dom";
 import PropTypes from "prop-types";
 
 class Channel extends Component {
+  componentDidUpdate() {
+    const element = document.getElementById("messageList");
+    element.scrollTop = element.scrollHeight;
+  }
+
   handleMessageCreate = data => {
     this.props.createMessage(this.props.phx_channel, data);
   };
@@ -15,7 +20,9 @@ class Channel extends Component {
         <div
           style={{ display: "flex", flexDirection: "column", width: "100%" }}
         >
-          <ChannelNavbar channel={this.props.channel} />
+          <div style={{ height: "10vh" }}>
+            <ChannelNavbar channel={this.props.channel} />
+          </div>
           <Router>
             <Switch>
               <Route
@@ -23,8 +30,17 @@ class Channel extends Component {
                 path="/channel/:id"
                 render={() => (
                   <div>
-                    <MessageList messages={this.props.messages} />
-                    <MessageFormContainer onSubmit={this.handleMessageCreate} />
+                    <div
+                      id="messageList"
+                      style={{ height: "80vh", overflow: "auto" }}
+                    >
+                      <MessageList messages={this.props.messages} />
+                    </div>
+                    <div style={{ height: "10vh" }}>
+                      <MessageFormContainer
+                        onSubmit={this.handleMessageCreate}
+                      />
+                    </div>
                   </div>
                 )}
               />
