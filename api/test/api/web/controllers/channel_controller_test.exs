@@ -16,4 +16,9 @@ defmodule Api.Web.ChannelControllerTest do
     conn = post(conn, "/api/channels/#{channel.id}/opt_in", %{user_id: user_2.id})
     assert json_response(conn, 201) == %{"message" => "ok"}
   end
+
+  test "user not in channel can't access it", %{conn: conn, channel: channel} do
+    conn = get(conn, "/api/channels/#{channel.id}/")
+    IO.inspect(conn)
+  end
 end

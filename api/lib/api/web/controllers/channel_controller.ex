@@ -26,11 +26,6 @@ defmodule Api.Web.ChannelController do
     end
   end
 
-  def show(conn, %{"id" => id}) do
-    channel = Chats.get_channel!(id)
-    render(conn, "show.json", channel: channel)
-  end
-
   def update(conn, %{"id" => id, "channel" => channel_params}) do
     channel = Chats.get_channel!(id)
 

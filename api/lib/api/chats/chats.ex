@@ -9,6 +9,7 @@ defmodule Api.Chats do
   alias Api.Chats.Channel
   alias Api.Chats.ChannelUser
   alias Api.Accounts.User
+  @behaviour Bodyguard.Policy
 
   @doc """
   Returns the list of channels.
@@ -223,5 +224,14 @@ defmodule Api.Chats do
     )
     |> select([:username, :id, :email])
     |> Repo.all
+  end
+
+  def authorize(:access, channel, user) do
+    if get_user_channels(user)
+       |> Enum.find(fn (c) -> c.id == channel.id end) do
+      :ok
+    else
+      {:error, :not_in_channel}
+    end
   end
 end

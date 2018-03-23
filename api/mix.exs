@@ -48,7 +48,9 @@ defmodule Api.Mixfile do
       {:comeonin, "~> 4.0"},
       {:argon2_elixir, "~> 1.2"},
       {:guardian, "~> 1.0"},
-      {:credo, "~> 0.9.0-rc1", only: [:dev, :test], runtime: false}
+      {:bodyguard, "~> 2.2"},
+      {:credo, "~> 0.9.0-rc1", only: [:dev, :test], runtime: false},
+      {:ecto_enum, "~> 1.0"}
     ]
   end
 
