@@ -2,11 +2,16 @@ defmodule Api.Web.Router do
   use Api.Web, :router
   alias Api.Web.AuthPipeline
 
+  pipeline :authed_api do
+    plug :accepts, ["json"]
+    plug AuthPipeline
+  end
+
   post("/api/sessions", Api.Web.SessionController, :create)
   resources("/api/users", Api.Web.UserController, only: [:create])
 
   scope "/api", Api.Web do
-    pipe_through(AuthPipeline)
+    pipe_through(:authed_api)
 
     delete("/sessions", SessionController, :delete)
     post("/sessions/refresh", SessionController, :refresh)

@@ -234,4 +234,12 @@ defmodule Api.Chats do
       {:error, :not_in_channel}
     end
   end
+
+  def authorize(:can_join, channel) do
+    if channel.type == :public do
+      :ok
+    else
+      {:error, :not_public_channel}
+    end
+  end
 end

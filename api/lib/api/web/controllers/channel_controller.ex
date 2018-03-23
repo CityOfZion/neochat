@@ -45,17 +45,20 @@ defmodule Api.Web.ChannelController do
   def join(conn, %{"id" => channel_id}) do
     current_user = GPlug.current_resource(conn)
     channel = Chats.get_channel!(channel_id)
+    if :ok == Chats.authorize(:can_join, channel) do
+      case Chats.join_channel(channel, current_user) do
+        {:ok, _user_channel} ->
+          conn
+          |> put_status(:created)
+          |> render("show.json", %{channel: channel})
 
-    case Chats.join_channel(channel, current_user) do
-      {:ok, _user_channel} ->
-        conn
-        |> put_status(:created)
-        |> render("show.json", %{channel: channel})
-
-      {:error, changeset} ->
-        conn
-        |> put_status(:unprocessable_entity)
-        |> render(ChangesetView, "error.json", changeset: changeset)
+        {:error, changeset} ->
+          conn
+          |> put_status(:unprocessable_entity)
+          |> render(ChangesetView, "error.json", changeset: changeset)
+      end
+    else
+      {:error, :forbidden}
     end
   end
 
