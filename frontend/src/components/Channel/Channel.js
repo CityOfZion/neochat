@@ -5,14 +5,14 @@ import { HashRouter as Router, Route, Switch } from "react-router-dom";
 import PropTypes from "prop-types";
 
 class Channel extends Component {
+  componentDidUpdate() {
+    let element = document.getElementById("messageList");
+    element.scrollTop = element.scrollHeight;
+  }
+
   handleMessageCreate = data => {
     this.props.createMessage(this.props.phx_channel, data);
   };
-
-  componentDidUpdate() {
-    var element = document.getElementById("messageList");
-    element.scrollTop = element.scrollHeight;
-  }
 
   render() {
     return (
