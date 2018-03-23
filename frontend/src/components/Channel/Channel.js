@@ -10,7 +10,7 @@ class Channel extends Component {
   };
 
   componentDidUpdate() {
-    var element = document.getElementById("babar");
+    var element = document.getElementById("messageList");
     element.scrollTop = element.scrollHeight;
   }
 
@@ -31,7 +31,7 @@ class Channel extends Component {
                 render={() => (
                   <div>
                     <div
-                      id="babar"
+                      id="messageList"
                       style={{ height: "80vh", overflow: "auto" }}
                     >
                       <MessageList messages={this.props.messages} />
