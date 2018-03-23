@@ -9,13 +9,20 @@ class Channel extends Component {
     this.props.createMessage(this.props.phx_channel, data);
   };
 
+  componentDidUpdate() {
+    var element = document.getElementById("babar");
+    element.scrollTop = element.scrollHeight;
+  }
+
   render() {
     return (
       <div style={{ display: "flex", height: "100vh", width: "100%" }}>
         <div
           style={{ display: "flex", flexDirection: "column", width: "100%" }}
         >
-          <ChannelNavbar channel={this.props.channel} />
+          <div style={{ height: "10vh" }}>
+            <ChannelNavbar channel={this.props.channel} />
+          </div>
           <Router>
             <Switch>
               <Route
@@ -23,8 +30,17 @@ class Channel extends Component {
                 path="/channel/:id"
                 render={() => (
                   <div>
-                    <MessageList messages={this.props.messages} />
-                    <MessageFormContainer onSubmit={this.handleMessageCreate} />
+                    <div
+                      id="babar"
+                      style={{ height: "80vh", overflow: "auto" }}
+                    >
+                      <MessageList messages={this.props.messages} />
+                    </div>
+                    <div style={{ height: "10vh" }}>
+                      <MessageFormContainer
+                        onSubmit={this.handleMessageCreate}
+                      />
+                    </div>
                   </div>
                 )}
               />
