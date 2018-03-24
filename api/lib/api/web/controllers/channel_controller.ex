@@ -17,6 +17,7 @@ defmodule Api.Web.ChannelController do
   end
 
   def create(conn, channel_params) do
+    IO.inspect(channel_params)
     current_user = GPlug.current_resource(conn)
 
     with {:ok, %Channel{} = channel} <- Chats.create_channel(channel_params),

@@ -1,5 +1,13 @@
+@import "../../../node_modules/react-toggle-switch/dist/css/switch.min.css";
+
 .card {
     maxWidth: 500px;
     padding: 3rem 4rem;
     margin: 2rem auto;
+}
+.private-switch {
+  margin-top: 5px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
 }
