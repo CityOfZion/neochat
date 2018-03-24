@@ -20,3 +20,4 @@
 - Roles
 - Channel mute
 - Unread messages
+- Edit/delete message
