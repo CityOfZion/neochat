@@ -27,4 +27,14 @@ defmodule Api.Web.ChannelControllerTest do
     resp = post(conn, "/api/channels/#{channel.id}/join")
     assert resp.status == 201
   end
+
+  test "invite in private channel", %{conn: conn, channel: channel, users: [user, user_2]} do
+    Changeset.change(channel, %{type: :private}) |> Repo.update!()
+    resp = post(conn, "/api/channels/#{channel.id}/opt_in", %{user_id: user_2.id})
+    assert resp.status == 403
+
+    Chats.join_channel(channel, user)
+    conn = post(conn, "/api/channels/#{channel.id}/opt_in", %{user_id: user_2.id})
+    assert json_response(conn, 201) == %{"message" => "ok"}
+  end
 end
