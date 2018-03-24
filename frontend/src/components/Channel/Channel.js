@@ -7,7 +7,7 @@ import PropTypes from "prop-types";
 class Channel extends Component {
   componentDidUpdate() {
     const element = document.getElementById("messageList");
-    if (element !== undefined) {
+    if (element) {
       element.scrollTop = element.scrollHeight;
     }
   }
