@@ -1,6 +1,6 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import PropTypes from "prop-types";
-import { connect } from "react-redux";
+import {connect} from "react-redux";
 import {
   HomeContainer,
   NotFoundContainer,
@@ -8,11 +8,11 @@ import {
   SignupContainer,
   ChannelContainer
 } from "containers";
-import { RedirectAuthenticated, MatchAuthenticated, Sidebar } from "components";
-import { HashRouter as Router, Route, Switch } from "react-router-dom";
+import {RedirectAuthenticated, MatchAuthenticated, Sidebar} from "components";
+import {HashRouter as Router, Route, Switch} from "react-router-dom";
 import "./AppContainer.css";
 
-import { authenticate, unauthenticate, logout } from "../../actions/session";
+import {authenticate, unauthenticate, logout} from "../../actions/session";
 
 class AppContainer extends Component {
   static propTypes = {
@@ -22,7 +22,7 @@ class AppContainer extends Component {
     willAuthenticate: PropTypes.bool.isRequired,
     logout: PropTypes.func.isRequired,
     currentUserChannels: PropTypes.array.isRequired,
-    currentUser: PropTypes.shape({ username: PropTypes.string.isRequired })
+    currentUser: PropTypes.shape({username: PropTypes.string.isRequired})
       .isRequired
   };
 
@@ -35,7 +35,7 @@ class AppContainer extends Component {
     }
   }
 
-  handleLogout = router => this.props.logout(router);
+  handleLogout = (router) => this.props.logout(router);
 
   render() {
     return (
@@ -73,7 +73,7 @@ class AppContainer extends Component {
               isAuthenticated={this.props.isAuthenticated}
               willAuthenticate={this.props.willAuthenticate}
             />
-            <Route component={NotFoundContainer} />
+            <Route component={NotFoundContainer}/>
           </Switch>
         </div>
       </Router>
@@ -88,5 +88,5 @@ export default connect(
     currentUserChannels: state.channels.currentUserChannels,
     currentUser: state.session.currentUser
   }),
-  { authenticate, unauthenticate, logout }
+  {authenticate, unauthenticate, logout}
 )(AppContainer);

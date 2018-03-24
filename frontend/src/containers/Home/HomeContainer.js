@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Home } from "components";
 import { connect } from "react-redux";
+import { logout } from "../../actions/session";
 import {
   fetchChannels,
   createChannel,
@@ -17,7 +18,7 @@ class HomeContainer extends React.Component {
     createChannel: PropTypes.func.isRequired,
     joinChannel: PropTypes.func.isRequired,
     channels: PropTypes.array.isRequired,
-    currentUserChannels: PropTypes.func.isRequired
+    currentUserChannels: PropTypes.array.isRequired
   };
   static contextTypes = {
     router: PropTypes.object
@@ -51,7 +52,9 @@ class HomeContainer extends React.Component {
 export default connect(
   state => ({
     channels: state.channels.all,
-    currentUserChannels: state.channels.currentUserChannels
+    currentUserChannels: state.channels.currentUserChannels,
+    currentUser: state.session.currentUser,
+    isAuthenticated: state.session.isAuthenticated
   }),
-  { fetchChannels, createChannel, joinChannel }
+  { fetchChannels, createChannel, joinChannel, logout }
 )(HomeContainer);

@@ -48,7 +48,6 @@ ChannelLink.propTypes = {
 };
 
 Sidebar.propTypes = {
-  rooms: PropTypes.array.isRequired,
   router: PropTypes.object.isRequired,
   onLogoutClick: PropTypes.func.isRequired,
   username: PropTypes.string.isRequired,
