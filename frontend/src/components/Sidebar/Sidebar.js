@@ -9,15 +9,15 @@ const Sidebar = ({ channels, router, onLogoutClick, username: user }) => (
       <Link to="/">NeoChat</Link>
     </div>
     <div className="username">{user}</div>
-    <div className="channelsTitle">Channels</div>
+    <div className="channelsTitle">
+      Channels
+      <Link to="/" className="link">
+        <span className="fa fa-plus" />
+      </Link>
+    </div>
     {channels.map(channel => (
       <ChannelLink key={channel.id} channel={channel} />
     ))}
-    <Link to="/" className="link">
-      <div className="channelLink">
-        <span className="fa fa-plus" />
-      </div>
-    </Link>
     <div style={{ flex: "1" }} />
     <button
       onClick={() => onLogoutClick(router)}
