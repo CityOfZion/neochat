@@ -11,20 +11,26 @@ defmodule Api.Web.ChatChannel do
 
   def join("channels:" <> channel_id, _params, socket) do
     channel = Chats.get_channel!(channel_id)
+    user = socket.assigns.current_user
+    if Bodyguard.permit(Chats, :access, channel, user) == :ok do
+      Logger.info(
+        fn ->
+          "channel #{channel.id} joinned"
+        end
+      )
 
-    Logger.info(fn ->
-      "channel #{channel.id} joinned"
-    end)
+      paged_messages = Chats.list_messages(channel)
 
-    paged_messages = Chats.list_messages(channel)
+      response = %{
+        channel: View.render_one(channel, ChannelView, "channel.json"),
+        messages: View.render_many(paged_messages.entries, MessageView, "message.json"),
+        pagination: Pagination.pagination(paged_messages)
+      }
 
-    response = %{
-      channel: View.render_one(channel, ChannelView, "channel.json"),
-      messages: View.render_many(paged_messages.entries, MessageView, "message.json"),
-      pagination: Pagination.pagination(paged_messages)
-    }
-
-    {:ok, response, assign(socket, :channel, channel)}
+      {:ok, response, assign(socket, :channel, channel)}
+    else
+      {:error, :not_in_channel}
+    end
   end
 
   def join(unknown_channel, _, _) do

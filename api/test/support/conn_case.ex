@@ -24,6 +24,7 @@ defmodule Api.Web.ConnCase do
       # Import conveniences for testing with connections
       use Phoenix.ConnTest
       import Api.Web.Router.Helpers
+      alias Api.Repo
 
       # The default endpoint for testing
       @endpoint Api.Web.Endpoint

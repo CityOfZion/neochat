@@ -10,7 +10,9 @@ defmodule Api.Web.ChannelController do
   action_fallback(Api.Web.FallbackController)
 
   def index(conn, _params) do
-    channels = Chats.list_channels()
+    current_user = GPlug.current_resource(conn)
+
+    channels = Chats.list_channels(current_user)
     render(conn, "index.json", channels: channels)
   end
 
@@ -24,11 +26,6 @@ defmodule Api.Web.ChannelController do
         # |> put_resp_header("location", channel_path(conn, :show, channel))
       |> render("show.json", channel: channel)
     end
-  end
-
-  def show(conn, %{"id" => id}) do
-    channel = Chats.get_channel!(id)
-    render(conn, "show.json", channel: channel)
   end
 
   def update(conn, %{"id" => id, "channel" => channel_params}) do
@@ -50,32 +47,46 @@ defmodule Api.Web.ChannelController do
   def join(conn, %{"id" => channel_id}) do
     current_user = GPlug.current_resource(conn)
     channel = Chats.get_channel!(channel_id)
+    if :ok == Chats.authorize(:can_join, channel) do
+      case Chats.join_channel(channel, current_user) do
+        {:ok, _user_channel} ->
+          conn
+          |> put_status(:created)
+          |> render("show.json", %{channel: channel})
 
-    case Chats.join_channel(channel, current_user) do
-      {:ok, _user_channel} ->
-        conn
-        |> put_status(:created)
-        |> render("show.json", %{channel: channel})
-
-      {:error, changeset} ->
-        conn
-        |> put_status(:unprocessable_entity)
-        |> render(ChangesetView, "error.json", changeset: changeset)
+        {:error, changeset} ->
+          conn
+          |> put_status(:unprocessable_entity)
+          |> render(ChangesetView, "error.json", changeset: changeset)
+      end
+    else
+      {:error, :forbidden}
     end
   end
 
   def opted_out_users(conn, %{"id" => channel_id}) do
-    channel_id = String.to_integer(channel_id)
-    users = Chats.opted_out_users(channel_id)
+    channel = Chats.get_channel!(channel_id)
+    current_user = GPlug.current_resource(conn)
 
-    render(conn, UserView, "index.json", users: users)
+    if Bodyguard.permit(Chats, :access, channel, current_user) == :ok do
+      users = Chats.opted_out_users(channel.id)
+      render(conn, UserView, "index.json", users: users)
+    else
+      {:error, :forbidden}
+    end
   end
 
   def opt_in_user(conn, %{"id" => channel_id, "user_id" => user_id}) do
-    channel_id = String.to_integer(channel_id)
-    Chats.join_channel(channel_id, user_id)
-    conn
-    |> put_status(:created)
-    |> json(%{message: "ok"})
+    channel = Chats.get_channel!(channel_id)
+    current_user = GPlug.current_resource(conn)
+
+    if Bodyguard.permit(Chats, :access, channel, current_user) == :ok do
+      Chats.join_channel(channel.id, user_id)
+      conn
+      |> put_status(:created)
+      |> json(%{message: "ok"})
+    else
+      {:error, :forbidden}
+    end
   end
 end

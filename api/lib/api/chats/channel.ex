@@ -8,6 +8,7 @@ defmodule Api.Chats.Channel do
 
   schema "channels" do
     field(:name, :string)
+    field(:type, ChannelType, default: :public)
     many_to_many(:users, User, join_through: "channel_users")
     has_many(:messages, Message)
     timestamps()
@@ -16,7 +17,7 @@ defmodule Api.Chats.Channel do
   @doc false
   def changeset(%Channel{} = channel, attrs) do
     channel
-    |> cast(attrs, [:name])
+    |> cast(attrs, [:name, :type])
     |> validate_required([:name])
   end
 end

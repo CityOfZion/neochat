@@ -17,4 +17,10 @@ defmodule Api.Web.FallbackController do
     |> put_status(:not_found)
     |> render(Api.Web.ErrorView, :"404")
   end
+
+  def call(conn, {:error, :forbidden}) do
+    conn
+    |> put_status(:forbidden)
+    |> render(Api.Web.ErrorView, :"403")
+  end
 end
