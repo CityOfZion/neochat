@@ -12,23 +12,21 @@ class NewChannelForm extends React.Component {
   }
 
   toggleSwitch = () => {
-    this.setState(prevState => {
-      return {
-        private: !prevState.private
-      };
-    });
+    this.setState(prevState => ({
+      private: !prevState.private
+    }));
   };
 
   submit = data => {
-    data = {
+    const params = {
       ...data,
       type: this.state.private === true ? "private" : "public"
     };
-    this.props.onSubmit(data);
+    this.props.onSubmit(params);
   };
 
   render() {
-    const { handleSubmit, submitting, onSubmit } = this.props;
+    const { handleSubmit, submitting } = this.props;
     return (
       <form onSubmit={handleSubmit(data => this.submit(data))}>
         <div className="input-group">
