@@ -15,7 +15,7 @@ Chat for the Neo community.
 
 - add postgres to your /etc/hosts `127.0.0.1 postgresql`
 - `docker-compose up -d`
-- to start the api: `cd api/; mix deps.get; iex -S mix phx.server`
+- to start the api: `cd api/; mix deps.get; mix ecto.reset; iex -S mix phx.server`
 - to start the frontend `cd frontend/; yarn; npm start`
 - access `http://localhost:8080/`
 
