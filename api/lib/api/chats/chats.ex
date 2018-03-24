@@ -20,8 +20,13 @@ defmodule Api.Chats do
       [%Channel{}, ...]
 
   """
-  def list_channels do
-    Repo.all(Channel)
+  def list_channels(current_user) do
+    from(
+      c in Channel,
+      where: c.type == ^:public,
+      or_where: fragment("? IN (SELECT channel_id from channel_users WHERE user_id = ?)", c.id, ^current_user.id)
+    )
+    |> Repo.all() |> IO.inspect()
   end
 
   @doc """

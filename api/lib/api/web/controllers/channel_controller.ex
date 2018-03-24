@@ -10,7 +10,9 @@ defmodule Api.Web.ChannelController do
   action_fallback(Api.Web.FallbackController)
 
   def index(conn, _params) do
-    channels = Chats.list_channels()
+    current_user = GPlug.current_resource(conn)
+
+    channels = Chats.list_channels(current_user)
     render(conn, "index.json", channels: channels)
   end
 

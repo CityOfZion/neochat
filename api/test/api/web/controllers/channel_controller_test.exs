@@ -4,6 +4,16 @@ defmodule Api.Web.ChannelControllerTest do
   alias Api.Chats
   alias Ecto.Changeset
 
+  test "list channels",  %{users: [user, _], channel: channel, conn: conn} do
+    Changeset.change(channel, %{type: :private}) |> Repo.update!()
+    resp = get(conn, "/api/channels/")
+    assert json_response(resp, 200) == %{"data" => []}
+
+    Chats.join_channel(channel, user)
+    resp = get(conn, "/api/channels/")
+    %{"data" => [%{"id" => _}]} = json_response(resp, 200)
+  end
+
   test "user optedOut", %{users: [user_1, user_2], channel: channel, conn: conn} do
     Chats.join_channel(channel, user_1)
     conn = get(conn, "/api/channels/#{channel.id}/opted_out")
