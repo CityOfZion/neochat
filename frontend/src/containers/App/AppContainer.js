@@ -23,6 +23,7 @@ class AppContainer extends Component {
     willAuthenticate: PropTypes.bool.isRequired,
     logout: PropTypes.func.isRequired,
     currentUserChannels: PropTypes.array.isRequired,
+    currentUserDirectMessageChannels: PropTypes.array.isRequired,
     currentUser: PropTypes.shape({ username: PropTypes.string.isRequired })
       .isRequired
   };
@@ -45,6 +46,7 @@ class AppContainer extends Component {
           <Sidebar
             router={this.context.router}
             channels={this.props.currentUserChannels}
+            direct_messages={this.props.currentUserDirectMessageChannels}
             onLogoutClick={this.handleLogout}
             username={this.props.currentUser.username}
           />
@@ -94,6 +96,8 @@ export default connect(
     isAuthenticated: state.session.isAuthenticated,
     willAuthenticate: state.session.willAuthenticate,
     currentUserChannels: state.channels.currentUserChannels,
+    currentUserDirectMessageChannels:
+      state.direct_messages.currentUserDirectMessageChannels,
     currentUser: state.session.currentUser
   }),
   { authenticate, unauthenticate, logout }
