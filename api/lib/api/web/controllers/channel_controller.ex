@@ -23,7 +23,17 @@ defmodule Api.Web.ChannelController do
          {:ok, _user_channel} = Chats.join_channel(channel, current_user) do
       conn
       |> put_status(:created)
-        # |> put_resp_header("location", channel_path(conn, :show, channel))
+      |> render("show.json", channel: channel)
+    end
+  end
+
+  def create_direct_message(conn, %{user_id: user_id}) do
+    current_user = GPlug.current_resource(conn)
+    with {:ok, %Channel{} = channel} <- Chats.create_direct_message_channel(),
+         {:ok, _} = Chats.join_channel(channel, current_user),
+         {:ok, _} = Chats.join_channel(channel.id, user_id) do
+      conn
+      |> put_status(:created)
       |> render("show.json", channel: channel)
     end
   end

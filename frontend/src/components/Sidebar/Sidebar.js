@@ -18,6 +18,12 @@ const Sidebar = ({ channels, router, onLogoutClick, username: user }) => (
     {channels.map(channel => (
       <ChannelLink key={channel.id} channel={channel} />
     ))}
+    <div className="channelsTitle">
+      Direct Messages
+      <Link to="/direct_messages" className="link">
+        <span className="fa fa-plus" />
+      </Link>
+    </div>
     <div style={{ flex: "1" }} />
     <button
       onClick={() => onLogoutClick(router)}

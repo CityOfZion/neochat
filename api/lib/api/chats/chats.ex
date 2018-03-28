@@ -24,7 +24,8 @@ defmodule Api.Chats do
     from(
       c in Channel,
       where: c.type == ^:public,
-      or_where: fragment("? IN (SELECT channel_id from channel_users WHERE user_id = ?)", c.id, ^current_user.id)
+      or_where: fragment("? IN (SELECT channel_id from channel_users WHERE user_id = ?)", c.id, ^current_user.id) and
+                c.type == ^:private
     )
     |> Repo.all()
   end
@@ -60,6 +61,12 @@ defmodule Api.Chats do
   def create_channel(attrs \\ %{}) do
     %Channel{}
     |> Channel.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  def create_direct_message_channel() do
+    %Channel{}
+    |> Channel.changeset(%{name: :rand.uniform(), type: :direct_message})
     |> Repo.insert()
   end
 
@@ -119,6 +126,35 @@ defmodule Api.Chats do
     user
     |> Repo.preload(:channels)
     |> Map.get(:channels)
+  end
+
+  def get_user_priv_pub_channels(user) do
+    all = get_user_channels(user)
+          |> Enum.group_by(&(&1.type))
+    Map.get(all, :public, []) ++ Map.get(all, :private, [])
+  end
+
+  def get_user_direct_messages(user) do
+    get_user_channels(user)
+    |> Enum.group_by(&(&1.type))
+    |> Map.get(:direct_message, [])
+    |> rename_channel(user)
+  end
+
+  defp rename_channel([], _), do: []
+  defp rename_channel(direct_messages, user) do
+    Repo.preload(direct_messages, :users)
+    |> Enum.map(
+         fn (channel) ->
+           user = Enum.find(
+             channel.users,
+             fn (u) ->
+               u.id != user.id
+             end
+           )
+           Map.put(channel, :name, user.username)
+         end
+       )
   end
 
   alias Api.Chats.Message

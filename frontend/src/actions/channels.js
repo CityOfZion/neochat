@@ -7,7 +7,7 @@ export function fetchChannels() {
     });
 }
 
-export function fetchUserChannels(userId) {
+export function fetchUserChannels() {
   return dispatch =>
     api.fetch(`/users/channels`).then(response => {
       dispatch({ type: "FETCH_USER_CHANNELS_SUCCESS", response });
@@ -18,7 +18,7 @@ export function createChannel(data, router) {
   return dispatch =>
     api.post("/channels", data).then(response => {
       dispatch({ type: "CREATE_CHANNEL_SUCCESS", response });
-      router.history.push(`/r/${response.data.id}`);
+      router.history.push(`/channel/${response.data.id}`);
     });
 }
 
@@ -26,7 +26,7 @@ export function joinChannel(channelId, router) {
   return dispatch =>
     api.post(`/channels/${channelId}/join`).then(response => {
       dispatch({ type: "CHANNEL_JOINED", response });
-      router.history.push(`/r/${response.data.id}`);
+      router.history.push(`/channel/${response.data.id}`);
     });
 }
 
