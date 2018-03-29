@@ -11,8 +11,7 @@ class DirectMessageAdd extends React.Component {
   static propTypes = {
     createChannel: PropTypes.func.isRequired,
     createDirectMessage: PropTypes.func.isRequired,
-    currentUserChannels: PropTypes.array.isRequired,
-    channels: PropTypes.array.isRequired
+    users: PropTypes.array.isRequired
   };
 
   handleChannelJoin = userId =>

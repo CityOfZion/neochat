@@ -2,8 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { DirectMessageAdd } from "components";
 import { connect } from "react-redux";
-import { fetchUsers } from "../../actions/direct_messages";
-import { createDirectMessage } from "../../actions/direct_messages";
+import { fetchUsers, createDirectMessage } from "../../actions/direct_messages";
 
 class DirectMessageContainer extends React.Component {
   static propTypes = {
