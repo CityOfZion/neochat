@@ -302,7 +302,7 @@ defmodule Api.Chats do
     end
   end
 
-  def authorize(:can_join, channel) do
+  def authorize(:can_join, channel, _) do
     if channel.type == :public do
       :ok
     else
