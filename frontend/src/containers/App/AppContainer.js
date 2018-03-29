@@ -1,18 +1,19 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import PropTypes from "prop-types";
-import {connect} from "react-redux";
+import { connect } from "react-redux";
 import {
   HomeContainer,
   NotFoundContainer,
   LoginContainer,
   SignupContainer,
-  ChannelContainer
+  ChannelContainer,
+  DirectMessageAddContainer
 } from "containers";
-import {RedirectAuthenticated, MatchAuthenticated, Sidebar} from "components";
-import {HashRouter as Router, Route, Switch} from "react-router-dom";
+import { RedirectAuthenticated, MatchAuthenticated, Sidebar } from "components";
+import { HashRouter as Router, Route, Switch } from "react-router-dom";
 import "./AppContainer.css";
 
-import {authenticate, unauthenticate, logout} from "../../actions/session";
+import { authenticate, unauthenticate, logout } from "../../actions/session";
 
 class AppContainer extends Component {
   static propTypes = {
@@ -22,7 +23,8 @@ class AppContainer extends Component {
     willAuthenticate: PropTypes.bool.isRequired,
     logout: PropTypes.func.isRequired,
     currentUserChannels: PropTypes.array.isRequired,
-    currentUser: PropTypes.shape({username: PropTypes.string.isRequired})
+    currentUserDirectMessageChannels: PropTypes.array.isRequired,
+    currentUser: PropTypes.shape({ username: PropTypes.string.isRequired })
       .isRequired
   };
 
@@ -35,7 +37,7 @@ class AppContainer extends Component {
     }
   }
 
-  handleLogout = (router) => this.props.logout(router);
+  handleLogout = router => this.props.logout(router);
 
   render() {
     return (
@@ -44,6 +46,7 @@ class AppContainer extends Component {
           <Sidebar
             router={this.context.router}
             channels={this.props.currentUserChannels}
+            direct_messages={this.props.currentUserDirectMessageChannels}
             onLogoutClick={this.handleLogout}
             username={this.props.currentUser.username}
           />
@@ -52,6 +55,13 @@ class AppContainer extends Component {
               exact
               path="/"
               component={HomeContainer}
+              isAuthenticated={this.props.isAuthenticated}
+              willAuthenticate={this.props.willAuthenticate}
+            />
+            <MatchAuthenticated
+              exact
+              path="/direct_messages"
+              component={DirectMessageAddContainer}
               isAuthenticated={this.props.isAuthenticated}
               willAuthenticate={this.props.willAuthenticate}
             />
@@ -73,7 +83,7 @@ class AppContainer extends Component {
               isAuthenticated={this.props.isAuthenticated}
               willAuthenticate={this.props.willAuthenticate}
             />
-            <Route component={NotFoundContainer}/>
+            <Route component={NotFoundContainer} />
           </Switch>
         </div>
       </Router>
@@ -86,7 +96,9 @@ export default connect(
     isAuthenticated: state.session.isAuthenticated,
     willAuthenticate: state.session.willAuthenticate,
     currentUserChannels: state.channels.currentUserChannels,
+    currentUserDirectMessageChannels:
+      state.direct_messages.currentUserDirectMessageChannels,
     currentUser: state.session.currentUser
   }),
-  {authenticate, unauthenticate, logout}
+  { authenticate, unauthenticate, logout }
 )(AppContainer);

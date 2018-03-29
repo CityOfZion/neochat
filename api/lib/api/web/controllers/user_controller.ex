@@ -9,11 +9,11 @@ defmodule Api.Web.UserController do
   alias Api.Chats
 
   action_fallback(Api.Web.FallbackController)
-  #
-  #  def index(conn, _params) do
-  #    users = Accounts.list_users()
-  #    render(conn, "index.json", users: users)
-  #  end
+
+  def index(conn, _params) do
+    users = Accounts.list_users()
+    render(conn, "index.json", users: users)
+  end
 
   def create(conn, user_params) do
     case Accounts.create_user(user_params) do
@@ -34,11 +34,18 @@ defmodule Api.Web.UserController do
 
   def channels(conn, _) do
     current_user = GPlug.current_resource(conn)
-    channels = Chats.get_user_channels(current_user)
+    channels = Chats.get_user_priv_pub_channels(current_user)
+
     render(conn, ChannelView, "index.json", %{channels: channels})
   end
 
-  #
+  def direct_messages(conn, _) do
+    current_user = GPlug.current_resource(conn)
+    direct_messages = Chats.get_user_direct_messages(current_user)
+
+    render(conn, ChannelView, "index.json", %{channels: direct_messages})
+  end
+
   #  def show(conn, %{"id" => id}) do
   #    user = Accounts.get_user!(id)
   #    render(conn, "show.json", user: user)

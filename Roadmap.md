@@ -4,7 +4,7 @@
 
 - ~~Channel invite~~
 - ~~Support for private channels~~
-- Support for Direct messages
+- ~~Support for Direct messages~~
 - Channels notifications (for now the user is only connected to the channel he is currently in)
 - User presence
 

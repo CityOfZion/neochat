@@ -20,3 +20,7 @@ export { default as MessageList } from "./MessageList/MessageList";
 export { default as Message } from "./Message/Message";
 export { default as Avatar } from "./Avatar/Avatar";
 export { default as UserList } from "./UserList/UserList";
+export {
+  default as DirectMessageAdd
+} from "./DirectMessageAdd/DirectMessageAdd";
+export { default as UserListItem } from "./UserListItem/UserListItem";
