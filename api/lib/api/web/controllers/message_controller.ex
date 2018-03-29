@@ -1,16 +1,16 @@
-defmodule Api.Web.MessageController do
-  use Api.Web, :controller
-
-  alias Api.Chats
-  alias Api.Chats.Message
-
-  action_fallback(Api.Web.FallbackController)
-
+#defmodule Api.Web.MessageController do
+#  use Api.Web, :controller
+#
+#  alias Api.Chats
+#  alias Api.Chats.Message
+#
+#  action_fallback(Api.Web.FallbackController)
+#
 #  def index(conn, _params) do
 #    messages = Chats.list_messages()
 #    render(conn, "index.json", messages: messages)
 #  end
-
+#
 #  def create(conn, %{"message" => message_params}) do
 #    with {:ok, %Message{} = message} <- Chats.create_message(message_params) do
 #      conn
@@ -40,4 +40,4 @@ defmodule Api.Web.MessageController do
 #      send_resp(conn, :no_content, "")
 #    end
 #  end
-end
+#end
