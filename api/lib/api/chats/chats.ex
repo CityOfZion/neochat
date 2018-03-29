@@ -44,9 +44,7 @@ defmodule Api.Chats do
       ** (Ecto.NoResultsError)
 
   """
-  def get_channel!(id) do
-    Repo.get!(Channel, id)
-  end
+  def get_channel!(id), do: Repo.get!(Channel, id)
 
   @doc """
   Creates a channel.
@@ -66,7 +64,7 @@ defmodule Api.Chats do
     |> Repo.insert()
   end
 
-  def create_direct_message_channel() do
+  def create_direct_message_channel do
     %Channel{}
     |> Channel.changeset(%{name: UUID.uuid1(), type: :direct_message})
     |> Repo.insert()
