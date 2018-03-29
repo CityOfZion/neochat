@@ -44,7 +44,9 @@ defmodule Api.Chats do
       ** (Ecto.NoResultsError)
 
   """
-  def get_channel!(id), do: Repo.get!(Channel, id)
+  def get_channel!(id) do
+    Repo.get!(Channel, id)
+  end
 
   @doc """
   Creates a channel.
@@ -66,7 +68,7 @@ defmodule Api.Chats do
 
   def create_direct_message_channel() do
     %Channel{}
-    |> Channel.changeset(%{name: :rand.uniform(), type: :direct_message})
+    |> Channel.changeset(%{name: UUID.uuid1(), type: :direct_message})
     |> Repo.insert()
   end
 
@@ -138,11 +140,24 @@ defmodule Api.Chats do
     get_user_channels(user)
     |> Enum.group_by(&(&1.type))
     |> Map.get(:direct_message, [])
-    |> rename_channel(user)
+    |> rename_channels(user)
   end
 
-  defp rename_channel([], _), do: []
-  defp rename_channel(direct_messages, user) do
+  def rename_channel(channel = %{type: type}, user) when type == :direct_message do
+    channel = Repo.preload(channel, :users)
+    user = Enum.find(
+      channel.users,
+      fn (u) ->
+        u.id != user.id
+      end
+    )
+    Map.put(channel, :name, user.username)
+  end
+
+  def rename_channel(channel, _), do: channel
+
+  defp rename_channels([], _), do: []
+  defp rename_channels(direct_messages, user) do
     Repo.preload(direct_messages, :users)
     |> Enum.map(
          fn (channel) ->
@@ -155,6 +170,19 @@ defmodule Api.Chats do
            Map.put(channel, :name, user.username)
          end
        )
+  end
+
+  def find_direct_message(user_1, user_2) do
+    from(
+      c in Channel,
+      join: cu in ChannelUser,
+      where:
+        c.id == cu.channel_id
+        and c.type == ^:direct_message
+        and cu.user_id == ^user_1
+        and fragment("? IN (SELECT channel_id from channel_users WHERE user_id = ?)", cu.channel_id, ^user_2)
+    )
+    |> Repo.one()
   end
 
   alias Api.Chats.Message

@@ -27,15 +27,21 @@ defmodule Api.Web.ChannelController do
     end
   end
 
-  def create_direct_message(conn, %{user_id: user_id}) do
+  def create_direct_message(conn, %{"user_id" => user_id}) do
     current_user = GPlug.current_resource(conn)
-    with {:ok, %Channel{} = channel} <- Chats.create_direct_message_channel(),
-         {:ok, _} = Chats.join_channel(channel, current_user),
-         {:ok, _} = Chats.join_channel(channel.id, user_id) do
-      conn
-      |> put_status(:created)
-      |> render("show.json", channel: channel)
+    channel = case Chats.find_direct_message(current_user.id, user_id) do
+      nil -> with {:ok, %Channel{} = channel} <- Chats.create_direct_message_channel(),
+                  {:ok, _} = Chats.join_channel(channel, current_user),
+                  {:ok, _} = Chats.join_channel(channel.id, user_id) do
+               channel
+             end
+      channel ->
+        channel
     end
+    channel = Chats.rename_channel(channel, current_user)
+    conn
+    |> put_status(:created)
+    |> render("show.json", channel: channel)
   end
 
   def update(conn, %{"id" => id, "channel" => channel_params}) do

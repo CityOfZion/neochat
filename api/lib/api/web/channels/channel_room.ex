@@ -10,8 +10,9 @@ defmodule Api.Web.ChatChannel do
   require Logger
 
   def join("channels:" <> channel_id, _params, socket) do
-    channel = Chats.get_channel!(channel_id)
     user = socket.assigns.current_user
+    channel = Chats.get_channel!(channel_id) |> Chats.rename_channel(user)
+
     if Bodyguard.permit(Chats, :access, channel, user) == :ok do
       Logger.info(
         fn ->

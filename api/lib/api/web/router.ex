@@ -22,6 +22,7 @@ defmodule Api.Web.Router do
 
     resources("/channels", ChannelController, only: [:index, :create])
     post("/channels/:id/join", ChannelController, :join)
+    post("/channels/direct_messages", ChannelController, :create_direct_message)
     get("/channels/:id/opted_out", ChannelController, :opted_out_users)
     post("/channels/:id/opt_in", ChannelController, :opt_in_user)
 

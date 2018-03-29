@@ -10,13 +10,13 @@ class DirectMessageAdd extends React.Component {
 
   static propTypes = {
     createChannel: PropTypes.func.isRequired,
-    joinChannel: PropTypes.func.isRequired,
+    createDirectMessage: PropTypes.func.isRequired,
     currentUserChannels: PropTypes.array.isRequired,
     channels: PropTypes.array.isRequired
   };
 
-  handleChannelJoin = channelId =>
-    this.props.joinChannel(channelId, this.context.router);
+  handleChannelJoin = userId =>
+    this.props.createDirectMessage({ user_id: userId }, this.context.router);
 
   renderUsers() {
     return this.props.users.map(user => (

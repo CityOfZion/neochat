@@ -9,7 +9,7 @@ export function fetchUsers() {
 
 export function createDirectMessage(data, router) {
   return dispatch =>
-    api.post("/channels/dm", data).then(response => {
+    api.post("/channels/direct_messages", data).then(response => {
       dispatch({ type: "CREATE_DIRECT_MESSAGE_CHANNEL_SUCCESS", response });
       router.history.push(`/channel/${response.data.id}`);
     });
