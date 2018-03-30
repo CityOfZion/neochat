@@ -1,5 +1,9 @@
 import { reset } from "redux-form";
 
+export const CHANNEL_CONNECTED_TO_CHANNEL = "CHANNEL_CONNECTED_TO_CHANNEL";
+export const MESSAGE_CREATED = "MESSAGE_CREATED";
+export const USER_LEFT_CHANNEL = "USER_LEFT_CHANNEL";
+
 export function connectToChannel(socket, channelId) {
   return dispatch => {
     if (!socket) {
@@ -8,11 +12,11 @@ export function connectToChannel(socket, channelId) {
     const channel = socket.channel(`channels:${channelId}`);
 
     channel.on("message_created", message => {
-      dispatch({ type: "MESSAGE_CREATED", message });
+      dispatch({ type: MESSAGE_CREATED, message });
     });
 
     channel.join().receive("ok", response => {
-      dispatch({ type: "CHANNEL_CONNECTED_TO_CHANNEL", response, channel });
+      dispatch({ type: CHANNEL_CONNECTED_TO_CHANNEL, response, channel });
     });
 
     return false;
@@ -24,7 +28,7 @@ export function leaveChannel(channel) {
     if (channel) {
       channel.leave();
     }
-    dispatch({ type: "USER_LEFT_CHANNEL" });
+    dispatch({ type: USER_LEFT_CHANNEL });
   };
 }
 

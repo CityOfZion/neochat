@@ -2,6 +2,7 @@ export { default as Home } from "./Home/Home";
 export { default as Signup } from "./Signup/Signup";
 export { default as Login } from "./Login/Login";
 export { default as SignupForm } from "./SignupForm/SignupForm";
+export { default as ChannelUserList } from "./ChannelUserList/ChannelUserList";
 export { default as Navbar } from "./Navbar/Navbar";
 export { default as Input } from "./Input/Input";
 export {

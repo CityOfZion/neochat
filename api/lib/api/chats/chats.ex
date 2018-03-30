@@ -124,6 +124,24 @@ defmodule Api.Chats do
   alias Api.Chats.Message
 
   @doc """
+  Returns the list of users from a channel.
+
+  ## Examples
+
+      iex> list_users(channel)
+      [%User{}, ...]
+
+  """
+  def list_users(channel) do
+    User
+    |> join(:left, [u], cu in ChannelUser, cu.user_id == u.id)
+    |> where([u, cu], cu.channel_id == ^channel.id)
+    |> select([u, cu], %{username: u.username, id: u.id})
+    |> Repo.all()
+  end
+
+
+  @doc """
   Returns the list of messages from a channel.
 
   ## Examples

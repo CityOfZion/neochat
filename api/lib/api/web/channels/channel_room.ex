@@ -20,8 +20,10 @@ defmodule Api.Web.ChatChannel do
       )
 
       paged_messages = Chats.list_messages(channel)
+      user_status = Chats.list_users(channel)
 
       response = %{
+        userStatus: user_status,
         channel: View.render_one(channel, ChannelView, "channel.json"),
         messages: View.render_many(paged_messages.entries, MessageView, "message.json"),
         pagination: Pagination.pagination(paged_messages)

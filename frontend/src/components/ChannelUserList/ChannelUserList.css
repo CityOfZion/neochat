@@ -1,0 +1,13 @@
+ul {
+  list-style-type: none;
+  padding: 10px 0 0 20px;
+}
+
+li {
+  font-size: 14px;
+}
+
+.channelUserList {
+  height: 100%;
+  border-left: 1px solid rgb(240, 240, 240);
+}
