@@ -203,7 +203,6 @@ defmodule Api.Chats do
     |> Repo.all()
   end
 
-
   @doc """
   Returns the list of messages from a channel.
 
