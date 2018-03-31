@@ -136,6 +136,7 @@ defmodule Api.Chats do
     User
     |> join(:left, [u], cu in ChannelUser, cu.user_id == u.id)
     |> where([u, cu], cu.channel_id == ^channel.id)
+    |> order_by(asc: :username)
     |> select([u, cu], %{username: u.username, id: u.id})
     |> Repo.all()
   end

@@ -3,9 +3,12 @@ defmodule Api.Web.ChannelController do
 
   alias Api.Chats
   alias Api.Chats.Channel
+  alias Api.Web.Endpoint
   alias Api.Web.Guardian.Plug, as: GPlug
   alias Api.Web.ChangesetView
   alias Api.Web.UserView
+
+  @user_joined_channel "USER_JOINED_CHANNEL"
 
   action_fallback(Api.Web.FallbackController)
 
@@ -50,6 +53,11 @@ defmodule Api.Web.ChannelController do
     if :ok == Chats.authorize(:can_join, channel) do
       case Chats.join_channel(channel, current_user) do
         {:ok, _user_channel} ->
+          Endpoint.broadcast!(
+            "channels:" <> channel_id,
+            @user_joined_channel,
+            %{id: current_user.id, username: current_user.username}
+          )
           conn
           |> put_status(:created)
           |> render("show.json", %{channel: channel})

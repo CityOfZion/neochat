@@ -3,6 +3,7 @@ import { reset } from "redux-form";
 export const CHANNEL_CONNECTED_TO_CHANNEL = "CHANNEL_CONNECTED_TO_CHANNEL";
 export const MESSAGE_CREATED = "MESSAGE_CREATED";
 export const USER_LEFT_CHANNEL = "USER_LEFT_CHANNEL";
+export const USER_JOINED_CHANNEL = "USER_JOINED_CHANNEL";
 
 export function connectToChannel(socket, channelId) {
   return dispatch => {
@@ -13,6 +14,10 @@ export function connectToChannel(socket, channelId) {
 
     channel.on("message_created", message => {
       dispatch({ type: MESSAGE_CREATED, message });
+    });
+
+    channel.on("USER_JOINED_CHANNEL", message => {
+      dispatch({ type: USER_JOINED_CHANNEL, message });
     });
 
     channel.join().receive("ok", response => {
