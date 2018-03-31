@@ -16,30 +16,28 @@ class Channel extends Component {
     this.props.createMessage(this.props.phx_channel, data);
   };
 
-  renderChannel = () => {
-    return (
-      <div style={{ display: "flex", flexDirection: "row", height: "100%" }}>
-        <div
-          style={{
-            width: "100%",
-            display: "flex",
-            flexDirection: "column",
-            alignContent: "spaceBetween"
-          }}
-        >
-          <div id="messageList" style={{ height: "100%", overflow: "auto" }}>
-            <MessageList messages={this.props.messages} />
-          </div>
-          <div style={{ height: "50px" }}>
-            <MessageFormContainer onSubmit={this.handleMessageCreate} />
-          </div>
+  renderChannel = () => (
+    <div style={{ display: "flex", flexDirection: "row", height: "100%" }}>
+      <div
+        style={{
+          width: "100%",
+          display: "flex",
+          flexDirection: "column",
+          alignContent: "spaceBetween"
+        }}
+      >
+        <div id="messageList" style={{ height: "100%", overflow: "auto" }}>
+          <MessageList messages={this.props.messages} />
         </div>
-        <div style={{ width: "250px", textAlign: "left" }}>
-          <ChannelUserList userStatus={this.props.userStatus} />
+        <div style={{ height: "50px" }}>
+          <MessageFormContainer onSubmit={this.handleMessageCreate} />
         </div>
       </div>
-    );
-  };
+      <div style={{ width: "250px", textAlign: "left" }}>
+        <ChannelUserList userStatus={this.props.userStatus} />
+      </div>
+    </div>
+  );
 
   render() {
     return (
@@ -70,6 +68,7 @@ Channel.propTypes = {
   createMessage: PropTypes.func.isRequired,
   phx_channel: PropTypes.object.isRequired,
   channel: PropTypes.object.isRequired,
-  messages: PropTypes.array.isRequired
+  messages: PropTypes.array.isRequired,
+  userStatus: PropTypes.array.isRequired
 };
 export default Channel;

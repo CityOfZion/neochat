@@ -24,9 +24,9 @@ export default function(state = initialState, action) {
     case USER_JOINED_CHANNEL:
       return {
         ...state,
-        userStatus: [...state.userStatus, action.message].sort(function(a, b) {
-          return a.username > b.username;
-        })
+        userStatus: [...state.userStatus, action.message].sort(
+          (a, b) => a.username > b.username
+        )
       };
     case USER_LEFT_CHANNEL:
       return initialState;

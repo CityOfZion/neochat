@@ -5,9 +5,7 @@ import "./ChannelUserList.css";
 const ChannelUserList = ({ userStatus }) => (
   <div className="channelUserList">
     <ul>
-      {userStatus.map(({ username, id }) => {
-        return <li key={id}>{username}</li>;
-      })}
+      {userStatus.map(({ username, id }) => <li key={id}>{username}</li>)}
     </ul>
   </div>
 );
