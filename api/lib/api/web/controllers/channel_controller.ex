@@ -26,9 +26,26 @@ defmodule Api.Web.ChannelController do
          {:ok, _user_channel} = Chats.join_channel(channel, current_user) do
       conn
       |> put_status(:created)
-        # |> put_resp_header("location", channel_path(conn, :show, channel))
       |> render("show.json", channel: channel)
     end
+  end
+
+  def create_direct_message(conn, %{"user_id" => user_id}) do
+    current_user = GPlug.current_resource(conn)
+    if user_id == current_user.id, do: raise "can't create chat with self"
+    channel = case Chats.find_direct_message(current_user.id, user_id) do
+      nil -> with {:ok, %Channel{} = channel} <- Chats.create_direct_message_channel(),
+                  {:ok, _} = Chats.join_channel(channel, current_user),
+                  {:ok, _} = Chats.join_channel(channel.id, user_id) do
+               channel
+             end
+      channel ->
+        channel
+    end
+    channel = Chats.rename_channel(channel, current_user)
+    conn
+    |> put_status(:created)
+    |> render("show.json", channel: channel)
   end
 
   def update(conn, %{"id" => id, "channel" => channel_params}) do
@@ -50,7 +67,7 @@ defmodule Api.Web.ChannelController do
   def join(conn, %{"id" => channel_id}) do
     current_user = GPlug.current_resource(conn)
     channel = Chats.get_channel!(channel_id)
-    if :ok == Chats.authorize(:can_join, channel) do
+    if Bodyguard.permit(Chats, :can_join, channel, current_user) == :ok do
       case Chats.join_channel(channel, current_user) do
         {:ok, _user_channel} ->
           Endpoint.broadcast!(
@@ -87,8 +104,8 @@ defmodule Api.Web.ChannelController do
   def opt_in_user(conn, %{"id" => channel_id, "user_id" => user_id}) do
     channel = Chats.get_channel!(channel_id)
     current_user = GPlug.current_resource(conn)
-
-    if Bodyguard.permit(Chats, :access, channel, current_user) == :ok do
+    if channel.type != :direct_message and
+       Bodyguard.permit(Chats, :access, channel, current_user) == :ok do
       Chats.join_channel(channel.id, user_id)
       conn
       |> put_status(:created)

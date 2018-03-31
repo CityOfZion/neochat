@@ -3,7 +3,13 @@ import { Link, NavLink } from "react-router-dom";
 import PropTypes from "prop-types";
 import "./Sidebar.css";
 
-const Sidebar = ({ channels, router, onLogoutClick, username: user }) => (
+const Sidebar = ({
+  channels,
+  router,
+  onLogoutClick,
+  username: user,
+  direct_messages
+}) => (
   <div className="sidebar">
     <div className="header">
       <Link to="/">NeoChat</Link>
@@ -16,6 +22,15 @@ const Sidebar = ({ channels, router, onLogoutClick, username: user }) => (
       </Link>
     </div>
     {channels.map(channel => (
+      <ChannelLink key={channel.id} channel={channel} />
+    ))}
+    <div className="channelsTitle">
+      Direct Messages
+      <Link to="/direct_messages" className="link">
+        <span className="fa fa-plus" />
+      </Link>
+    </div>
+    {direct_messages.map(channel => (
       <ChannelLink key={channel.id} channel={channel} />
     ))}
     <div style={{ flex: "1" }} />
@@ -51,7 +66,8 @@ Sidebar.propTypes = {
   router: PropTypes.object.isRequired,
   onLogoutClick: PropTypes.func.isRequired,
   username: PropTypes.string.isRequired,
-  channels: PropTypes.array.isRequired
+  channels: PropTypes.array.isRequired,
+  direct_messages: PropTypes.array.isRequired
 };
 
 export default Sidebar;

@@ -24,7 +24,8 @@ defmodule Api.Chats do
     from(
       c in Channel,
       where: c.type == ^:public,
-      or_where: fragment("? IN (SELECT channel_id from channel_users WHERE user_id = ?)", c.id, ^current_user.id)
+      or_where: fragment("? IN (SELECT channel_id from channel_users WHERE user_id = ?)", c.id, ^current_user.id) and
+                c.type == ^:private
     )
     |> Repo.all()
   end
@@ -60,6 +61,12 @@ defmodule Api.Chats do
   def create_channel(attrs \\ %{}) do
     %Channel{}
     |> Channel.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  def create_direct_message_channel do
+    %Channel{}
+    |> Channel.changeset(%{name: UUID.uuid1(), type: :direct_message})
     |> Repo.insert()
   end
 
@@ -119,6 +126,61 @@ defmodule Api.Chats do
     user
     |> Repo.preload(:channels)
     |> Map.get(:channels)
+  end
+
+  def get_user_priv_pub_channels(user) do
+    all = get_user_channels(user)
+          |> Enum.group_by(&(&1.type))
+    Map.get(all, :public, []) ++ Map.get(all, :private, [])
+  end
+
+  def get_user_direct_messages(user) do
+    get_user_channels(user)
+    |> Enum.group_by(&(&1.type))
+    |> Map.get(:direct_message, [])
+    |> rename_channels(user)
+  end
+
+  def rename_channel(channel = %{type: type}, user) when type == :direct_message do
+    channel = Repo.preload(channel, :users)
+    user = Enum.find(
+      channel.users,
+      fn (u) ->
+        u.id != user.id
+      end
+    )
+    Map.put(channel, :name, user.username)
+  end
+
+  def rename_channel(channel, _), do: channel
+
+  defp rename_channels([], _), do: []
+  defp rename_channels(direct_messages, user) do
+    Repo.preload(direct_messages, :users)
+    |> Enum.map(
+         fn (channel) ->
+           user = Enum.find(
+             channel.users,
+             fn (u) ->
+               u.id != user.id
+             end
+           )
+           Map.put(channel, :name, user.username)
+         end
+       )
+  end
+
+  def find_direct_message(user_1, user_2) do
+    from(
+      c in Channel,
+      join: cu in ChannelUser,
+      where:
+        c.id == cu.channel_id
+        and c.type == ^:direct_message
+        and cu.user_id == ^user_1
+        and fragment("? IN (SELECT channel_id from channel_users WHERE user_id = ?)", cu.channel_id, ^user_2)
+    )
+    |> Repo.one()
   end
 
   alias Api.Chats.Message
@@ -259,7 +321,7 @@ defmodule Api.Chats do
     end
   end
 
-  def authorize(:can_join, channel) do
+  def authorize(:can_join, channel, _) do
     if channel.type == :public do
       :ok
     else
