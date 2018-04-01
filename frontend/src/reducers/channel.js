@@ -11,6 +11,8 @@ const initialState = {
   currentChannel: {}
 };
 
+const sortByUsername = (a, b) => (a.username > b.username ? 1 : 0);
+
 export default function(state = initialState, action) {
   switch (action.type) {
     case CHANNEL_CONNECTED_TO_CHANNEL:
@@ -18,15 +20,13 @@ export default function(state = initialState, action) {
         ...state,
         channel: action.channel,
         currentChannel: action.response.channel,
-        userStatus: action.response.userStatus,
+        userStatus: action.response.userStatus.sort(sortByUsername),
         messages: action.response.messages.reverse()
       };
     case USER_JOINED_CHANNEL:
       return {
         ...state,
-        userStatus: [...state.userStatus, action.message].sort(
-          (a, b) => a.username > b.username
-        )
+        userStatus: [...state.userStatus, action.message].sort(sortByUsername)
       };
     case USER_LEFT_CHANNEL:
       return initialState;

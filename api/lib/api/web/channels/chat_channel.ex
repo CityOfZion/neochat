@@ -6,25 +6,23 @@ defmodule Api.Web.ChatChannel do
   alias Api.Web.MessageView
   alias Api.Web.ChangesetView
   alias Api.Web.ChannelView
+  alias Api.Web.UserView
   alias Phoenix.View
   require Logger
 
   def join("channels:" <> channel_id, _params, socket) do
     user = socket.assigns.current_user
-    channel = Chats.get_channel!(channel_id) |> Chats.rename_channel(user)
+    channel = Chats.get_channel!(channel_id)
+              |> Chats.rename_channel(user)
 
     if Bodyguard.permit(Chats, :access, channel, user) == :ok do
-      Logger.info(
-        fn ->
-          "channel #{channel.id} joinned"
-        end
-      )
+      Logger.info(fn -> "channel #{channel.id} joinned" end)
 
       paged_messages = Chats.list_messages(channel)
-      user_status = Chats.list_users(channel)
+      users = Chats.list_users(channel)
 
       response = %{
-        userStatus: user_status,
+        userStatus: View.render_many(users, UserView, "user_status.json"),
         channel: View.render_one(channel, ChannelView, "channel.json"),
         messages: View.render_many(paged_messages.entries, MessageView, "message.json"),
         pagination: Pagination.pagination(paged_messages)

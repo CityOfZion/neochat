@@ -13,4 +13,8 @@ defmodule Api.Web.UserView do
   def render("user.json", %{user: user}) do
     %{id: user.id, username: user.username, email: user.email}
   end
+
+  def render("user_status.json", %{user: user}) do
+    %{id: user.id, username: user.username}
+  end
 end
