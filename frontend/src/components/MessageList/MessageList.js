@@ -8,10 +8,12 @@ import "./MessageList.css";
 
 class MessageList extends Component {
   static propTypes = {
-    messages: PropTypes.arrayOf({
-      id: PropTypes.number.isRequired,
-      inserted_at: PropTypes.string.isRequired
-    })
+    messages: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.number.isRequired,
+        inserted_at: PropTypes.string.isRequired
+      })
+    )
   };
   static defaultProps = {
     messages: []

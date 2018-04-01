@@ -186,6 +186,21 @@ defmodule Api.Chats do
   alias Api.Chats.Message
 
   @doc """
+  Returns the list of users from a channel.
+
+  ## Examples
+
+      iex> list_users(channel)
+      [%User{}, ...]
+
+  """
+  def list_users(channel) do
+    channel
+    |> Repo.preload(:users)
+    |> Map.get(:users)
+  end
+
+  @doc """
   Returns the list of messages from a channel.
 
   ## Examples

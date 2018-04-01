@@ -54,7 +54,8 @@ export default connect(
     channel: state.channel.currentChannel,
     socket: state.session.socket,
     phx_channel: state.channel.channel,
-    messages: state.channel.messages
+    messages: state.channel.messages,
+    userStatus: state.channel.userStatus
   }),
   { connectToChannel, leaveChannel, createMessage }
 )(ChannelContainer);
