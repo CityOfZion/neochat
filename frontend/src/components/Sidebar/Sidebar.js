@@ -1,73 +1,66 @@
 import React from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
+import ChannelLink from "./ChannelLink";
 import "./Sidebar.css";
 
 const Sidebar = ({
   channels,
-  router,
+  history,
   onLogoutClick,
   username: user,
   direct_messages
-}) => (
-  <div className="sidebar">
-    <div className="header">
-      <Link to="/">NeoChat</Link>
-    </div>
-    <div className="username">{user}</div>
-    <div className="channelsTitle">
-      Channels
-      <Link to="/" className="link">
-        <span className="fa fa-plus" />
-      </Link>
-    </div>
-    {channels.map(channel => (
-      <ChannelLink key={channel.id} channel={channel} />
-    ))}
-    <div className="channelsTitle">
-      Direct Messages
-      <Link to="/direct_messages" className="link">
-        <span className="fa fa-plus" />
-      </Link>
-    </div>
-    {direct_messages.map(channel => (
-      <ChannelLink key={channel.id} channel={channel} />
-    ))}
-    <div style={{ flex: "1" }} />
-    <button
-      onClick={() => onLogoutClick(router)}
-      className={["link", "logoutButton"].join(" ")}
-    >
-      <div className="channelLink">
-        <span className="fa fa-sign-out" />
+}) => {
+  if (!user) return null;
+  const directMessageLinks = direct_messages.map(channel => (
+    <ChannelLink key={channel.id} channel={channel} />
+  ));
+  const channelLinks = channels.map(channel => (
+    <ChannelLink key={channel.id} channel={channel} />
+  ));
+
+  return (
+    <div className="sidebar">
+      <div className="header">
+        <Link to="/">NeoChat</Link>
       </div>
-    </button>
-  </div>
-);
+      <div className="username">{user}</div>
+      <div className="channelsTitle">
+        Channels
+        <Link to="/" className="link">
+          <span className="fa fa-plus" />
+        </Link>
+        {channelLinks}
+      </div>
+      <div className="channelsTitle">
+        Direct Messages
+        <Link to="/direct_messages" className="link">
+          <span className="fa fa-plus" />
+        </Link>
+        {directMessageLinks}
+      </div>
+      <button
+        onClick={() => onLogoutClick(history)}
+        className="btn btn-primary"
+      >
+        Logout
+      </button>
+    </div>
+  );
+};
 
-const ChannelLink = ({ channel }) => (
-  <NavLink
-    to={`/channel/${channel.id}`}
-    className="channelLink"
-    activeClassName="channelLinkSelected"
-  >
-    <span>{channel.name}</span>
-  </NavLink>
-);
-
-ChannelLink.propTypes = {
-  channel: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    name: PropTypes.string.isRequired
-  }).isRequired
+Sidebar.defaultProps = {
+  username: ""
 };
 
 Sidebar.propTypes = {
-  router: PropTypes.object.isRequired,
+  match: PropTypes.object.isRequired,
+  location: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired,
   onLogoutClick: PropTypes.func.isRequired,
-  username: PropTypes.string.isRequired,
+  username: PropTypes.string,
   channels: PropTypes.array.isRequired,
   direct_messages: PropTypes.array.isRequired
 };
 
-export default Sidebar;
+export default withRouter(Sidebar);

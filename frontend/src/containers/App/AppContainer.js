@@ -24,8 +24,11 @@ class AppContainer extends Component {
     logout: PropTypes.func.isRequired,
     currentUserChannels: PropTypes.array.isRequired,
     currentUserDirectMessageChannels: PropTypes.array.isRequired,
-    currentUser: PropTypes.shape({ username: PropTypes.string.isRequired })
-      .isRequired
+    currentUser: PropTypes.shape({ username: PropTypes.string })
+  };
+
+  static defaultProps = {
+    currentUser: { username: "" }
   };
 
   componentDidMount() {
@@ -37,7 +40,7 @@ class AppContainer extends Component {
     }
   }
 
-  handleLogout = router => this.props.logout(router);
+  handleLogout = history => this.props.logout({ history });
 
   render() {
     return (
