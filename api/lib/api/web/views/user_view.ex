@@ -11,7 +11,12 @@ defmodule Api.Web.UserView do
   end
 
   def render("user.json", %{user: user}) do
-    %{id: user.id, username: user.username, email: user.email}
+    %{
+      id: user.id,
+      username: user.username,
+      email_hash: :crypto.hash(:md5, user.email)
+                  |> Base.encode16()
+    }
   end
 
   def render("user_status.json", %{user: user}) do

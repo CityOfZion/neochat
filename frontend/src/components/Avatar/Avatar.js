@@ -1,14 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
-import md5 from "md5";
 
 const Avatar = props => {
-  const hash = md5(props.email);
-  const uri = `https://secure.gravatar.com/avatar/${hash}`;
+  const uri = `https://secure.gravatar.com/avatar/${props.email_hash}`;
   return (
     <img
       src={uri}
-      alt={props.email}
+      alt={props.email_hash}
       style={{
         width: `${props.size}px`,
         height: `${props.size}px`,
@@ -20,7 +18,7 @@ const Avatar = props => {
 };
 
 Avatar.propTypes = {
-  email: PropTypes.string.isRequired,
+  email_hash: PropTypes.string.isRequired,
   size: PropTypes.number,
   style: PropTypes.object
 };
