@@ -1,6 +1,7 @@
 import { reset } from "redux-form";
 
-export const CHANNEL_CONNECTED_TO_CHANNEL = "CHANNEL_CONNECTED_TO_CHANNEL";
+export const CHANNEL_CONNECTED_TO_PHX_CHANNEL =
+  "CHANNEL_CONNECTED_TO_PHX_CHANNEL";
 export const MESSAGE_CREATED = "MESSAGE_CREATED";
 export const USER_LEFT_CHANNEL = "USER_LEFT_CHANNEL";
 export const USER_JOINED_CHANNEL = "USER_JOINED_CHANNEL";
@@ -10,18 +11,22 @@ export function connectToChannel(socket, channelId) {
     if (!socket) {
       return false;
     }
-    const channel = socket.channel(`channels:${channelId}`);
+    const phx_channel = socket.channel(`channels:${channelId}`);
 
-    channel.on("message_created", message => {
-      dispatch({ type: MESSAGE_CREATED, message });
+    phx_channel.on("message_created", message => {
+      dispatch({ type: MESSAGE_CREATED, message, channelId });
     });
 
-    channel.on("USER_JOINED_CHANNEL", message => {
-      dispatch({ type: USER_JOINED_CHANNEL, message });
+    phx_channel.on("USER_JOINED_CHANNEL", message => {
+      dispatch({ type: USER_JOINED_CHANNEL, message, channelId });
     });
 
-    channel.join().receive("ok", response => {
-      dispatch({ type: CHANNEL_CONNECTED_TO_CHANNEL, response, channel });
+    phx_channel.join().receive("ok", response => {
+      dispatch({
+        type: CHANNEL_CONNECTED_TO_PHX_CHANNEL,
+        response,
+        phx_channel
+      });
     });
 
     return false;

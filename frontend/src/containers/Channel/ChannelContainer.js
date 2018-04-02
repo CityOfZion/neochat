@@ -53,7 +53,7 @@ export default connect(
   state => ({
     channel: state.channel.currentChannel,
     socket: state.session.socket,
-    phx_channel: state.channel.channel,
+    phx_channel: state.channel.phx_channel,
     messages: state.channel.messages,
     userStatus: state.channel.userStatus
   }),
