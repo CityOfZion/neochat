@@ -5,7 +5,7 @@ import { Avatar } from "components";
 
 const Message = ({ message: { text, inserted_at, user } }) => (
   <div style={{ display: "flex", marginBottom: "10px" }}>
-    <Avatar email={user.email} style={{ marginRight: "10px" }} />
+    <Avatar email_hash={user.email_hash} style={{ marginRight: "10px" }} />
     <div>
       <div style={{ lineHeight: "1.2" }}>
         <b style={{ marginRight: "8px", fontSize: "14px" }}>{user.username}</b>
@@ -28,7 +28,7 @@ Message.propTypes = {
     text: PropTypes.string.isRequired,
     inserted_at: PropTypes.string.isRequired,
     user: {
-      email: PropTypes.string.isRequired,
+      email_hash: PropTypes.string.isRequired,
       username: PropTypes.string.isRequired
     }
   }).isRequired
