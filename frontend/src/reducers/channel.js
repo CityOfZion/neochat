@@ -1,5 +1,5 @@
 import {
-  CHANNEL_CONNECTED_TO_CHANNEL,
+  CHANNEL_CONNECTED_TO_PHX_CHANNEL,
   USER_LEFT_CHANNEL,
   USER_JOINED_CHANNEL,
   MESSAGE_CREATED
@@ -15,10 +15,10 @@ const sortByUsername = (a, b) => (a.username > b.username ? 1 : 0);
 
 export default function(state = initialState, action) {
   switch (action.type) {
-    case CHANNEL_CONNECTED_TO_CHANNEL:
+    case CHANNEL_CONNECTED_TO_PHX_CHANNEL:
       return {
         ...state,
-        channel: action.channel,
+        phx_channel: action.phx_channel,
         currentChannel: action.response.channel,
         userStatus: action.response.userStatus.sort(sortByUsername),
         messages: action.response.messages.reverse()
