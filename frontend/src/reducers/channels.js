@@ -2,7 +2,7 @@ import {
   CHANNEL_CONNECTED_TO_PHX_CHANNEL,
   MESSAGE_CREATED,
   USER_JOINED_CHANNEL
-} from "../actions/channel";
+} from "../actions/channels";
 
 const initialState = {
   all: [],
