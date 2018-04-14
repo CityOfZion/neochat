@@ -1,5 +1,5 @@
-import api from "../helpers/api";
 import { reset } from "redux-form";
+import api from "../helpers/api";
 
 export const CHANNEL_CONNECTED_TO_PHX_CHANNEL =
   "CHANNEL_CONNECTED_TO_PHX_CHANNEL";

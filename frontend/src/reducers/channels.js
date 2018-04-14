@@ -46,7 +46,7 @@ export default function(state = initialState, action) {
           [action.channelId]: {
             ...state.channels[action.channelId],
             messages: [
-              ...state["channels"][action.channelId]["messages"],
+              ...state.channels[action.channelId].messages,
               action.message
             ]
           }
@@ -60,7 +60,7 @@ export default function(state = initialState, action) {
           [action.channelId]: {
             ...state.channels[action.channelId],
             userStatus: [
-              ...state["channels"][action.channelId]["userStatus"],
+              ...state.channels[action.channelId].userStatus,
               action.message
             ].sort(sortByUsername)
           }

@@ -6,10 +6,15 @@ import { connectToChannel, createMessage } from "../../actions/channels";
 
 class ChannelContainer extends Component {
   static propTypes = {
-    channels: PropTypes.array.isRequired,
+    channels: PropTypes.any.isRequired,
     socket: PropTypes.any.isRequired,
     connectToChannel: PropTypes.func.isRequired,
-    createMessage: PropTypes.func.isRequired
+    createMessage: PropTypes.func.isRequired,
+    match: PropTypes.shape({
+      params: PropTypes.shape({
+        id: PropTypes.number.isRequired
+      }).isRequired
+    }).isRequired
   };
 
   componentDidMount() {
@@ -30,11 +35,11 @@ class ChannelContainer extends Component {
   }
 
   render() {
-    let channel = this.props.channels[this.props.match.params.id];
+    const channel = this.props.channels[this.props.match.params.id];
     if (!channel) {
       return "LOADING";
     }
-    return <Channel {...channel} createMessage={createMessage} />;
+    return <Channel {...channel} createMessage={this.props.createMessage} />;
   }
 }
 
