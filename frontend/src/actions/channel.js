@@ -33,15 +33,6 @@ export function connectToChannel(socket, channelId) {
   };
 }
 
-export function leaveChannel(channel) {
-  return dispatch => {
-    if (channel) {
-      channel.leave();
-    }
-    dispatch({ type: USER_LEFT_CHANNEL });
-  };
-}
-
 export function createMessage(phx_channel, data) {
   return dispatch =>
     new Promise((resolve, reject) => {
@@ -51,3 +42,12 @@ export function createMessage(phx_channel, data) {
         .receive("error", () => reject());
     });
 }
+
+// export function leaveChannel(channel) {
+//   return dispatch => {
+//     if (channel) {
+//       channel.leave();
+//     }
+//     dispatch({type: USER_LEFT_CHANNEL});
+//   };
+// }

@@ -2,27 +2,13 @@ import React, { Component } from "react";
 import { Channel } from "components";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import {
-  connectToChannel,
-  leaveChannel,
-  createMessage
-} from "../../actions/channel";
+import { connectToChannel, createMessage } from "../../actions/channel";
 
 class ChannelContainer extends Component {
   static propTypes = {
+    channels: PropTypes.array.isRequired,
     socket: PropTypes.any.isRequired,
-    phx_channel: PropTypes.any.isRequired,
-    channel: PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      name: PropTypes.string.isRequired
-    }).isRequired,
-    match: PropTypes.shape({
-      params: PropTypes.shape({
-        id: PropTypes.number.isRequired
-      }).isRequired
-    }).isRequired,
     connectToChannel: PropTypes.func.isRequired,
-    leaveChannel: PropTypes.func.isRequired,
     createMessage: PropTypes.func.isRequired
   };
 
@@ -31,8 +17,11 @@ class ChannelContainer extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.match.params.id !== this.props.match.params.id) {
-      this.props.leaveChannel(this.props.phx_channel);
+    const nextChannel = nextProps.channels[nextProps.match.params.id];
+    if (
+      nextProps.match.params.id !== this.props.match.params.id &&
+      !nextChannel
+    ) {
       this.props.connectToChannel(nextProps.socket, nextProps.match.params.id);
     }
     if (!this.props.socket && nextProps.socket) {
@@ -40,22 +29,22 @@ class ChannelContainer extends Component {
     }
   }
 
-  componentWillUnmount() {
-    this.props.leaveChannel(this.props.phx_channel);
-  }
-
   render() {
-    return <Channel {...this.props} />;
+    let channel = this.props.channels[this.props.match.params.id];
+    if (!channel) {
+      return "LOADING";
+    }
+    return <Channel {...channel} createMessage={createMessage} />;
   }
 }
 
 export default connect(
   state => ({
-    channel: state.channel.currentChannel,
-    socket: state.session.socket,
-    phx_channel: state.channel.phx_channel,
-    messages: state.channel.messages,
-    userStatus: state.channel.userStatus
+    channels: state.channels.channels,
+    socket: state.session.socket
   }),
-  { connectToChannel, leaveChannel, createMessage }
+  { connectToChannel, createMessage }
 )(ChannelContainer);
+
+// Their is an issue using currentChannel it's not updated if we don't need to reopen sockets.
+// Should use the route
