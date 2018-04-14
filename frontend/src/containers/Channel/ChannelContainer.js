@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Channel } from "components";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { connectToChannel, createMessage } from "../../actions/channel";
+import { connectToChannel, createMessage } from "../../actions/channels";
 
 class ChannelContainer extends Component {
   static propTypes = {
