@@ -3,21 +3,22 @@ import PropTypes from "prop-types";
 import { NavLink } from "react-router-dom";
 import "./Sidebar.css";
 
-const ChannelLink = ({ channel }) => (
+const ChannelLink = ({ name, id, newMessages }) => (
   <NavLink
-    to={`/channel/${channel.id}`}
-    className="channelLink"
+    to={`/channel/${id}`}
+    className={
+      newMessages ? "channelLink channelLinkNewMessages" : "channelLink"
+    }
     activeClassName="channelLinkSelected"
   >
-    <span>{channel.name}</span>
+    <span>{name} </span>
   </NavLink>
 );
 
 ChannelLink.propTypes = {
-  channel: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    name: PropTypes.string.isRequired
-  }).isRequired
+  id: PropTypes.number.isRequired,
+  name: PropTypes.string.isRequired,
+  newMessages: PropTypes.bool.isRequired
 };
 
 export default ChannelLink;
