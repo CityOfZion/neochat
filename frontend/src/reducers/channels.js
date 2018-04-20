@@ -1,7 +1,8 @@
 import {
   CHANNEL_CONNECTED_TO_PHX_CHANNEL,
   MESSAGE_CREATED,
-  USER_JOINED_CHANNEL
+  USER_JOINED_CHANNEL,
+  MESSAGES_READED
 } from "../actions/channels";
 
 const initialState = {
@@ -34,6 +35,7 @@ export default function(state = initialState, action) {
             phx_channel: action.phx_channel,
             userStatus: action.response.userStatus.sort(sortByUsername),
             messages: action.response.messages.reverse(),
+            newMessages: [],
             channel: action.response.channel
           }
         }
@@ -45,10 +47,24 @@ export default function(state = initialState, action) {
           ...state.channels,
           [action.channelId]: {
             ...state.channels[action.channelId],
-            messages: [
-              ...state.channels[action.channelId].messages,
+            newMessages: [
+              ...state.channels[action.channelId].newMessages,
               action.message
             ]
+          }
+        }
+      };
+    case MESSAGES_READED:
+      return {
+        ...state,
+        channels: {
+          ...state.channels,
+          [action.channelId]: {
+            ...state.channels[action.channelId],
+            messages: state.channels[action.channelId].messages.concat(
+              state.channels[action.channelId].newMessages
+            ),
+            newMessages: []
           }
         }
       };

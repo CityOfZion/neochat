@@ -2,7 +2,11 @@ import React, { Component } from "react";
 import { Channel } from "components";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { connectToChannel, createMessage } from "../../actions/channels";
+import {
+  connectToChannel,
+  createMessage,
+  messageReaded
+} from "../../actions/channels";
 
 class ChannelContainer extends Component {
   static propTypes = {
@@ -10,6 +14,7 @@ class ChannelContainer extends Component {
     socket: PropTypes.any.isRequired,
     connectToChannel: PropTypes.func.isRequired,
     createMessage: PropTypes.func.isRequired,
+    messageReaded: PropTypes.func.isRequired,
     match: PropTypes.shape({
       params: PropTypes.shape({
         id: PropTypes.number.isRequired
@@ -32,6 +37,13 @@ class ChannelContainer extends Component {
     if (!this.props.socket && nextProps.socket) {
       this.props.connectToChannel(nextProps.socket, nextProps.match.params.id);
     }
+    if (nextChannel && nextChannel.newMessages.length !== 0) {
+      console.log(
+        "NEXT",
+        nextProps.channels[nextProps.match.params.id].newMessages
+      );
+      this.props.messageReaded(nextProps.match.params.id);
+    }
   }
 
   render() {
@@ -48,7 +60,7 @@ export default connect(
     channels: state.channels.channels,
     socket: state.session.socket
   }),
-  { connectToChannel, createMessage }
+  { connectToChannel, createMessage, messageReaded }
 )(ChannelContainer);
 
 // Their is an issue using currentChannel it's not updated if we don't need to reopen sockets.

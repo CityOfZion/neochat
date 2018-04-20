@@ -6,17 +6,32 @@ import "./Sidebar.css";
 
 const Sidebar = ({
   channels,
+  currentUserChannels,
   history,
   onLogoutClick,
   username: user,
   direct_messages
 }) => {
   if (!user) return null;
+
+  const newMessages = id =>
+    channels[id] && channels[id].newMessages.length !== 0;
   const directMessageLinks = direct_messages.map(channel => (
-    <ChannelLink key={channel.id} channel={channel} />
+    <ChannelLink
+      key={channel.id}
+      name={channel.name}
+      id={channel.id}
+      newMessages={newMessages(channel.id)}
+    />
   ));
-  const channelLinks = channels.map(channel => (
-    <ChannelLink key={channel.id} channel={channel} />
+  const channelLinks = currentUserChannels.map(channel => (
+    <ChannelLink
+      key={channel.id}
+      name={channel.name}
+      id={channel.id}
+      x
+      newMessages={newMessages(channel.id)}
+    />
   ));
 
   return (
@@ -60,6 +75,7 @@ Sidebar.propTypes = {
   onLogoutClick: PropTypes.func.isRequired,
   username: PropTypes.string,
   channels: PropTypes.array.isRequired,
+  currentUserChannels: PropTypes.array.isRequired,
   direct_messages: PropTypes.array.isRequired
 };
 
