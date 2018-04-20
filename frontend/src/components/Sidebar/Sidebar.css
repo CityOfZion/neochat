@@ -53,6 +53,10 @@
   text-decoration: none;
 }
 
+.channelLinkNewMessages {
+  font-weight: bold;
+}
+
 .logoutButton {
   padding: 0;
   background: transparent;

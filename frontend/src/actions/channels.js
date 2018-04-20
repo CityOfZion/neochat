@@ -6,6 +6,7 @@ export const CHANNEL_CONNECTED_TO_PHX_CHANNEL =
 export const MESSAGE_CREATED = "MESSAGE_CREATED";
 export const USER_LEFT_CHANNEL = "USER_LEFT_CHANNEL";
 export const USER_JOINED_CHANNEL = "USER_JOINED_CHANNEL";
+export const MESSAGES_READED = "MESSAGE_READED";
 
 export function fetchChannels() {
   return dispatch =>
@@ -69,6 +70,12 @@ export function connectToChannel(socket, channelId) {
     });
 
     return false;
+  };
+}
+
+export function messageReaded(channelId) {
+  return dispatch => {
+    dispatch({ type: MESSAGES_READED, channelId });
   };
 }
 
