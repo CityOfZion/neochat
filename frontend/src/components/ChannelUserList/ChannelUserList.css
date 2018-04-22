@@ -11,3 +11,19 @@ li {
   height: 100%;
   border-left: 1px solid rgb(240, 240, 240);
 }
+
+.listHeader {
+  font-size: 10px;
+  font-style: italic;
+  margin-left: 10px;
+}
+
+.onlineStatus {
+  color: forestgreen;
+  margin-right: 5px;
+}
+
+.offlineStatus {
+  color: dimgrey;
+  margin-right: 5px;
+}

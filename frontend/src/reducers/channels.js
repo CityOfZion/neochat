@@ -1,8 +1,13 @@
 import {
+  FETCH_CHANNELS_SUCCESS,
+  FETCH_USER_CHANNELS_SUCCESS,
   CHANNEL_CONNECTED_TO_PHX_CHANNEL,
   MESSAGE_CREATED,
   USER_JOINED_CHANNEL,
-  MESSAGES_READED
+  MESSAGES_READED,
+  ROOM_PRESENCE_UPDATE,
+  CREATE_CHANNEL_SUCCESS,
+  CHANNEL_JOINED
 } from "../actions/channels";
 
 const initialState = {
@@ -12,16 +17,30 @@ const initialState = {
   currentChannel: {}
 };
 
+const getUserStatus = (userList, presentUsers) => {
+  const presentUsersId = presentUsers.map(({ id }) => id);
+  const onlineUsers = userList
+    .filter(({ id }) => presentUsersId.includes(id))
+    .map(user => ({ ...user, status: "online" }))
+    .sort(sortByUsername);
+  const offlineUsers = userList
+    .filter(({ id }) => !presentUsersId.includes(id))
+    .map(user => ({ ...user, status: "offline" }))
+    .sort(sortByUsername);
+
+  return { offline: offlineUsers, online: onlineUsers };
+};
 const sortByUsername = (a, b) => (a.username > b.username ? 1 : 0);
 
 export default function(state = initialState, action) {
+  let newUserList = [];
   switch (action.type) {
-    case "FETCH_CHANNELS_SUCCESS":
+    case FETCH_CHANNELS_SUCCESS:
       return {
         ...state,
         all: action.response.data
       };
-    case "FETCH_USER_CHANNELS_SUCCESS":
+    case FETCH_USER_CHANNELS_SUCCESS:
       return {
         ...state,
         currentUserChannels: action.response.data
@@ -33,7 +52,9 @@ export default function(state = initialState, action) {
           ...state.channels,
           [action.response.channel.id]: {
             phx_channel: action.phx_channel,
-            userStatus: action.response.userStatus.sort(sortByUsername),
+            userList: action.response.userList,
+            userStatus: getUserStatus(action.response.userList, []),
+            presentUsers: [],
             messages: action.response.messages.reverse(),
             newMessages: [],
             channel: action.response.channel
@@ -69,20 +90,40 @@ export default function(state = initialState, action) {
         }
       };
     case USER_JOINED_CHANNEL:
+      newUserList = [
+        ...state.channels[action.channelId].userList,
+        action.message
+      ];
       return {
         ...state,
         channels: {
           ...state.channels,
           [action.channelId]: {
             ...state.channels[action.channelId],
-            userStatus: [
-              ...state.channels[action.channelId].userStatus,
-              action.message
-            ].sort(sortByUsername)
+            userList: newUserList,
+            userStatus: getUserStatus(
+              newUserList,
+              state.channels[action.channelId].presentUsers
+            )
           }
         }
       };
-    case "CREATE_CHANNEL_SUCCESS":
+    case ROOM_PRESENCE_UPDATE:
+      return {
+        ...state,
+        channels: {
+          ...state.channels,
+          [action.channelId]: {
+            ...state.channels[action.channelId],
+            presentUsers: action.presentUsers,
+            userStatus: getUserStatus(
+              state.channels[action.channelId].userList,
+              action.presentUsers
+            )
+          }
+        }
+      };
+    case CREATE_CHANNEL_SUCCESS:
       return {
         ...state,
         all: [action.response.data, ...state.all],
@@ -91,7 +132,7 @@ export default function(state = initialState, action) {
           action.response.data
         ]
       };
-    case "CHANNEL_JOINED":
+    case CHANNEL_JOINED:
       return {
         ...state,
         currentUserChannels: [

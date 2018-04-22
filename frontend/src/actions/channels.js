@@ -1,4 +1,5 @@
 import { reset } from "redux-form";
+import { Presence } from "phoenix";
 import api from "../helpers/api";
 
 export const CHANNEL_CONNECTED_TO_PHX_CHANNEL =
@@ -7,6 +8,19 @@ export const MESSAGE_CREATED = "MESSAGE_CREATED";
 export const USER_LEFT_CHANNEL = "USER_LEFT_CHANNEL";
 export const USER_JOINED_CHANNEL = "USER_JOINED_CHANNEL";
 export const MESSAGES_READED = "MESSAGE_READED";
+export const ROOM_PRESENCE_UPDATE = "ROOM_PRESENCE_UPDATE";
+export const CREATE_CHANNEL_SUCCESS = "CREATE_CHANNEL_SUCCESS";
+export const CHANNEL_JOINED = "CHANNEL_JOINED";
+export const FETCH_CHANNELS_SUCCESS = "FETCH_CHANNELS_SUCCESS";
+export const FETCH_USER_CHANNELS_SUCCESS = "FETCH_USER_CHANNELS_SUCCESS";
+
+const syncPresentUsers = (dispatch, presences, channelId) => {
+  const presentUsers = [];
+  Presence.list(presences, (id, { metas: [first] }) => first.user).map(user =>
+    presentUsers.push(user)
+  );
+  dispatch({ type: "ROOM_PRESENCE_UPDATE", channelId, presentUsers });
+};
 
 export function fetchChannels() {
   return dispatch =>
@@ -52,6 +66,17 @@ export function connectToChannel(socket, channelId) {
       return false;
     }
     const phx_channel = socket.channel(`channels:${channelId}`);
+    let presences = {};
+
+    phx_channel.on("presence_state", state => {
+      presences = Presence.syncState(presences, state);
+      syncPresentUsers(dispatch, presences, channelId);
+    });
+
+    phx_channel.on("presence_diff", diff => {
+      presences = Presence.syncDiff(presences, diff);
+      syncPresentUsers(dispatch, presences, channelId);
+    });
 
     phx_channel.on("message_created", message => {
       dispatch({ type: MESSAGE_CREATED, message, channelId });

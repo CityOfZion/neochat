@@ -73,7 +73,7 @@ defmodule Api.Web.ChannelController do
           Endpoint.broadcast!(
             "channels:" <> channel_id,
             @user_joined_channel,
-            %{id: current_user.id, username: current_user.username}
+            UserView.render("user_summary.json", %{user: current_user})
           )
           conn
           |> put_status(:created)
