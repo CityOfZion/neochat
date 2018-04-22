@@ -69,6 +69,6 @@ Channel.propTypes = {
   phx_channel: PropTypes.object.isRequired,
   channel: PropTypes.object.isRequired,
   messages: PropTypes.array.isRequired,
-  userStatus: PropTypes.array.isRequired
+  userStatus: PropTypes.object.isRequired
 };
 export default Channel;

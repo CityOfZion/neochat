@@ -7,6 +7,7 @@ defmodule Api.Web.ChatChannel do
   alias Api.Web.ChangesetView
   alias Api.Web.ChannelView
   alias Api.Web.UserView
+  alias Api.Web.Presence
   alias Phoenix.View
   require Logger
 
@@ -22,12 +23,13 @@ defmodule Api.Web.ChatChannel do
       users = Chats.list_users(channel)
 
       response = %{
-        userStatus: View.render_many(users, UserView, "user_status.json"),
+        userList: View.render_many(users, UserView, "user_summary.json"),
         channel: View.render_one(channel, ChannelView, "channel.json"),
         messages: View.render_many(paged_messages.entries, MessageView, "message.json"),
         pagination: Pagination.pagination(paged_messages)
       }
 
+      send(self(), :after_join)
       {:ok, response, assign(socket, :channel, channel)}
     else
       {:error, :not_in_channel}
@@ -37,6 +39,13 @@ defmodule Api.Web.ChatChannel do
   def join(unknown_channel, _, _) do
     Logger.warn("tried to join #{unknown_channel} failled")
     {:error, %{reason: "unauthorized"}}
+  end
+
+  def handle_info(:after_join, socket) do
+    user = socket.assigns.current_user
+    Presence.track(socket, user.id, %{user: View.render_one(user, UserView, "user_summary.json")})
+    push(socket, "presence_state", Presence.list(socket))
+    {:noreply, socket}
   end
 
   def handle_in("new_message", params, socket) do
