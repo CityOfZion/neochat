@@ -30,6 +30,6 @@ matrix:
       script:
         - cd frontend
         - npm install
-        - ./node_modules/.bin/eslint --ext .jsx --ext .js src/
+        - ./node_modules/.bin/eslint --ext .jsx --ext .js --max-warnings=0 src/
         - npm test
         - npm run build
