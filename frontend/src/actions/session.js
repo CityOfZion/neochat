@@ -7,14 +7,14 @@ import { fetchUserDirectMessageChannels } from "./direct_messages";
 const WEBSOCKET_URL = process.env.REACT_APP_API_URL.replace(
   /(https|http)/,
   "ws"
-).replace("/api", ""); // new line
+).replace("/api", "");
 
 function connectToSocket(dispatch) {
   const token = JSON.parse(localStorage.getItem("token"));
   const socket = new Socket(`${WEBSOCKET_URL}/socket`, {
     params: { token },
     logger: (kind, msg, data) => {
-      console.log(`${kind}: ${msg}`, data);
+      // console.log(`${kind}: ${msg}`, data);
     }
   });
   socket.connect();
@@ -65,7 +65,7 @@ export function authenticate() {
         setCurrentUser(dispatch, response);
       })
       .catch(() => {
-        console.warn("Failed to renew token");
+        // console.warn("Failed to renew token");
         localStorage.removeItem("token");
         window.location = "/login";
       });

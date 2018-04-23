@@ -14,8 +14,12 @@ const Sidebar = ({
 }) => {
   if (!user) return null;
 
+  // TODO channels[id] should not be undefined
   const newMessages = id =>
-    channels[id] && channels[id].newMessages.length !== 0;
+    channels[id] !== undefined &&
+    channels[id] &&
+    channels[id].newMessages.length !== 0;
+
   const directMessageLinks = direct_messages.map(channel => (
     <ChannelLink
       key={channel.id}
@@ -24,12 +28,12 @@ const Sidebar = ({
       newMessages={newMessages(channel.id)}
     />
   ));
+
   const channelLinks = currentUserChannels.map(channel => (
     <ChannelLink
       key={channel.id}
       name={channel.name}
       id={channel.id}
-      x
       newMessages={newMessages(channel.id)}
     />
   ));
@@ -74,7 +78,7 @@ Sidebar.propTypes = {
   history: PropTypes.object.isRequired,
   onLogoutClick: PropTypes.func.isRequired,
   username: PropTypes.string,
-  channels: PropTypes.array.isRequired,
+  channels: PropTypes.any.isRequired,
   currentUserChannels: PropTypes.array.isRequired,
   direct_messages: PropTypes.array.isRequired
 };

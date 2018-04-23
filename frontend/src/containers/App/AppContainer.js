@@ -24,7 +24,7 @@ class AppContainer extends Component {
     logout: PropTypes.func.isRequired,
     currentUserChannels: PropTypes.array.isRequired,
     currentUserDirectMessageChannels: PropTypes.array.isRequired,
-    channels: PropTypes.array.isRequired,
+    channels: PropTypes.any.isRequired,
     currentUser: PropTypes.shape({ username: PropTypes.string })
   };
 

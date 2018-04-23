@@ -27,10 +27,10 @@ Message.propTypes = {
   message: PropTypes.shape({
     text: PropTypes.string.isRequired,
     inserted_at: PropTypes.string.isRequired,
-    user: {
+    user: PropTypes.shape({
       email_hash: PropTypes.string.isRequired,
       username: PropTypes.string.isRequired
-    }
+    }).isRequired
   }).isRequired
 };
 

@@ -17,7 +17,7 @@ class ChannelContainer extends Component {
     messageReaded: PropTypes.func.isRequired,
     match: PropTypes.shape({
       params: PropTypes.shape({
-        id: PropTypes.number.isRequired
+        id: PropTypes.string.isRequired
       }).isRequired
     }).isRequired
   };
@@ -38,10 +38,6 @@ class ChannelContainer extends Component {
       this.props.connectToChannel(nextProps.socket, nextProps.match.params.id);
     }
     if (nextChannel && nextChannel.newMessages.length !== 0) {
-      console.log(
-        "NEXT",
-        nextProps.channels[nextProps.match.params.id].newMessages
-      );
       this.props.messageReaded(nextProps.match.params.id);
     }
   }

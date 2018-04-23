@@ -11,13 +11,31 @@ class MessageFormContainer extends Component {
   };
 
   handleSubmit = data => this.props.onSubmit(data);
+  handleChange = machin => {
+    document.getElementById("messageForm").submit();
+  };
 
   render() {
     const { handleSubmit, submitting } = this.props;
 
     return (
-      <form onSubmit={handleSubmit(this.handleSubmit)} className="form">
+      <form
+        id="messageForm"
+        onSubmit={handleSubmit(this.handleSubmit)}
+        className="form"
+      >
         <div className="input-group">
+          <input
+            id="file"
+            name="file"
+            type="file"
+            className="inputFile"
+            onChange={this.handleChange}
+          />
+
+          <label htmlFor="file" className="btn button buttonFile">
+            +
+          </label>
           <Field
             name="text"
             type="text"

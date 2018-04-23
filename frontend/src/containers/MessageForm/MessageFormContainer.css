@@ -1,16 +1,30 @@
 .form {
-    padding: 0px 10px 10px 10px;
-    background: #fff;
+  padding: 0px 10px 10px 10px;
+  background: #fff;
 }
 
 .input {
-    border-width: 2px;
-    border-color: rgb(214, 214, 214);
+  border-width: 2px;
+  border-color: rgb(214, 214, 214);
 }
 
 .button {
-    color: rgb(80, 80, 80);
-    background: rgb(214, 214, 214);
-    border-width: 2px;
-    border-color: rgb(214, 214, 214);
+  color: rgb(80, 80, 80);
+  background: rgb(214, 214, 214);
+  border-width: 2px;
+  border-color: rgb(214, 214, 214);
+}
+
+.inputFile {
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+}
+
+.buttonFile {
+  margin-bottom: 0;
+  margin-right: 0.5em;
 }
