@@ -4,26 +4,32 @@ import api from "../helpers/api";
 import { fetchUserChannels } from "./channels";
 import { fetchUserDirectMessageChannels } from "./direct_messages";
 
+export const SOCKET_CONNECTED = "SOCKET_CONNECTED";
+export const AUTHENTICATION_SUCCESS = "AUTHENTICATION_SUCCESS";
+export const AUTHENTICATION_REQUEST = "AUTHENTICATION_REQUEST";
+export const AUTHENTICATION_FAILURE = "AUTHENTICATION_FAILURE";
+export const LOGOUT = "LOGOUT";
+
 const WEBSOCKET_URL = process.env.REACT_APP_API_URL.replace(
   /(https|http)/,
   "ws"
-).replace("/api", ""); // new line
+).replace("/api", "");
 
 function connectToSocket(dispatch) {
   const token = JSON.parse(localStorage.getItem("token"));
   const socket = new Socket(`${WEBSOCKET_URL}/socket`, {
     params: { token },
     logger: (kind, msg, data) => {
-      console.log(`${kind}: ${msg}`, data);
+      // console.log(`${kind}: ${msg}`, data);
     }
   });
   socket.connect();
-  dispatch({ type: "SOCKET_CONNECTED", socket });
+  dispatch({ type: SOCKET_CONNECTED, socket });
 }
 
 function setCurrentUser(dispatch, response) {
   localStorage.setItem("token", JSON.stringify(response.meta.token));
-  dispatch({ type: "AUTHENTICATION_SUCCESS", response });
+  dispatch({ type: AUTHENTICATION_SUCCESS, response });
   dispatch(fetchUserChannels());
   dispatch(fetchUserDirectMessageChannels());
   connectToSocket(dispatch);
@@ -51,25 +57,25 @@ export function logout({ history }) {
   return dispatch =>
     api.delete("/sessions").then(() => {
       localStorage.removeItem("token");
-      dispatch({ type: "LOGOUT" });
+      dispatch({ type: LOGOUT });
       history.push("/login");
     });
 }
 
 export function authenticate() {
   return dispatch => {
-    dispatch({ type: "AUTHENTICATION_REQUEST" });
+    dispatch({ type: AUTHENTICATION_REQUEST });
     return api
       .post("/sessions/refresh")
       .then(response => {
         setCurrentUser(dispatch, response);
       })
       .catch(() => {
-        console.warn("Failed to renew token");
+        // console.warn("Failed to renew token");
         localStorage.removeItem("token");
         window.location = "/login";
       });
   };
 }
 
-export const unauthenticate = () => ({ type: "AUTHENTICATION_FAILURE" });
+export const unauthenticate = () => ({ type: AUTHENTICATION_FAILURE });

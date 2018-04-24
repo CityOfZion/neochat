@@ -5,7 +5,6 @@ import api from "../helpers/api";
 export const CHANNEL_CONNECTED_TO_PHX_CHANNEL =
   "CHANNEL_CONNECTED_TO_PHX_CHANNEL";
 export const MESSAGE_CREATED = "MESSAGE_CREATED";
-export const USER_LEFT_CHANNEL = "USER_LEFT_CHANNEL";
 export const USER_JOINED_CHANNEL = "USER_JOINED_CHANNEL";
 export const MESSAGES_READED = "MESSAGE_READED";
 export const ROOM_PRESENCE_UPDATE = "ROOM_PRESENCE_UPDATE";
@@ -19,27 +18,27 @@ const syncPresentUsers = (dispatch, presences, channelId) => {
   Presence.list(presences, (id, { metas: [first] }) => first.user).map(user =>
     presentUsers.push(user)
   );
-  dispatch({ type: "ROOM_PRESENCE_UPDATE", channelId, presentUsers });
+  dispatch({ type: ROOM_PRESENCE_UPDATE, channelId, presentUsers });
 };
 
 export function fetchChannels() {
   return dispatch =>
     api.fetch("/channels").then(response => {
-      dispatch({ type: "FETCH_CHANNELS_SUCCESS", response });
+      dispatch({ type: FETCH_CHANNELS_SUCCESS, response });
     });
 }
 
 export function fetchUserChannels() {
   return dispatch =>
     api.fetch(`/users/channels`).then(response => {
-      dispatch({ type: "FETCH_USER_CHANNELS_SUCCESS", response });
+      dispatch({ type: FETCH_USER_CHANNELS_SUCCESS, response });
     });
 }
 
 export function createChannel(data, router) {
   return dispatch =>
     api.post("/channels", data).then(response => {
-      dispatch({ type: "CREATE_CHANNEL_SUCCESS", response });
+      dispatch({ type: CREATE_CHANNEL_SUCCESS, response });
       router.history.push(`/channel/${response.data.id}`);
     });
 }
@@ -47,7 +46,7 @@ export function createChannel(data, router) {
 export function joinChannel(channelId, router) {
   return dispatch =>
     api.post(`/channels/${channelId}/join`).then(response => {
-      dispatch({ type: "CHANNEL_JOINED", response });
+      dispatch({ type: CHANNEL_JOINED, response });
       router.history.push(`/channel/${response.data.id}`);
     });
 }
@@ -82,7 +81,7 @@ export function connectToChannel(socket, channelId) {
       dispatch({ type: MESSAGE_CREATED, message, channelId });
     });
 
-    phx_channel.on("USER_JOINED_CHANNEL", message => {
+    phx_channel.on(USER_JOINED_CHANNEL, message => {
       dispatch({ type: USER_JOINED_CHANNEL, message, channelId });
     });
 
@@ -102,6 +101,21 @@ export function messageReaded(channelId) {
   return dispatch => {
     dispatch({ type: MESSAGES_READED, channelId });
   };
+}
+
+export function uploadFile(phx_channel, files) {
+  return dispatch =>
+    api.upload(`/upload`, files[0]).then(
+      object =>
+        new Promise((resolve, reject) => {
+          phx_channel
+            .push("new_message", {
+              text: JSON.stringify({ ...object, neochat: "" })
+            })
+            .receive("ok", () => resolve(dispatch(reset("newMessage"))))
+            .receive("error", () => reject());
+        })
+    );
 }
 
 export function createMessage(phx_channel, data) {

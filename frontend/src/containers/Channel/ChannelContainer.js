@@ -5,21 +5,28 @@ import { connect } from "react-redux";
 import {
   connectToChannel,
   createMessage,
+  uploadFile,
   messageReaded
 } from "../../actions/channels";
 
 class ChannelContainer extends Component {
   static propTypes = {
     channels: PropTypes.any.isRequired,
-    socket: PropTypes.any.isRequired,
+    socket: PropTypes.any,
     connectToChannel: PropTypes.func.isRequired,
     createMessage: PropTypes.func.isRequired,
+    uploadFile: PropTypes.func.isRequired,
     messageReaded: PropTypes.func.isRequired,
     match: PropTypes.shape({
       params: PropTypes.shape({
-        id: PropTypes.number.isRequired
+        id: PropTypes.string.isRequired
       }).isRequired
     }).isRequired
+  };
+
+  static defaultProps = {
+    // TODO is socket really required ? If initialized to empty at startup, it will logout the user, undefined works
+    socket: undefined
   };
 
   componentDidMount() {
@@ -38,10 +45,6 @@ class ChannelContainer extends Component {
       this.props.connectToChannel(nextProps.socket, nextProps.match.params.id);
     }
     if (nextChannel && nextChannel.newMessages.length !== 0) {
-      console.log(
-        "NEXT",
-        nextProps.channels[nextProps.match.params.id].newMessages
-      );
       this.props.messageReaded(nextProps.match.params.id);
     }
   }
@@ -51,7 +54,13 @@ class ChannelContainer extends Component {
     if (!channel) {
       return "LOADING";
     }
-    return <Channel {...channel} createMessage={this.props.createMessage} />;
+    return (
+      <Channel
+        {...channel}
+        createMessage={this.props.createMessage}
+        uploadFile={this.props.uploadFile}
+      />
+    );
   }
 }
 
@@ -60,7 +69,7 @@ export default connect(
     channels: state.channels.channels,
     socket: state.session.socket
   }),
-  { connectToChannel, createMessage, messageReaded }
+  { connectToChannel, createMessage, uploadFile, messageReaded }
 )(ChannelContainer);
 
 // Their is an issue using currentChannel it's not updated if we don't need to reopen sockets.

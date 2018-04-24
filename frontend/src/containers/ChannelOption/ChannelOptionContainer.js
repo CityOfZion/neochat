@@ -27,7 +27,7 @@ class ChannelOptionContainer extends Component {
     const { id } = this.props.match.params;
     getOptedOutUserChannel(id)
       .then(response => this.setState({ users: response.data }))
-      .catch(error => console.log(error));
+      .catch(error => {});
   }
 
   render() {
@@ -39,7 +39,7 @@ class ChannelOptionContainer extends Component {
           const users = this.state.users.filter(user => user.id !== user_id);
           this.setState({ users });
         })
-        .catch(error => console.log(error));
+        .catch(error => {});
     };
 
     return (
