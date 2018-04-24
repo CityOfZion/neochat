@@ -26,5 +26,7 @@ defmodule Api.Web.Router do
     get("/channels/:id/opted_out", ChannelController, :opted_out_users)
     post("/channels/:id/opt_in", ChannelController, :opt_in_user)
 
+    post("/upload", FileController, :upload)
+
   end
 end

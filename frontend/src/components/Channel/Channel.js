@@ -16,6 +16,10 @@ class Channel extends Component {
     this.props.createMessage(this.props.phx_channel, data);
   };
 
+  handleFileUpload = data => {
+    this.props.uploadFile(this.props.phx_channel, data);
+  };
+
   renderChannel = () => (
     <div style={{ display: "flex", flexDirection: "row", height: "100%" }}>
       <div
@@ -30,7 +34,10 @@ class Channel extends Component {
           <MessageList messages={this.props.messages} />
         </div>
         <div style={{ height: "50px" }}>
-          <MessageFormContainer onSubmit={this.handleMessageCreate} />
+          <MessageFormContainer
+            onFileUpload={this.handleFileUpload}
+            onSubmit={this.handleMessageCreate}
+          />
         </div>
       </div>
       <div style={{ width: "250px", textAlign: "left" }}>
@@ -66,6 +73,7 @@ class Channel extends Component {
 
 Channel.propTypes = {
   createMessage: PropTypes.func.isRequired,
+  uploadFile: PropTypes.func.isRequired,
   phx_channel: PropTypes.object.isRequired,
   channel: PropTypes.object.isRequired,
   messages: PropTypes.array.isRequired,

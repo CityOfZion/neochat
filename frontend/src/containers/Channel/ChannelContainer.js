@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import {
   connectToChannel,
   createMessage,
+  uploadFile,
   messageReaded
 } from "../../actions/channels";
 
@@ -14,6 +15,7 @@ class ChannelContainer extends Component {
     socket: PropTypes.any,
     connectToChannel: PropTypes.func.isRequired,
     createMessage: PropTypes.func.isRequired,
+    uploadFile: PropTypes.func.isRequired,
     messageReaded: PropTypes.func.isRequired,
     match: PropTypes.shape({
       params: PropTypes.shape({
@@ -52,7 +54,13 @@ class ChannelContainer extends Component {
     if (!channel) {
       return "LOADING";
     }
-    return <Channel {...channel} createMessage={this.props.createMessage} />;
+    return (
+      <Channel
+        {...channel}
+        createMessage={this.props.createMessage}
+        uploadFile={this.props.uploadFile}
+      />
+    );
   }
 }
 
@@ -61,7 +69,7 @@ export default connect(
     channels: state.channels.channels,
     socket: state.session.socket
   }),
-  { connectToChannel, createMessage, messageReaded }
+  { connectToChannel, createMessage, uploadFile, messageReaded }
 )(ChannelContainer);
 
 // Their is an issue using currentChannel it's not updated if we don't need to reopen sockets.
