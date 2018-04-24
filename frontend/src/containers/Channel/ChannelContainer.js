@@ -11,7 +11,8 @@ import {
 class ChannelContainer extends Component {
   static propTypes = {
     channels: PropTypes.any.isRequired,
-    socket: PropTypes.any.isRequired,
+    // TODO is socket really required ? If initialized to empty at startup, it will logout the user
+    // socket: PropTypes.any.isRequired,
     connectToChannel: PropTypes.func.isRequired,
     createMessage: PropTypes.func.isRequired,
     messageReaded: PropTypes.func.isRequired,

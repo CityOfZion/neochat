@@ -1,7 +1,6 @@
 const initialState = {
   isAuthenticated: false,
   willAuthenticate: true,
-  socket: {},
   currentUser: {}
 };
 
