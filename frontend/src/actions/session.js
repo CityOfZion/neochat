@@ -1,9 +1,8 @@
 import { reset } from "redux-form";
 import { Socket } from "phoenix";
 import api from "../helpers/api";
-import { fetchUserChannels } from "./channels";
+import { fetchUserChannels, connectToChannels } from "./channels";
 import { fetchUserDirectMessageChannels } from "./direct_messages";
-
 export const SOCKET_CONNECTED = "SOCKET_CONNECTED";
 export const AUTHENTICATION_SUCCESS = "AUTHENTICATION_SUCCESS";
 export const AUTHENTICATION_REQUEST = "AUTHENTICATION_REQUEST";
@@ -25,14 +24,18 @@ function connectToSocket(dispatch) {
   });
   socket.connect();
   dispatch({ type: SOCKET_CONNECTED, socket });
+  return socket;
 }
 
 function setCurrentUser(dispatch, response) {
   localStorage.setItem("token", JSON.stringify(response.meta.token));
   dispatch({ type: AUTHENTICATION_SUCCESS, response });
-  dispatch(fetchUserChannels());
-  dispatch(fetchUserDirectMessageChannels());
-  connectToSocket(dispatch);
+  const userChannels = dispatch(fetchUserChannels());
+  const userDirectMessage = dispatch(fetchUserDirectMessageChannels());
+  const socket = connectToSocket(dispatch);
+  Promise.all([userChannels, userDirectMessage]).then(f => {
+    dispatch(connectToChannels(socket));
+  });
 }
 
 export function login(data, { history }) {
