@@ -3,6 +3,7 @@ import { Socket } from "phoenix";
 import api from "../helpers/api";
 import { fetchUserChannels, connectToChannels } from "./channels";
 import { fetchUserDirectMessageChannels } from "./direct_messages";
+
 export const SOCKET_CONNECTED = "SOCKET_CONNECTED";
 export const AUTHENTICATION_SUCCESS = "AUTHENTICATION_SUCCESS";
 export const AUTHENTICATION_REQUEST = "AUTHENTICATION_REQUEST";
