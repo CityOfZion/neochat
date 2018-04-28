@@ -59,6 +59,21 @@ export function optInUserForChannel(channelId, user_id) {
   return api.post(`/channels/${channelId}/opt_in`, { user_id });
 }
 
+export function connectToChannels(socket) {
+  return (dispatch, getState) => {
+    const { currentUserDirectMessageChannels } = getState().direct_messages;
+    const { currentUserChannels } = getState().channels;
+
+    currentUserDirectMessageChannels.forEach(({ id }) => {
+      dispatch(connectToChannel(socket, id));
+    });
+
+    currentUserChannels.forEach(({ id }) => {
+      dispatch(connectToChannel(socket, id));
+    });
+  };
+}
+
 export function connectToChannel(socket, channelId) {
   return dispatch => {
     if (!socket) {
