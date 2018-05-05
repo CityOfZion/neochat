@@ -26,7 +26,6 @@ class MessageList extends Component {
         key={message.id}
         message={message}
         phx_channel={this.props.phx_channel}
-        userId={this.props.userId}
       />
     ));
 

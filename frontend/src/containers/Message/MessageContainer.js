@@ -2,9 +2,10 @@ import React from "react";
 import PropTypes from "prop-types";
 import moment from "moment";
 import { Avatar } from "components";
-import "./Message.css";
 import { connect } from "react-redux";
+import "./Message.css";
 import { deleteMessage } from "../../actions/channels";
+
 const WEB_URL = process.env.REACT_APP_API_URL.replace("/api", "");
 
 const renderText = text => {
@@ -28,10 +29,10 @@ const MessageContainer = ({
   message: { text, inserted_at, user, id },
   userId,
   phx_channel,
-  deleteMessage
+  connectedDeleteMessage
 }) => {
   const triggerDelete = () => {
-    deleteMessage(phx_channel, id);
+    connectedDeleteMessage(phx_channel, id);
   };
   return (
     <div className="messageBlock">
@@ -55,7 +56,9 @@ const MessageContainer = ({
       {userId === user.id ? (
         <div className="messageOptions">
           <button className="btn" onClick={triggerDelete}>
-            ❌
+            <span role="img" aria-label="delete">
+              ❌
+            </span>
           </button>
         </div>
       ) : (
@@ -76,12 +79,13 @@ MessageContainer.propTypes = {
     }).isRequired
   }).isRequired,
   userId: PropTypes.number.isRequired,
-  deleteMessage: PropTypes.func.isRequired
+  connectedDeleteMessage: PropTypes.func.isRequired,
+  phx_channel: PropTypes.object.isRequired
 };
 
 export default connect(
   state => ({
     userId: state.session.currentUser.id
   }),
-  { deleteMessage }
+  { connectedDeleteMessage: deleteMessage }
 )(MessageContainer);
