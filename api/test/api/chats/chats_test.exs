@@ -39,5 +39,11 @@ defmodule Api.ChatsTest do
 
       %{type: :direct_message} = Chats.find_direct_message(user_1.id, user_2.id)
     end
+
+    test "delete", %{users: [user_1, user_2], channel: channel} do
+      {:ok, %{id: id}} = Chats.create_message(channel, user_1, %{text: "HI"})
+      assert {:error, :not_allowed} == Chats.delete_message(id, user_2.id)
+      assert Kernel.match?({:ok, _}, Chats.delete_message(id, user_1.id))
+    end
   end
 end

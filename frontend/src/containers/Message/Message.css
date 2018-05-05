@@ -1,0 +1,17 @@
+.messageBlock {
+  display: flex;
+  marginBottom: 10px;
+  justify-content: space-between;
+}
+.messageOptions {
+  display: none;
+}
+.messageContent {
+  flex-grow: 1;
+}
+.messageBlock:hover {
+  background: #FAFAFA;
+}
+.messageBlock:hover .messageOptions {
+  display: block;
+}

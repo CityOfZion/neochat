@@ -12,6 +12,7 @@ export const CREATE_CHANNEL_SUCCESS = "CREATE_CHANNEL_SUCCESS";
 export const CHANNEL_JOINED = "CHANNEL_JOINED";
 export const FETCH_CHANNELS_SUCCESS = "FETCH_CHANNELS_SUCCESS";
 export const FETCH_USER_CHANNELS_SUCCESS = "FETCH_USER_CHANNELS_SUCCESS";
+export const MESSAGE_DELETED = "MESSAGE_DELETED";
 
 const syncPresentUsers = (dispatch, presences, channelId) => {
   const presentUsers = [];
@@ -96,6 +97,11 @@ export function connectToChannel(socket, channelId) {
       dispatch({ type: MESSAGE_CREATED, message, channelId });
     });
 
+    phx_channel.on("message_deleted", message => {
+      const { id: messageId } = message;
+      dispatch({ type: MESSAGE_DELETED, messageId, channelId });
+    });
+
     phx_channel.on(USER_JOINED_CHANNEL, message => {
       dispatch({ type: USER_JOINED_CHANNEL, message, channelId });
     });
@@ -139,6 +145,16 @@ export function createMessage(phx_channel, data) {
       phx_channel
         .push("new_message", data)
         .receive("ok", () => resolve(dispatch(reset("newMessage"))))
+        .receive("error", () => reject());
+    });
+}
+
+export function deleteMessage(phx_channel, id) {
+  return dispatch =>
+    new Promise((resolve, reject) => {
+      phx_channel
+        .push("delete_message", { id })
+        .receive("ok", () => resolve())
         .receive("error", () => reject());
     });
 }

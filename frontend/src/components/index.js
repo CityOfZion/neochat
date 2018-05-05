@@ -18,7 +18,6 @@ export { default as NewChannelForm } from "./NewChannelForm/NewChannelForm";
 export { default as Sidebar } from "./Sidebar/Sidebar";
 export { default as ChannelNavbar } from "./ChannelNavbar/ChannelNavbar";
 export { default as MessageList } from "./MessageList/MessageList";
-export { default as Message } from "./Message/Message";
 export { default as Avatar } from "./Avatar/Avatar";
 export { default as UserList } from "./UserList/UserList";
 export {
