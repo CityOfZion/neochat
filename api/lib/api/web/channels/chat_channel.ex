@@ -62,10 +62,25 @@ defmodule Api.Web.ChatChannel do
     end
   end
 
+  def handle_in("delete_message", %{"id" => id}, socket) do
+    user = socket.assigns.current_user
+    case Chats.delete_message(id, user) do
+      {:ok, _} ->
+        broadcast_message_deleted(socket, id)
+        {:reply, :ok, socket}
+      {:error, _} ->
+        {:reply, :error, socket}
+    end
+  end
+
   defp broadcast_message(socket, user, message) do
     message = %{message | user: user}
     rendered_message = View.render_one(message, MessageView, "message.json")
     broadcast!(socket, "message_created", rendered_message)
+  end
+
+  def broadcast_message_deleted(socket, id) do
+    broadcast!(socket, "message_deleted", %{id: id})
   end
 
   def terminate(_reason, socket) do

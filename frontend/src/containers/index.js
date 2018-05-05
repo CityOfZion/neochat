@@ -13,3 +13,4 @@ export {
 export {
   default as DirectMessageAddContainer
 } from "./DirectMessageAdd/DirectMessageAddContainer";
+export { default as MessageContainer } from "./Message/MessageContainer";

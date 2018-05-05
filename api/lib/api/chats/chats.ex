@@ -282,8 +282,17 @@ defmodule Api.Chats do
       {:error, %Ecto.Changeset{}}
 
   """
-  def delete_message(%Message{} = message) do
-    Repo.delete(message)
+  def delete_message(message_id, user) do
+    message = Message
+    |> where([m], m.id == ^message_id)
+    |> preload(:user)
+    |> Repo.one
+
+    if message.user.id == user.id do
+      Repo.delete(message)
+    else
+      {:error, :not_allowed}
+    end
   end
 
   @doc """

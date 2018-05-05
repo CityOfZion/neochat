@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import moment from "moment";
 import groupBy from "lodash/groupBy";
 import mapKeys from "lodash/mapKeys";
-import { Message } from "components";
+import { MessageContainer } from "containers";
 import PropTypes from "prop-types";
 import "./MessageList.css";
 
@@ -13,14 +13,21 @@ class MessageList extends Component {
         id: PropTypes.number.isRequired,
         inserted_at: PropTypes.string.isRequired
       })
-    )
+    ),
+    phx_channel: PropTypes.object.isRequired
   };
   static defaultProps = {
     messages: []
   };
 
   renderMessages = messages =>
-    messages.map(message => <Message key={message.id} message={message} />);
+    messages.map(message => (
+      <MessageContainer
+        key={message.id}
+        message={message}
+        phx_channel={this.props.phx_channel}
+      />
+    ));
 
   renderDays() {
     const { messages } = this.props;

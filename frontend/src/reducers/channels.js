@@ -7,7 +7,8 @@ import {
   MESSAGES_READED,
   ROOM_PRESENCE_UPDATE,
   CREATE_CHANNEL_SUCCESS,
-  CHANNEL_JOINED
+  CHANNEL_JOINED,
+  MESSAGE_DELETED
 } from "../actions/channels";
 
 const initialState = {
@@ -72,6 +73,19 @@ export default function(state = initialState, action) {
               ...state.channels[action.channelId].newMessages,
               action.message
             ]
+          }
+        }
+      };
+    case MESSAGE_DELETED:
+      return {
+        ...state,
+        channels: {
+          ...state.channels,
+          [action.channelId]: {
+            ...state.channels[action.channelId],
+            messages: state.channels[action.channelId].messages.filter(
+              message => message.id !== action.messageId
+            )
           }
         }
       };

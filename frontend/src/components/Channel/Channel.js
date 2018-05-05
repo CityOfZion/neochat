@@ -31,7 +31,10 @@ class Channel extends Component {
         }}
       >
         <div id="messageList" style={{ height: "100%", overflow: "auto" }}>
-          <MessageList messages={this.props.messages} />
+          <MessageList
+            messages={this.props.messages}
+            phx_channel={this.props.phx_channel}
+          />
         </div>
         <div style={{ height: "50px" }}>
           <MessageFormContainer
