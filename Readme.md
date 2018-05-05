@@ -19,10 +19,6 @@ Chat for the Neo community.
 - to start the frontend `cd frontend/; yarn; npm start`
 - access `http://localhost:8080/`
 
-### Roadmap
-
-Please read the [Roadmap.md](https://github.com/CityOfZion/neochat/blob/master/Roadmap.md)
-
 ### License
 
 This project is licensed under the MIT License
