@@ -51,7 +51,8 @@ defmodule Api.Mixfile do
       {:bodyguard, "~> 2.2"},
       {:credo, "~> 0.9.0-rc1", only: [:dev, :test], runtime: false},
       {:ecto_enum, "~> 1.0"},
-      {:uuid, "~> 1.1"}
+      {:uuid, "~> 1.1"},
+      {:distillery, "~> 1.5", runtime: false}
     ]
   end
 
