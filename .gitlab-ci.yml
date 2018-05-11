@@ -4,7 +4,7 @@ stages:
 before_script:
   - export IMAGE_TAG="$CI_PIPELINE_ID-$CI_COMMIT_REF_SLUG"
 
-build:
+api-build:
   stage: build
   image: docker:latest
   services:
@@ -12,6 +12,18 @@ build:
   script:
     - export API_REGISTRY_PATH="$CI_REGISTRY_IMAGE/api:$IMAGE_TAG"
     - docker login -u gitlab-ci-token -p "$CI_JOB_TOKEN" $CI_REGISTRY
-    - cd api && docker build --build-arg ROLE=api -t $API_REGISTRY_PATH .
+    - cd api && docker build -t $API_REGISTRY_PATH .
     - docker login -u gitlab-ci-token -p "$CI_JOB_TOKEN" $CI_REGISTRY
     - docker push $API_REGISTRY_PATH
+
+frontend-build:
+  stage: build
+  image: docker:latest
+  services:
+    - docker:dind
+  script:
+    - export FRONTEND_REGISTRY_PATH="$CI_REGISTRY_IMAGE/frontend:$IMAGE_TAG"
+    - docker login -u gitlab-ci-token -p "$CI_JOB_TOKEN" $CI_REGISTRY
+    - cd frontend && docker build -t $FRONTEND_REGISTRY_PATH .
+    - docker login -u gitlab-ci-token -p "$CI_JOB_TOKEN" $CI_REGISTRY
+    - docker push $FRONTEND_REGISTRY_PATH
