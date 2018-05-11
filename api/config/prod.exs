@@ -34,7 +34,7 @@ config :api, Api.Repo,
        username: "postgres",
        password: "postgres",
        database: "neochat",
-       hostname: "localhost",
+       hostname: "postgres",
        pool_size: 10
 
 config :api, Api.Web.Guardian,

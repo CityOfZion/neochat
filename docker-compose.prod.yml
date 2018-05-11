@@ -1,0 +1,18 @@
+version: "2"
+services:
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: neochat
+  api:
+    image: ${API_REGISTRY_PATH}
+
+  frontend:
+    image: ${FRONTEND_REGISTRY_PATH}
+
+  haproxy:
+    image: ${HAPROXY_REGISTRY_PATH}
+    ports:
+     - "80:80"
