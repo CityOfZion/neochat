@@ -15,6 +15,7 @@ use Mix.Config
 # which you typically run after static files are built.
 config :api, Api.Web.Endpoint,
   http: [port: 4000],
+  url: [host: "neochat.backslash.fr", port: 4000],
   server: true,
   debug_errors: false,
   code_reloader: false,
