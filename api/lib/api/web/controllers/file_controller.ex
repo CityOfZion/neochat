@@ -13,7 +13,7 @@ defmodule Api.Web.FileController do
            |> :crypto.hash_final
            |> Base.encode16
     new_file_name = "#{code}#{extension}"
-    File.cp(upload.path, "./priv/static/uploads/#{new_file_name}")
+    File.cp!(upload.path, "#{:code.priv_dir(:api)}/static/uploads/#{new_file_name}")
     render(conn, "file.json", filename: upload.filename, path: "uploads/#{new_file_name}")
   end
 
