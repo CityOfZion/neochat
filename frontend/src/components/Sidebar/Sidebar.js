@@ -1,8 +1,8 @@
-import React from "react";
-import { Link, withRouter } from "react-router-dom";
-import PropTypes from "prop-types";
-import ChannelLink from "./ChannelLink";
-import "./Sidebar.css";
+import React from 'react';
+import { Link, withRouter } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import ChannelLink from './ChannelLink';
+import './Sidebar.css';
 
 const Sidebar = ({
   channels,
@@ -10,7 +10,7 @@ const Sidebar = ({
   history,
   onLogoutClick,
   username: user,
-  direct_messages
+  direct_messages,
 }) => {
   if (!user) return null;
 
@@ -69,7 +69,7 @@ const Sidebar = ({
 };
 
 Sidebar.defaultProps = {
-  username: ""
+  username: '',
 };
 
 Sidebar.propTypes = {
@@ -80,7 +80,7 @@ Sidebar.propTypes = {
   username: PropTypes.string,
   channels: PropTypes.any.isRequired,
   currentUserChannels: PropTypes.array.isRequired,
-  direct_messages: PropTypes.array.isRequired
+  direct_messages: PropTypes.array.isRequired,
 };
 
 export default withRouter(Sidebar);

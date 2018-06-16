@@ -1,18 +1,18 @@
-import React from "react";
-import { Navbar, NewChannelForm, ChannelListItem } from "components";
-import PropTypes from "prop-types";
-import "./Home.css";
+import React from 'react';
+import { Navbar, NewChannelForm, ChannelListItem } from 'components';
+import PropTypes from 'prop-types';
+import './Home.css';
 
 class Home extends React.Component {
   static contextTypes = {
-    router: PropTypes.object
+    router: PropTypes.object,
   };
 
   static propTypes = {
     createChannel: PropTypes.func.isRequired,
     joinChannel: PropTypes.func.isRequired,
     currentUserChannels: PropTypes.array.isRequired,
-    channels: PropTypes.array.isRequired
+    channels: PropTypes.array.isRequired,
   };
   handleNewChannelSubmit = data =>
     this.props.createChannel(data, this.context.router);
@@ -23,8 +23,7 @@ class Home extends React.Component {
   renderChannels() {
     const currentUserChannelIds = [];
     this.props.currentUserChannels.map(channel =>
-      currentUserChannelIds.push(channel.id)
-    );
+      currentUserChannelIds.push(channel.id));
 
     return this.props.channels.map(channel => (
       <ChannelListItem
@@ -38,16 +37,16 @@ class Home extends React.Component {
 
   render() {
     return (
-      <div style={{ flex: "1" }}>
+      <div style={{ flex: '1' }}>
         <Navbar />
         <div className="card">
-          <h3 style={{ marginBottom: "2rem", textAlign: "center" }}>
+          <h3 style={{ marginBottom: '2rem', textAlign: 'center' }}>
             Create a new channel
           </h3>
           <NewChannelForm onSubmit={this.handleNewChannelSubmit} />
         </div>
         <div className="card">
-          <h3 style={{ marginBottom: "2rem", textAlign: "center" }}>
+          <h3 style={{ marginBottom: '2rem', textAlign: 'center' }}>
             Join a channel
           </h3>
           {this.renderChannels()}

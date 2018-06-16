@@ -1,9 +1,9 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import { Field, reduxForm } from "redux-form";
-import "./MessageFormContainer.css";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { Field, reduxForm } from 'redux-form';
+import './MessageFormContainer.css';
 
-export const FileField = data => {
+export const FileField = (data) => {
   const { input, type } = data;
   delete input.value;
 
@@ -22,11 +22,11 @@ class MessageFormContainer extends Component {
     onSubmit: PropTypes.func.isRequired,
     onFileUpload: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func.isRequired,
-    submitting: PropTypes.bool.isRequired
+    submitting: PropTypes.bool.isRequired,
   };
 
   handleSubmit = data => this.props.onSubmit(data);
-  handleFileChange = data => {
+  handleFileChange = (data) => {
     const files = [...data.target.files];
     this.props.onFileUpload(files);
   };
@@ -65,15 +65,15 @@ class MessageFormContainer extends Component {
   }
 }
 
-const validate = values => {
+const validate = (values) => {
   const errors = {};
   if (!(values.text || values.file)) {
-    errors.text = "Required";
+    errors.text = 'Required';
   }
   return errors;
 };
 
 export default reduxForm({
-  form: "newMessage",
-  validate
+  form: 'newMessage',
+  validate,
 })(MessageFormContainer);

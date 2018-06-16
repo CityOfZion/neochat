@@ -1,17 +1,17 @@
 const API = process.env.REACT_APP_API_URL;
 
 function headers() {
-  const token = JSON.parse(localStorage.getItem("token"));
+  const token = JSON.parse(localStorage.getItem('token'));
 
   return {
-    Accept: "application/json",
-    "Content-Type": "application/json",
-    Authorization: `Bearer: ${token}`
+    Accept: 'application/json',
+    'Content-Type': 'application/json',
+    Authorization: `Bearer: ${token}`,
   };
 }
 
 function parseResponse(response) {
-  return response.json().then(json => {
+  return response.json().then((json) => {
     if (!response.ok) {
       return Promise.reject(json);
     }
@@ -22,36 +22,36 @@ function parseResponse(response) {
 function queryString(params) {
   const query = Object.keys(params)
     .map(k => `${encodeURIComponent(k)}=${encodeURIComponent(params[k])}`)
-    .join("&");
-  return `${query.length ? "?" : ""}${query}`;
+    .join('&');
+  return `${query.length ? '?' : ''}${query}`;
 }
 
 export default {
   fetch(url, params = {}) {
     return fetch(`${API}${url}${queryString(params)}`, {
-      method: "GET",
-      headers: headers()
+      method: 'GET',
+      headers: headers(),
     }).then(parseResponse);
   },
 
   post(url, data) {
     const body = JSON.stringify(data);
     return fetch(`${API}${url}`, {
-      method: "POST",
+      method: 'POST',
       headers: headers(),
-      body
+      body,
     }).then(parseResponse);
   },
 
   upload(url, data) {
     const headers2 = headers();
-    delete headers2["Content-Type"];
+    delete headers2['Content-Type'];
     const formData = new FormData();
-    formData.append("file", data);
+    formData.append('file', data);
     return fetch(`${API}${url}`, {
-      method: "POST",
+      method: 'POST',
       headers: headers2,
-      body: formData
+      body: formData,
     }).then(parseResponse);
   },
 
@@ -59,16 +59,16 @@ export default {
     const body = JSON.stringify(data);
 
     return fetch(`${API}${url}`, {
-      method: "PATCH",
+      method: 'PATCH',
       headers: headers(),
-      body
+      body,
     }).then(parseResponse);
   },
 
   delete(url) {
     return fetch(`${API}${url}`, {
-      method: "DELETE",
-      headers: headers()
+      method: 'DELETE',
+      headers: headers(),
     }).then(parseResponse);
-  }
+  },
 };
