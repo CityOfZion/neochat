@@ -1,18 +1,18 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { Route, Redirect } from "react-router-dom";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { Route, Redirect } from 'react-router-dom';
 
 const MatchAuthenticated = ({
   exact,
   path,
   isAuthenticated,
   willAuthenticate,
-  component: Comp
+  component: Comp,
 }) => (
   <Route
     exact={exact}
     path={path}
-    render={props => {
+    render={(props) => {
       if (isAuthenticated) {
         return <Comp {...props} />;
       }
@@ -20,7 +20,7 @@ const MatchAuthenticated = ({
         return null;
       }
       if (!willAuthenticate && !isAuthenticated) {
-        return <Redirect to={{ pathname: "/login" }} />;
+        return <Redirect to={{ pathname: '/login' }} />;
       }
       return null;
     }}
@@ -32,11 +32,11 @@ MatchAuthenticated.propTypes = {
   path: PropTypes.string.isRequired,
   exact: PropTypes.bool,
   isAuthenticated: PropTypes.bool.isRequired,
-  willAuthenticate: PropTypes.bool.isRequired
+  willAuthenticate: PropTypes.bool.isRequired,
 };
 
 MatchAuthenticated.defaultProps = {
-  exact: false
+  exact: false,
 };
 
 export default MatchAuthenticated;

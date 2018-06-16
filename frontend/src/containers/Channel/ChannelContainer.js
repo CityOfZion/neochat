@@ -1,13 +1,13 @@
-import React, { Component } from "react";
-import { Channel } from "components";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
+import React, { Component } from 'react';
+import { Channel } from 'components';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import {
   connectToChannel,
   createMessage,
   uploadFile,
-  messageReaded
-} from "../../actions/channels";
+  messageReaded,
+} from '../../actions/channels';
 
 class ChannelContainer extends Component {
   static propTypes = {
@@ -19,14 +19,15 @@ class ChannelContainer extends Component {
     messageReaded: PropTypes.func.isRequired,
     match: PropTypes.shape({
       params: PropTypes.shape({
-        id: PropTypes.string.isRequired
-      }).isRequired
-    }).isRequired
+        id: PropTypes.string.isRequired,
+      }).isRequired,
+    }).isRequired,
   };
 
   static defaultProps = {
-    // TODO is socket really required ? If initialized to empty at startup, it will logout the user, undefined works
-    socket: undefined
+    // TODO is socket really required ? If initialized to empty at startup,
+    // it will logout the user, undefined works
+    socket: undefined,
   };
 
   componentDidMount() {
@@ -52,7 +53,7 @@ class ChannelContainer extends Component {
   render() {
     const channel = this.props.channels[this.props.match.params.id];
     if (!channel) {
-      return "LOADING";
+      return 'LOADING';
     }
     return (
       <Channel
@@ -67,9 +68,11 @@ class ChannelContainer extends Component {
 export default connect(
   state => ({
     channels: state.channels.channels,
-    socket: state.session.socket
+    socket: state.session.socket,
   }),
-  { connectToChannel, createMessage, uploadFile, messageReaded }
+  {
+    connectToChannel, createMessage, uploadFile, messageReaded,
+  },
 )(ChannelContainer);
 
 // Their is an issue using currentChannel it's not updated if we don't need to reopen sockets.

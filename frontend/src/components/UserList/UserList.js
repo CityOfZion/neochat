@@ -1,9 +1,9 @@
-import React from "react";
-import PropTypes from "prop-types";
-import Avatar from "../Avatar/Avatar";
-import "./UserList.css";
+import React from 'react';
+import PropTypes from 'prop-types';
+import Avatar from '../Avatar/Avatar';
+import './UserList.css';
 
-const UserList = props => {
+const UserList = (props) => {
   const { users, addUserToChannel } = props;
   return (
     <div className="UserList">
@@ -34,16 +34,16 @@ function User(props) {
 
 UserList.propTypes = {
   users: PropTypes.array.isRequired,
-  addUserToChannel: PropTypes.func.isRequired
+  addUserToChannel: PropTypes.func.isRequired,
 };
 
 User.propTypes = {
   user: PropTypes.shape({
     id: PropTypes.number.isRequired,
     email: PropTypes.string.isRequired,
-    username: PropTypes.string.isRequired
+    username: PropTypes.string.isRequired,
   }).isRequired,
-  addUserToChannel: PropTypes.func.isRequired
+  addUserToChannel: PropTypes.func.isRequired,
 };
 
 export default UserList;

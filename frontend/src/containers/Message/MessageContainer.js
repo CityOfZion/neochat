@@ -1,14 +1,14 @@
-import React from "react";
-import PropTypes from "prop-types";
-import moment from "moment";
-import { Avatar } from "components";
-import { connect } from "react-redux";
-import "./Message.css";
-import { deleteMessage } from "../../actions/channels";
+import React from 'react';
+import PropTypes from 'prop-types';
+import moment from 'moment';
+import { Avatar } from 'components';
+import { connect } from 'react-redux';
+import './Message.css';
+import { deleteMessage } from '../../actions/channels';
 
-const WEB_URL = process.env.REACT_APP_API_URL.replace("/api", "");
+const WEB_URL = process.env.REACT_APP_API_URL.replace('/api', '');
 
-const renderText = text => {
+const renderText = (text) => {
   try {
     const json = JSON.parse(text);
     // use neochat key to allow other json to be displayed
@@ -26,29 +26,31 @@ const renderText = text => {
 };
 
 const MessageContainer = ({
-  message: { text, inserted_at, user, id },
+  message: {
+    text, inserted_at, user, id,
+  },
   userId,
   phx_channel,
-  connectedDeleteMessage
+  connectedDeleteMessage,
 }) => {
   const triggerDelete = () => {
     connectedDeleteMessage(phx_channel, id);
   };
   return (
     <div className="messageBlock">
-      <Avatar email_hash={user.email_hash} style={{ marginRight: "10px" }} />
+      <Avatar email_hash={user.email_hash} style={{ marginRight: '10px' }} />
       <div className="messageContent">
-        <div style={{ lineHeight: "1.2" }}>
-          <b style={{ marginRight: "8px", fontSize: "14px" }}>
+        <div style={{ lineHeight: '1.2' }}>
+          <b style={{ marginRight: '8px', fontSize: '14px' }}>
             {user.username}
           </b>
           <time
             style={{
-              fontSize: "12px",
-              color: "rgb(192,192,192)"
+              fontSize: '12px',
+              color: 'rgb(192,192,192)',
             }}
           >
-            {moment(inserted_at).format("h:mm A")}
+            {moment(inserted_at).format('h:mm A')}
           </time>
         </div>
         <div>{renderText(text)}</div>
@@ -62,7 +64,7 @@ const MessageContainer = ({
           </button>
         </div>
       ) : (
-        ""
+        ''
       )}
     </div>
   );
@@ -75,17 +77,17 @@ MessageContainer.propTypes = {
     user: PropTypes.shape({
       email_hash: PropTypes.string.isRequired,
       username: PropTypes.string.isRequired,
-      id: PropTypes.number.isRequired
-    }).isRequired
+      id: PropTypes.number.isRequired,
+    }).isRequired,
   }).isRequired,
   userId: PropTypes.number.isRequired,
   connectedDeleteMessage: PropTypes.func.isRequired,
-  phx_channel: PropTypes.object.isRequired
+  phx_channel: PropTypes.object.isRequired,
 };
 
 export default connect(
   state => ({
-    userId: state.session.currentUser.id
+    userId: state.session.currentUser.id,
   }),
-  { connectedDeleteMessage: deleteMessage }
+  { connectedDeleteMessage: deleteMessage },
 )(MessageContainer);

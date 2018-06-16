@@ -1,25 +1,25 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { Link } from "react-router-dom";
-import { UserList } from "components";
-import PropTypes from "prop-types";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { UserList } from 'components';
+import PropTypes from 'prop-types';
 import {
   getOptedOutUserChannel,
-  optInUserForChannel
-} from "../../actions/channels";
+  optInUserForChannel,
+} from '../../actions/channels';
 
 class ChannelOptionContainer extends Component {
   static propTypes = {
     match: PropTypes.shape({
       params: PropTypes.shape({
-        id: PropTypes.number.isRequired
-      }).isRequired
-    }).isRequired
+        id: PropTypes.number.isRequired,
+      }).isRequired,
+    }).isRequired,
   };
   constructor(props) {
     super(props);
     this.state = {
-      users: []
+      users: [],
     };
   }
 
@@ -27,19 +27,19 @@ class ChannelOptionContainer extends Component {
     const { id } = this.props.match.params;
     getOptedOutUserChannel(id)
       .then(response => this.setState({ users: response.data }))
-      .catch(error => {});
+      .catch((error) => {});
   }
 
   render() {
     const { id } = this.props.match.params;
 
-    const addUserToChannel = user_id => {
+    const addUserToChannel = (user_id) => {
       optInUserForChannel(id, user_id)
-        .then(response => {
+        .then((response) => {
           const users = this.state.users.filter(user => user.id !== user_id);
           this.setState({ users });
         })
-        .catch(error => {});
+        .catch((error) => {});
     };
 
     return (

@@ -1,7 +1,7 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React from 'react';
+import PropTypes from 'prop-types';
 
-const Avatar = props => {
+const Avatar = (props) => {
   const uri = `https://secure.gravatar.com/avatar/${props.email_hash}`;
   return (
     <img
@@ -10,8 +10,8 @@ const Avatar = props => {
       style={{
         width: `${props.size}px`,
         height: `${props.size}px`,
-        borderRadius: "4px",
-        ...props.style
+        borderRadius: '4px',
+        ...props.style,
       }}
     />
   );
@@ -20,11 +20,11 @@ const Avatar = props => {
 Avatar.propTypes = {
   email_hash: PropTypes.string.isRequired,
   size: PropTypes.number,
-  style: PropTypes.object
+  style: PropTypes.object,
 };
 Avatar.defaultProps = {
   size: 40,
-  style: {}
+  style: {},
 };
 
 export default Avatar;

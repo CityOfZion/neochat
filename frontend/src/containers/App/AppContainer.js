@@ -1,19 +1,19 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import {
   HomeContainer,
   NotFoundContainer,
   LoginContainer,
   SignupContainer,
   ChannelContainer,
-  DirectMessageAddContainer
-} from "containers";
-import { RedirectAuthenticated, MatchAuthenticated, Sidebar } from "components";
-import { HashRouter as Router, Route, Switch } from "react-router-dom";
-import "./AppContainer.css";
+  DirectMessageAddContainer,
+} from 'containers';
+import { RedirectAuthenticated, MatchAuthenticated, Sidebar } from 'components';
+import { HashRouter as Router, Route, Switch } from 'react-router-dom';
+import './AppContainer.css';
 
-import { authenticate, unauthenticate, logout } from "../../actions/session";
+import { authenticate, unauthenticate, logout } from '../../actions/session';
 
 class AppContainer extends Component {
   static propTypes = {
@@ -25,15 +25,15 @@ class AppContainer extends Component {
     currentUserChannels: PropTypes.array.isRequired,
     currentUserDirectMessageChannels: PropTypes.array.isRequired,
     channels: PropTypes.any.isRequired,
-    currentUser: PropTypes.shape({ username: PropTypes.string })
+    currentUser: PropTypes.shape({ username: PropTypes.string }),
   };
 
   static defaultProps = {
-    currentUser: { username: "" }
+    currentUser: { username: '' },
   };
 
   componentDidMount() {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem('token');
     if (token) {
       this.props.authenticate();
     } else {
@@ -104,7 +104,7 @@ export default connect(
     channels: state.channels.channels,
     currentUserDirectMessageChannels:
       state.direct_messages.currentUserDirectMessageChannels,
-    currentUser: state.session.currentUser
+    currentUser: state.session.currentUser,
   }),
-  { authenticate, unauthenticate, logout }
+  { authenticate, unauthenticate, logout },
 )(AppContainer);

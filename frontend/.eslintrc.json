@@ -3,18 +3,14 @@
   "plugins": [
     "react",
     "flowtype",
-    "jsx-a11y",
-    "prettier"
+    "jsx-a11y"
   ],
   "extends": [
     "airbnb",
     "plugin:flowtype/recommended",
     "airbnb",
     "react-app",
-    "plugin:jsx-a11y/recommended",
-    "prettier",
-    "prettier/flowtype",
-    "prettier/react"
+    "plugin:jsx-a11y/recommended"
   ],
   "rules": {
     "react/jsx-filename-extension": 0,

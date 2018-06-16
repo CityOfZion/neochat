@@ -1,7 +1,7 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import PropTypes from "prop-types";
-import "./ChannelNavbar.css";
+import React from 'react';
+import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import './ChannelNavbar.css';
 
 const ChannelNavbar = ({ channel }) => (
   <nav className="navbar">
@@ -17,7 +17,7 @@ const ChannelNavbar = ({ channel }) => (
 ChannelNavbar.propTypes = {
   channel: PropTypes.shape({
     name: PropTypes.string.isRequired,
-    id: PropTypes.number.isRequired
-  }).isRequired
+    id: PropTypes.number.isRequired,
+  }).isRequired,
 };
 export default ChannelNavbar;

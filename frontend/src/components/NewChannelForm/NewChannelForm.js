@@ -1,26 +1,26 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { Field, reduxForm } from "redux-form";
-import Switch from "react-toggle-switch";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { Field, reduxForm } from 'redux-form';
+import Switch from 'react-toggle-switch';
 
 class NewChannelForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      private: false
+      private: false,
     };
   }
 
   toggleSwitch = () => {
     this.setState(prevState => ({
-      private: !prevState.private
+      private: !prevState.private,
     }));
   };
 
-  submit = data => {
+  submit = (data) => {
     const params = {
       ...data,
-      type: this.state.private === true ? "private" : "public"
+      type: this.state.private === true ? 'private' : 'public',
     };
     this.props.onSubmit(params);
   };
@@ -43,24 +43,24 @@ class NewChannelForm extends React.Component {
               className="btn btn-primary"
               disabled={submitting}
             >
-              {submitting ? "Saving..." : "Submit"}
+              {submitting ? 'Saving...' : 'Submit'}
             </button>
           </div>
         </div>
         <div className="private-switch">
-          {" "}
-          <Switch onClick={this.toggleSwitch} on={this.state.private} />{" "}
-          {this.state.private === true ? "Private" : "Public"}{" "}
+          {' '}
+          <Switch onClick={this.toggleSwitch} on={this.state.private} />{' '}
+          {this.state.private === true ? 'Private' : 'Public'}{' '}
         </div>
       </form>
     );
   }
 }
 
-const validate = values => {
+const validate = (values) => {
   const errors = {};
   if (!values.name) {
-    errors.name = "Required";
+    errors.name = 'Required';
   }
   return errors;
 };
@@ -68,10 +68,10 @@ const validate = values => {
 NewChannelForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
-  submitting: PropTypes.bool.isRequired
+  submitting: PropTypes.bool.isRequired,
 };
 
 export default reduxForm({
-  form: "newChannel",
-  validate
+  form: 'newChannel',
+  validate,
 })(NewChannelForm);

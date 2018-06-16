@@ -1,6 +1,6 @@
-import React from "react";
-import PropTypes from "prop-types";
-import "./ChannelUserList.css";
+import React from 'react';
+import PropTypes from 'prop-types';
+import './ChannelUserList.css';
 
 const ChannelUserList = ({ userStatus }) => (
   <div className="channelUserList">
@@ -26,7 +26,7 @@ const ChannelUserList = ({ userStatus }) => (
 );
 
 ChannelUserList.propTypes = {
-  userStatus: PropTypes.object.isRequired
+  userStatus: PropTypes.object.isRequired,
 };
 
 export default ChannelUserList;

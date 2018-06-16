@@ -1,20 +1,20 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { Route, Redirect } from "react-router-dom";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { Route, Redirect } from 'react-router-dom';
 
 const RedirectAuthenticated = ({
   exact,
   path,
   isAuthenticated,
   willAuthenticate,
-  component: Comp
+  component: Comp,
 }) => (
   <Route
     exact={exact}
     path={path}
-    render={props => {
+    render={(props) => {
       if (isAuthenticated) {
-        return <Redirect to={{ pathname: "/" }} />;
+        return <Redirect to={{ pathname: '/' }} />;
       }
       if (willAuthenticate) {
         return null;
@@ -32,11 +32,11 @@ RedirectAuthenticated.propTypes = {
   path: PropTypes.string.isRequired,
   exact: PropTypes.bool,
   isAuthenticated: PropTypes.bool.isRequired,
-  willAuthenticate: PropTypes.bool.isRequired
+  willAuthenticate: PropTypes.bool.isRequired,
 };
 
 RedirectAuthenticated.defaultProps = {
-  exact: false
+  exact: false,
 };
 
 export default RedirectAuthenticated;

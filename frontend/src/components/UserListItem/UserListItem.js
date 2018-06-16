@@ -1,16 +1,16 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React from 'react';
+import PropTypes from 'prop-types';
 
 const UserListItem = ({ user, onChannelJoin }) => (
   <div
     key={user.id}
     style={{
-      display: "flex",
-      justifyContent: "space-between",
-      marginBottom: "10px"
+      display: 'flex',
+      justifyContent: 'space-between',
+      marginBottom: '10px',
     }}
   >
-    <span style={{ marginRight: "8px" }}>{user.username}</span>
+    <span style={{ marginRight: '8px' }}>{user.username}</span>
     <button onClick={() => onChannelJoin(user.id)} className="btn btn-sm">
       Chat
     </button>
@@ -20,9 +20,9 @@ const UserListItem = ({ user, onChannelJoin }) => (
 UserListItem.propTypes = {
   user: PropTypes.shape({
     id: PropTypes.number.isRequired,
-    name: PropTypes.string.isRequired
+    name: PropTypes.string.isRequired,
   }).isRequired,
-  onChannelJoin: PropTypes.func.isRequired
+  onChannelJoin: PropTypes.func.isRequired,
 };
 
 export default UserListItem;
