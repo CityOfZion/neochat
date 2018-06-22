@@ -8,26 +8,22 @@ import { deleteMessage } from '../../actions/channels';
 
 const WEB_URL = process.env.REACT_APP_API_URL.replace('/api', '');
 
-const renderText = (text) => {
-  try {
-    const json = JSON.parse(text);
-    // use neochat key to allow other json to be displayed
-    if (json.neochat !== undefined) {
-      return (
-        <a target="_blank" href={`${WEB_URL}/${json.path}`}>
-          {json.filename}
-        </a>
-      );
-    }
-  } catch (e) {
-    return text;
+const renderPayload = (payload) => {
+  console.log(payload)
+  if (!payload) {
+    return ""
   }
-  return text;
-};
+  if (payload.type === "file") {
+    return (<a target="_blank" href={`${WEB_URL}/uploads/${payload.filename}`}>
+      {payload.filename}
+    </a>)
+  }
+  return ""
+}
 
 const MessageContainer = ({
   message: {
-    text, inserted_at, user, id,
+    text, inserted_at, user, id, payload
   },
   userId,
   phx_channel,
@@ -53,7 +49,7 @@ const MessageContainer = ({
             {moment(inserted_at).format('h:mm A')}
           </time>
         </div>
-        <div>{renderText(text)}</div>
+        <div>{renderPayload(payload)} {text} </div>
       </div>
       {userId === user.id ? (
         <div className="messageOptions">
@@ -72,7 +68,8 @@ const MessageContainer = ({
 
 MessageContainer.propTypes = {
   message: PropTypes.shape({
-    text: PropTypes.string.isRequired,
+    text: PropTypes.string,
+    payload: PropTypes.object,
     inserted_at: PropTypes.string.isRequired,
     user: PropTypes.shape({
       email_hash: PropTypes.string.isRequired,
@@ -83,6 +80,13 @@ MessageContainer.propTypes = {
   userId: PropTypes.number.isRequired,
   connectedDeleteMessage: PropTypes.func.isRequired,
   phx_channel: PropTypes.object.isRequired,
+};
+
+MessageContainer.defaultProps = {
+  message: PropTypes.shape({
+    text: "",
+    payload: {}
+  })
 };
 
 export default connect(

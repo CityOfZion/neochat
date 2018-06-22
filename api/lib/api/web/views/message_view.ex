@@ -15,6 +15,7 @@ defmodule Api.Web.MessageView do
       id: message.id,
       inserted_at: message.inserted_at,
       text: message.text,
+      payload: message.payload,
       user: %{
         email_hash: :crypto.hash(:md5, message.user.email)
                     |> Base.encode16() |> String.downcase(),

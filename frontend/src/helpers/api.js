@@ -43,11 +43,12 @@ export default {
     }).then(parseResponse);
   },
 
-  upload(url, data) {
+  upload(url, data, channel_id) {
     const headers2 = headers();
     delete headers2['Content-Type'];
     const formData = new FormData();
     formData.append('file', data);
+    formData.append('channel_id', channel_id);
     return fetch(`${API}${url}`, {
       method: 'POST',
       headers: headers2,

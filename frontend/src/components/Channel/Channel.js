@@ -17,7 +17,7 @@ class Channel extends Component {
   };
 
   handleFileUpload = (data) => {
-    this.props.uploadFile(this.props.phx_channel, data);
+    this.props.uploadFile(data, this.props.channel.id);
   };
 
   renderChannel = () => (

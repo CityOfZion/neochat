@@ -252,6 +252,13 @@ defmodule Api.Chats do
     |> Repo.insert()
   end
 
+  def create_upload_message(channel, user, filename) do
+    channel
+    |> Ecto.build_assoc(:messages, user_id: user.id)
+    |> Message.upload_changeset(%{payload: %{type: :file, filename: filename}})
+    |> Repo.insert()
+  end
+
   @doc """
   Updates a message.
 

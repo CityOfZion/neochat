@@ -123,17 +123,9 @@ export function messageReaded(channelId) {
   };
 }
 
-export function uploadFile(phx_channel, files) {
+export function uploadFile(files, channel_id) {
   return dispatch =>
-    api.upload('/upload', files[0]).then(object =>
-      new Promise((resolve, reject) => {
-        phx_channel
-          .push('new_message', {
-            text: JSON.stringify({ ...object, neochat: '' }),
-          })
-          .receive('ok', () => resolve(dispatch(reset('newMessage'))))
-          .receive('error', () => reject());
-      }));
+    api.upload('/upload', files[0], channel_id)
 }
 
 export function createMessage(phx_channel, data) {
