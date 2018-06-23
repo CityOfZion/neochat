@@ -3,18 +3,20 @@ defmodule Api.Web.ChatChannel do
   use Api.Web, :channel
   alias Api.Chats
   alias Api.Helpers.Pagination
-  alias Api.Web.MessageView
   alias Api.Web.ChangesetView
   alias Api.Web.ChannelView
-  alias Api.Web.UserView
+  alias Api.Web.MessageView
   alias Api.Web.Presence
+  alias Api.Web.UserView
   alias Phoenix.View
   require Logger
 
   def join("channels:" <> channel_id, _params, socket) do
     user = socket.assigns.current_user
-    channel = Chats.get_channel!(channel_id)
-              |> Chats.rename_channel(user)
+
+    channel =
+      Chats.get_channel!(channel_id)
+      |> Chats.rename_channel(user)
 
     if Bodyguard.permit(Chats, :access, channel, user) == :ok do
       Logger.info(fn -> "channel #{channel.id} joinned" end)
@@ -64,10 +66,12 @@ defmodule Api.Web.ChatChannel do
 
   def handle_in("delete_message", %{"id" => id}, socket) do
     user = socket.assigns.current_user
+
     case Chats.delete_message(id, user) do
       {:ok, _} ->
         broadcast_message_deleted(socket, id)
         {:reply, :ok, socket}
+
       {:error, _} ->
         {:reply, :error, socket}
     end

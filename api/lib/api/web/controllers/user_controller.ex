@@ -2,11 +2,11 @@ defmodule Api.Web.UserController do
   use Api.Web, :controller
 
   alias Api.Accounts
-  alias Api.Web.Guardian.Plug, as: GPlug
-  alias Api.Web.SessionView
+  alias Api.Chats
   alias Api.Web.ChangesetView
   alias Api.Web.ChannelView
-  alias Api.Chats
+  alias Api.Web.Guardian.Plug, as: GPlug
+  alias Api.Web.SessionView
 
   action_fallback(Api.Web.FallbackController)
 

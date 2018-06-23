@@ -1,4 +1,4 @@
-#defmodule Api.Web.MessageControllerTest do
+# defmodule Api.Web.MessageControllerTest do
 #  use Api.Web.ConnCase
 #
 #  alias Api.Chats
@@ -74,4 +74,4 @@
 #    message = fixture(:message)
 #    {:ok, message: message}
 #  end
-#end
+# end

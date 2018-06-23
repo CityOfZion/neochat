@@ -1,4 +1,4 @@
-#defmodule Api.Web.MessageController do
+# defmodule Api.Web.MessageController do
 #  use Api.Web, :controller
 #
 #  alias Api.Chats
@@ -40,4 +40,4 @@
 #      send_resp(conn, :no_content, "")
 #    end
 #  end
-#end
+# end

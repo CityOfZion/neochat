@@ -27,13 +27,18 @@ defmodule Api.ChatsTest do
       username = user_2.username
       assert length(Chats.get_user_channels(user_1)) == 3
       [%{type: :direct_message, name: ^username}] = Chats.get_user_direct_messages(user_1)
-      [%{type: :public}, %{type: :private, name: "hello"}] = Chats.get_user_priv_pub_channels(user_1)
+
+      [%{type: :public}, %{type: :private, name: "hello"}] =
+        Chats.get_user_priv_pub_channels(user_1)
     end
 
     test "find direct message channel", %{users: [user_1, user_2], channel: channel} do
       assert Chats.find_direct_message(user_1.id, user_2.id) == nil
-      channel = Changeset.change(channel, %{type: :direct_message})
-      |> Repo.update!()
+
+      channel =
+        Changeset.change(channel, %{type: :direct_message})
+        |> Repo.update!()
+
       Chats.join_channel(channel, user_1)
       Chats.join_channel(channel, user_2)
 

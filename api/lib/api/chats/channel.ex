@@ -2,8 +2,8 @@ defmodule Api.Chats.Channel do
   @moduledoc false
   use Ecto.Schema
   import Ecto.Changeset
-  alias Api.Chats.Channel
   alias Api.Accounts.User
+  alias Api.Chats.Channel
   alias Api.Chats.Message
 
   schema "channels" do

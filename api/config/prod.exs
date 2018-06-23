@@ -33,17 +33,17 @@ config :phoenix, :stacktrace_depth, 20
 
 # Configure your database
 config :api, Api.Repo,
-       adapter: Ecto.Adapters.Postgres,
-       username: "postgres",
-       password: "postgres",
-       database: "neochat",
-       hostname: "postgres",
-       pool_size: 10
+  adapter: Ecto.Adapters.Postgres,
+  username: "postgres",
+  password: "postgres",
+  database: "neochat",
+  hostname: "postgres",
+  pool_size: 10
 
 config :api, Api.Web.Guardian,
-       issuer: "neochat",
-       secret_key: "7PXewtSUeh3j1oSu53FWE5AdAcsJYu/wUVzUwDfGCnrKTPDfor8LZiQaEHmz7zda"
+  issuer: "neochat",
+  secret_key: "7PXewtSUeh3j1oSu53FWE5AdAcsJYu/wUVzUwDfGCnrKTPDfor8LZiQaEHmz7zda"
 
 config :api, Api.Web.AuthPipeline,
-       module: Api.Web.Guardian,
-       error_handler: Api.Web.ErrorHandler
+  module: Api.Web.Guardian,
+  error_handler: Api.Web.ErrorHandler

@@ -14,8 +14,9 @@ defmodule Api.Web.UserView do
     %{
       id: user.id,
       username: user.username,
-      email_hash: :crypto.hash(:md5, user.email)
-                  |> Base.encode16()
+      email_hash:
+        :crypto.hash(:md5, user.email)
+        |> Base.encode16()
     }
   end
 

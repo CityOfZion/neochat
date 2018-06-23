@@ -1,8 +1,8 @@
 defmodule Api.Release.Tasks do
   @moduledoc false
 
-  alias Ecto.Migrator
   alias Api.Repo
+  alias Ecto.Migrator
 
   @start_apps [
     :crypto,

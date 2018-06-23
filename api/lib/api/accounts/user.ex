@@ -2,9 +2,9 @@ defmodule Api.Accounts.User do
   @moduledoc false
   use Ecto.Schema
   import Ecto.Changeset
-  alias Comeonin.Argon2
   alias Api.Chats.Channel
   alias Api.Chats.Message
+  alias Comeonin.Argon2
 
   schema "users" do
     field(:email, :string)

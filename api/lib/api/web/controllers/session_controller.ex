@@ -2,9 +2,9 @@ defmodule Api.Web.SessionController do
   @moduledoc "Controller handling login and logout"
 
   use Api.Web, :controller
-  alias Api.Web.Guardian.Plug, as: GPlug
-  alias Api.Web.Guardian
   alias Api.Accounts
+  alias Api.Web.Guardian
+  alias Api.Web.Guardian.Plug, as: GPlug
   alias Comeonin.Argon2
 
   def create(conn, params) do

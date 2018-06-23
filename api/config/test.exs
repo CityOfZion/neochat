@@ -19,9 +19,9 @@ config :api, Api.Repo,
   pool: Ecto.Adapters.SQL.Sandbox
 
 config :api, Api.Web.Guardian,
-       issuer: "neochat",
-       secret_key: "7PXewtSUeh3j1oSu53FWE5AdAcsJYu/wUVzUwDfGCnrKTPDfor8LZiQaEHmz7zda"
+  issuer: "neochat",
+  secret_key: "7PXewtSUeh3j1oSu53FWE5AdAcsJYu/wUVzUwDfGCnrKTPDfor8LZiQaEHmz7zda"
 
 config :api, Api.Web.AuthPipeline,
-       module: Api.Web.Guardian,
-       error_handler: Api.Web.ErrorHandler
+  module: Api.Web.Guardian,
+  error_handler: Api.Web.ErrorHandler

@@ -4,11 +4,10 @@ defmodule Api.Chats do
   """
 
   import Ecto.Query, warn: false
-  alias Api.Repo
-
+  alias Api.Accounts.User
   alias Api.Chats.Channel
   alias Api.Chats.ChannelUser
-  alias Api.Accounts.User
+  alias Api.Repo
   @behaviour Bodyguard.Policy
 
   @doc """
@@ -24,8 +23,12 @@ defmodule Api.Chats do
     from(
       c in Channel,
       where: c.type == ^:public,
-      or_where: fragment("? IN (SELECT channel_id from channel_users WHERE user_id = ?)", c.id, ^current_user.id) and
-                c.type == ^:private
+      or_where:
+        fragment(
+          "? IN (SELECT channel_id from channel_users WHERE user_id = ?)",
+          c.id,
+          ^current_user.id
+        ) and c.type == ^:private
     )
     |> Repo.all()
   end
@@ -120,6 +123,7 @@ defmodule Api.Chats do
   def join_channel(channel, user) when is_integer(channel) and is_integer(user) do
     Repo.insert(%ChannelUser{channel_id: channel, user_id: user})
   end
+
   def join_channel(channel, user), do: join_channel(channel.id, user.id)
 
   def get_user_channels(user) do
@@ -129,45 +133,45 @@ defmodule Api.Chats do
   end
 
   def get_user_priv_pub_channels(user) do
-    all = get_user_channels(user)
-          |> Enum.group_by(&(&1.type))
+    all =
+      get_user_channels(user)
+      |> Enum.group_by(& &1.type)
+
     Map.get(all, :public, []) ++ Map.get(all, :private, [])
   end
 
   def get_user_direct_messages(user) do
     get_user_channels(user)
-    |> Enum.group_by(&(&1.type))
+    |> Enum.group_by(& &1.type)
     |> Map.get(:direct_message, [])
     |> rename_channels(user)
   end
 
   def rename_channel(channel = %{type: type}, user) when type == :direct_message do
     channel = Repo.preload(channel, :users)
-    user = Enum.find(
-      channel.users,
-      fn (u) ->
+
+    user =
+      Enum.find(channel.users, fn u ->
         u.id != user.id
-      end
-    )
+      end)
+
     Map.put(channel, :name, user.username)
   end
 
   def rename_channel(channel, _), do: channel
 
   defp rename_channels([], _), do: []
+
   defp rename_channels(direct_messages, user) do
     Repo.preload(direct_messages, :users)
-    |> Enum.map(
-         fn (channel) ->
-           user = Enum.find(
-             channel.users,
-             fn (u) ->
-               u.id != user.id
-             end
-           )
-           Map.put(channel, :name, user.username)
-         end
-       )
+    |> Enum.map(fn channel ->
+      user =
+        Enum.find(channel.users, fn u ->
+          u.id != user.id
+        end)
+
+      Map.put(channel, :name, user.username)
+    end)
   end
 
   def find_direct_message(user_1, user_2) do
@@ -175,10 +179,12 @@ defmodule Api.Chats do
       c in Channel,
       join: cu in ChannelUser,
       where:
-        c.id == cu.channel_id
-        and c.type == ^:direct_message
-        and cu.user_id == ^user_1
-        and fragment("? IN (SELECT channel_id from channel_users WHERE user_id = ?)", cu.channel_id, ^user_2)
+        c.id == cu.channel_id and c.type == ^:direct_message and cu.user_id == ^user_1 and
+          fragment(
+            "? IN (SELECT channel_id from channel_users WHERE user_id = ?)",
+            cu.channel_id,
+            ^user_2
+          )
     )
     |> Repo.one()
   end
@@ -290,10 +296,11 @@ defmodule Api.Chats do
 
   """
   def delete_message(message_id, user) do
-    message = Message
-    |> where([m], m.id == ^message_id)
-    |> preload(:user)
-    |> Repo.one
+    message =
+      Message
+      |> where([m], m.id == ^message_id)
+      |> preload(:user)
+      |> Repo.one()
 
     if message.user.id == user.id do
       Repo.delete(message)
@@ -318,15 +325,20 @@ defmodule Api.Chats do
   def opted_out_users(channel_id) do
     from(
       u in User,
-      where: fragment("? NOT IN (SELECT user_id from channel_users WHERE channel_id = ?)", u.id, ^channel_id)
+      where:
+        fragment(
+          "? NOT IN (SELECT user_id from channel_users WHERE channel_id = ?)",
+          u.id,
+          ^channel_id
+        )
     )
     |> select([:username, :id, :email])
-    |> Repo.all
+    |> Repo.all()
   end
 
   def authorize(:access, channel, user) do
     if get_user_channels(user)
-       |> Enum.find(fn (c) -> c.id == channel.id end) do
+       |> Enum.find(fn c -> c.id == channel.id end) do
       :ok
     else
       {:error, :not_in_channel}

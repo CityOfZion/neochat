@@ -3,8 +3,8 @@ defmodule Api.Web.Router do
   alias Api.Web.AuthPipeline
 
   pipeline :authed_api do
-    plug :accepts, ["json"]
-    plug AuthPipeline
+    plug(:accepts, ["json"])
+    plug(AuthPipeline)
   end
 
   post("/api/sessions", Api.Web.SessionController, :create)
@@ -27,6 +27,5 @@ defmodule Api.Web.Router do
     post("/channels/:id/opt_in", ChannelController, :opt_in_user)
 
     post("/upload", FileController, :upload)
-
   end
 end

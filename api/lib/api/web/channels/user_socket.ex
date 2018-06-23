@@ -1,7 +1,8 @@
+
 defmodule Api.Web.UserSocket do
   use Phoenix.Socket
-  alias Api.Web.Guardian
   alias Api.Web.ChatChannel
+  alias Api.Web.Guardian
   ## Channels
   # channel "room:*", Api.Web.RoomChannel
 

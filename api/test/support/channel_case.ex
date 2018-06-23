@@ -13,10 +13,10 @@ defmodule Api.Web.ChannelCase do
   of the test unless the test case is marked as async.
   """
 
-  alias Ecto.Adapters.SQL.Sandbox
   alias Api.Accounts
   alias Api.Chats
   alias Api.Web.Guardian
+  alias Ecto.Adapters.SQL.Sandbox
   use ExUnit.CaseTemplate
   use Phoenix.ConnTest
 
@@ -48,7 +48,10 @@ defmodule Api.Web.ChannelCase do
 
   def generate_user do
     name = "user_#{:rand.uniform(1_000_000)}"
-    {:ok, user} = Accounts.create_user(%{username: name, email: "#{name}@mail.com", password: name})
+
+    {:ok, user} =
+      Accounts.create_user(%{username: name, email: "#{name}@mail.com", password: name})
+
     user
   end
 end

@@ -13,10 +13,10 @@ defmodule Api.DataCase do
   """
 
   use ExUnit.CaseTemplate
-  alias Ecto.Adapters.SQL.Sandbox
-  alias Ecto.Changeset
   alias Api.Accounts
   alias Api.Chats
+  alias Ecto.Adapters.SQL.Sandbox
+  alias Ecto.Changeset
 
   using do
     quote do
@@ -43,7 +43,10 @@ defmodule Api.DataCase do
 
   def generate_user do
     name = "user_#{:rand.uniform(1_000_000)}"
-    {:ok, user} = Accounts.create_user(%{username: name, email: "#{name}@mail.com", password: name})
+
+    {:ok, user} =
+      Accounts.create_user(%{username: name, email: "#{name}@mail.com", password: name})
+
     user
   end
 
@@ -56,17 +59,10 @@ defmodule Api.DataCase do
 
   """
   def errors_on(changeset) do
-    Changeset.traverse_errors(
-      changeset,
-      fn {message, opts} ->
-        Enum.reduce(
-          opts,
-          message,
-          fn {key, value}, acc ->
-            String.replace(acc, "%{#{key}}", to_string(value))
-          end
-        )
-      end
-    )
+    Changeset.traverse_errors(changeset, fn {message, opts} ->
+      Enum.reduce(opts, message, fn {key, value}, acc ->
+        String.replace(acc, "%{#{key}}", to_string(value))
+      end)
+    end)
   end
 end

@@ -2,9 +2,9 @@ defmodule Api.Chats.Message do
   @moduledoc false
   use Ecto.Schema
   import Ecto.Changeset
-  alias Api.Chats.Message
-  alias Api.Chats.Channel
   alias Api.Accounts.User
+  alias Api.Chats.Channel
+  alias Api.Chats.Message
 
   schema "messages" do
     field(:text, :string)
