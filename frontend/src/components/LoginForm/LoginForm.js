@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { Field, reduxForm } from 'redux-form';
-import { Link } from 'react-router-dom';
-import { Input } from 'components';
-import './LoginForm.css';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { Field, reduxForm } from "redux-form";
+import { Link } from "react-router-dom";
+import { Input } from "components";
+import "./LoginForm.css";
 
 class LoginForm extends Component {
     static propTypes = {
@@ -22,7 +22,7 @@ class LoginForm extends Component {
           className="card"
           onSubmit={handleSubmit(this.handleSubmit)}
         >
-          <h3 style={{ marginBottom: '2rem', textAlign: 'center' }}>Login to NeoChat</h3>
+          <h3 style={{ marginBottom: "2rem", textAlign: "center" }}>Login to NeoChat</h3>
           <Field name="email" type="text" component={Input} placeholder="Email" />
           <Field name="password" type="password" component={Input} placeholder="Password" />
           <button
@@ -30,9 +30,9 @@ class LoginForm extends Component {
             disabled={submitting}
             className="btn btn-block btn-primary"
           >
-            {submitting ? 'Logging in...' : 'Login'}
+            {submitting ? "Logging in..." : "Login"}
           </button>
-          <hr style={{ margin: '2rem 0' }} />
+          <hr style={{ margin: "2rem 0" }} />
           <Link to="/signup" className="btn btn-block btn-secondary">
                     Create a new account
           </Link>
@@ -44,15 +44,15 @@ class LoginForm extends Component {
 const validate = (values) => {
   const errors = {};
   if (!values.email) {
-    errors.email = 'Required';
+    errors.email = "Required";
   }
   if (!values.password) {
-    errors.password = 'Required';
+    errors.password = "Required";
   }
   return errors;
 };
 
 export default reduxForm({
-  form: 'login',
+  form: "login",
   validate,
 })(LoginForm);

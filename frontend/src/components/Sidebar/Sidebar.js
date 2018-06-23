@@ -1,8 +1,9 @@
-import React from 'react';
-import { Link, withRouter } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import ChannelLink from './ChannelLink';
-import './Sidebar.css';
+import React from "react";
+import { Link, withRouter } from "react-router-dom";
+import PropTypes from "prop-types";
+import { Menu, Icon, Layout } from "antd";
+import ChannelLink from "./ChannelLink";
+import "./Sidebar.css";
 
 const Sidebar = ({
   channels,
@@ -21,55 +22,58 @@ const Sidebar = ({
     channels[id].newMessages.length !== 0;
 
   const directMessageLinks = direct_messages.map(channel => (
-    <ChannelLink
-      key={channel.id}
-      name={channel.name}
-      id={channel.id}
-      newMessages={newMessages(channel.id)}
-    />
+    <Menu.Item key={channel.id}>
+      <ChannelLink
+        key={channel.id}
+        name={channel.name}
+        id={channel.id}
+        newMessages={newMessages(channel.id)}
+      />
+    </Menu.Item>
   ));
 
   const channelLinks = currentUserChannels.map(channel => (
-    <ChannelLink
-      key={channel.id}
-      name={channel.name}
-      id={channel.id}
-      newMessages={newMessages(channel.id)}
-    />
+    <Menu.Item key={channel.id}>
+      <ChannelLink
+        key={channel.id}
+        name={channel.name}
+        id={channel.id}
+        newMessages={newMessages(channel.id)}
+      />
+    </Menu.Item>
   ));
 
   return (
-    <div className="sidebar">
-      <div className="header">
-        <Link to="/">NeoChat</Link>
-      </div>
-      <div className="username">{user}</div>
-      <div className="channelsTitle">
-        Channels
-        <Link to="/" className="link">
-          <span className="fa fa-plus" />
-        </Link>
-        {channelLinks}
-      </div>
-      <div className="channelsTitle">
-        Direct Messages
-        <Link to="/direct_messages" className="link">
-          <span className="fa fa-plus" />
-        </Link>
-        {directMessageLinks}
-      </div>
-      <button
-        onClick={() => onLogoutClick(history)}
-        className="btn btn-primary"
+    <Layout.Sider theme="light">
+      Neochat
+      <Menu
+        theme=""
+        mode="horizontal"
+        style={{ lineHeight: "64px" }}
       >
-        Logout
-      </button>
-    </div>
+        <Menu.ItemGroup
+          key="channels"
+          title={<span>Channels <Link to="/" className="link"><Icon type="plus" /></Link></span>}
+        >
+          {channelLinks}
+        </Menu.ItemGroup>
+
+        <Menu.ItemGroup
+          key="dm"
+          title={
+            <span>Direct Messages
+              <Link to="/direct_messages" className="link"><Icon type="plus" /></Link>
+            </span>}
+        >
+          {directMessageLinks}
+        </Menu.ItemGroup>
+      </Menu>
+    </Layout.Sider>
   );
 };
 
 Sidebar.defaultProps = {
-  username: '',
+  username: "",
 };
 
 Sidebar.propTypes = {

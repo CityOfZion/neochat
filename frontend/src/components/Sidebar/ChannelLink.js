@@ -1,17 +1,17 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { NavLink } from 'react-router-dom';
-import './Sidebar.css';
+import React from "react";
+import PropTypes from "prop-types";
+import { NavLink } from "react-router-dom";
+import "./Sidebar.css";
 
 const ChannelLink = ({ name, id, newMessages }) => (
   <NavLink
     to={`/channel/${id}`}
     className={
-      newMessages ? 'channelLink channelLinkNewMessages' : 'channelLink'
+      newMessages ? "channelLink channelLinkNewMessages" : "channelLink"
     }
     activeClassName="channelLinkSelected"
   >
-    <span>{name} </span>
+    <span>{name}</span>
   </NavLink>
 );
 

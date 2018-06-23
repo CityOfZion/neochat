@@ -1,4 +1,9 @@
+@import '~antd/dist/antd.css';
+
 .root {
     display: flex;
     flex: 1 1 0%;
+}
+.ant-menu-item {
+  line-height: 32px;
 }

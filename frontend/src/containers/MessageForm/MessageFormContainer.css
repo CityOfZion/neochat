@@ -1,19 +1,19 @@
-.form {
-  padding: 0px 10px 10px 10px;
-  background: #fff;
-}
+/*.form {*/
+  /*padding: 0px 10px 10px 10px;*/
+  /*background: #fff;*/
+/*}*/
 
-.input {
-  border-width: 2px;
-  border-color: rgb(214, 214, 214);
-}
+/*.input {*/
+  /*border-width: 2px;*/
+  /*border-color: rgb(214, 214, 214);*/
+/*}*/
 
-.button {
-  color: rgb(80, 80, 80);
-  background: rgb(214, 214, 214);
-  border-width: 2px;
-  border-color: rgb(214, 214, 214);
-}
+/*.button {*/
+  /*color: rgb(80, 80, 80);*/
+  /*background: rgb(214, 214, 214);*/
+  /*border-width: 2px;*/
+  /*border-color: rgb(214, 214, 214);*/
+/*}*/
 
 .inputFile {
   width: 0.1px;
@@ -23,8 +23,6 @@
   position: absolute;
   z-index: -1;
 }
-
-.buttonFile {
-  margin-bottom: 0;
-  margin-right: 0.5em;
+.ant-form-inline .ant-form-item-with-help {
+  margin-right: 0px;
 }

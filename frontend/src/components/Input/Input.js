@@ -1,10 +1,10 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
 
 const Input = ({
   input, label, type, placeholder, style, meta,
 }) => (
-  <div style={{ marginBottom: '1rem' }}>
+  <div style={{ marginBottom: "1rem" }}>
     {label && <label htmlFor={input.name}>{label}</label>}
     <input
       {...input}
@@ -16,7 +16,7 @@ const Input = ({
     />
     {meta.touched &&
       meta.error && (
-        <div style={{ fontSize: '85%', color: 'rgb(255,59,48)' }}>
+        <div style={{ fontSize: "85%", color: "rgb(255,59,48)" }}>
           {meta.error}
         </div>
       )}
@@ -34,8 +34,8 @@ Input.propTypes = {
 
 Input.defaultProps = {
   label: null,
-  type: '',
-  placeholder: '',
+  type: "",
+  placeholder: "",
   style: {},
 };
 

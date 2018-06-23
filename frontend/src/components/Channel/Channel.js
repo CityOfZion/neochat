@@ -1,12 +1,12 @@
-import React, { Component } from 'react';
-import { ChannelNavbar, MessageList, ChannelUserList } from 'components';
-import { MessageFormContainer, ChannelOptionContainer } from 'containers';
-import { HashRouter as Router, Route, Switch } from 'react-router-dom';
-import PropTypes from 'prop-types';
+import React, { Component } from "react";
+import { ChannelNavbar, MessageList, ChannelUserList } from "components";
+import { MessageFormContainer, ChannelOptionContainer } from "containers";
+import { HashRouter as Router, Route, Switch } from "react-router-dom";
+import PropTypes from "prop-types";
 
 class Channel extends Component {
   componentDidUpdate() {
-    const element = document.getElementById('messageList');
+    const element = document.getElementById("messageList");
     if (element) {
       element.scrollTop = element.scrollHeight;
     }
@@ -21,29 +21,29 @@ class Channel extends Component {
   };
 
   renderChannel = () => (
-    <div style={{ display: 'flex', flexDirection: 'row', height: '100%' }}>
+    <div style={{ display: "flex", flexDirection: "row", height: "100%" }}>
       <div
         style={{
-          width: '100%',
-          display: 'flex',
-          flexDirection: 'column',
-          alignContent: 'spaceBetween',
+          width: "100%",
+          display: "flex",
+          flexDirection: "column",
+          alignContent: "spaceBetween",
         }}
       >
-        <div id="messageList" style={{ height: '100%', overflow: 'auto' }}>
+        <div id="messageList" style={{ height: "100%", overflow: "auto" }}>
           <MessageList
             messages={this.props.messages}
             phx_channel={this.props.phx_channel}
           />
         </div>
-        <div style={{ height: '50px' }}>
+        <div>
           <MessageFormContainer
             onFileUpload={this.handleFileUpload}
             onSubmit={this.handleMessageCreate}
           />
         </div>
       </div>
-      <div style={{ width: '250px', textAlign: 'left' }}>
+      <div style={{ width: "250px", textAlign: "left" }}>
         <ChannelUserList userStatus={this.props.userStatus} />
       </div>
     </div>
@@ -51,9 +51,9 @@ class Channel extends Component {
 
   render() {
     return (
-      <div style={{ display: 'flex', height: '100vh', width: '100%' }}>
+      <div style={{ display: "flex", height: "100vh", width: "100%" }}>
         <div
-          style={{ display: 'flex', flexDirection: 'column', width: '100%' }}
+          style={{ display: "flex", flexDirection: "column", width: "100%" }}
         >
           <div>
             <ChannelNavbar channel={this.props.channel} />

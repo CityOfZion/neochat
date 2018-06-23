@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { Field, reduxForm } from 'redux-form';
-import { Link } from 'react-router-dom';
-import { Input } from 'components';
-import './SignupForm.css';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { Field, reduxForm } from "redux-form";
+import { Link } from "react-router-dom";
+import { Input } from "components";
+import "./SignupForm.css";
 
 class SignupForm extends Component {
     static propTypes = {
@@ -22,7 +22,7 @@ class SignupForm extends Component {
           className="card"
           onSubmit={handleSubmit(this.handleSubmit)}
         >
-          <h3 style={{ marginBottom: '2rem', textAlign: 'center' }}>Create an account</h3>
+          <h3 style={{ marginBottom: "2rem", textAlign: "center" }}>Create an account</h3>
           <Field
             name="username"
             type="text"
@@ -49,9 +49,9 @@ class SignupForm extends Component {
             disabled={submitting}
             className="btn btn-block btn-primary"
           >
-            {submitting ? 'Submitting...' : 'Sign up'}
+            {submitting ? "Submitting..." : "Sign up"}
           </button>
-          <hr style={{ margin: '2rem 0' }} />
+          <hr style={{ margin: "2rem 0" }} />
           <Link to="/login" className="btn btn-block btn-secondary">
                     Login to your account
           </Link>
@@ -63,20 +63,20 @@ class SignupForm extends Component {
 const validate = (values) => {
   const errors = {};
   if (!values.username) {
-    errors.username = 'Required';
+    errors.username = "Required";
   }
   if (!values.email) {
-    errors.email = 'Required';
+    errors.email = "Required";
   }
   if (!values.password) {
-    errors.password = 'Required';
+    errors.password = "Required";
   } else if (values.password.length < 6) {
-    errors.password = 'Minimum of 6 characters';
+    errors.password = "Minimum of 6 characters";
   }
   return errors;
 };
 
 export default reduxForm({
-  form: 'signup',
+  form: "signup",
   validate,
 })(SignupForm);

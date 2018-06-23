@@ -1,13 +1,13 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Home } from 'components';
-import { connect } from 'react-redux';
-import { logout } from '../../actions/session';
+import React from "react";
+import PropTypes from "prop-types";
+import { Home } from "components";
+import { connect } from "react-redux";
+import { logout } from "../../actions/session";
 import {
   fetchChannels,
   createChannel,
   joinChannel,
-} from '../../actions/channels';
+} from "../../actions/channels";
 
 class HomeContainer extends React.Component {
   static propTypes = {

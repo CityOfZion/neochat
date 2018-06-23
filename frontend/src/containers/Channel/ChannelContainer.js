@@ -1,13 +1,13 @@
-import React, { Component } from 'react';
-import { Channel } from 'components';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import React, { Component } from "react";
+import { Channel } from "components";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
 import {
   connectToChannel,
   createMessage,
   uploadFile,
   messageReaded,
-} from '../../actions/channels';
+} from "../../actions/channels";
 
 class ChannelContainer extends Component {
   static propTypes = {
@@ -53,7 +53,7 @@ class ChannelContainer extends Component {
   render() {
     const channel = this.props.channels[this.props.match.params.id];
     if (!channel) {
-      return 'LOADING';
+      return "LOADING";
     }
     return (
       <Channel

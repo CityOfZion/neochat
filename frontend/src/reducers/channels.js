@@ -9,7 +9,7 @@ import {
   CREATE_CHANNEL_SUCCESS,
   CHANNEL_JOINED,
   MESSAGE_DELETED,
-} from '../actions/channels';
+} from "../actions/channels";
 
 const initialState = {
   all: [],
@@ -22,11 +22,11 @@ const getUserStatus = (userList, presentUsers) => {
   const presentUsersId = presentUsers.map(({ id }) => id);
   const onlineUsers = userList
     .filter(({ id }) => presentUsersId.includes(id))
-    .map(user => ({ ...user, status: 'online' }))
+    .map(user => ({ ...user, status: "online" }))
     .sort(sortByUsername);
   const offlineUsers = userList
     .filter(({ id }) => !presentUsersId.includes(id))
-    .map(user => ({ ...user, status: 'offline' }))
+    .map(user => ({ ...user, status: "offline" }))
     .sort(sortByUsername);
 
   return { offline: offlineUsers, online: onlineUsers };

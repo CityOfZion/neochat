@@ -2,7 +2,7 @@ import {
   FETCH_USERS_SUCCESS,
   FETCH_DIRECT_MESSSAGE_CHANNELS_SUCCESS,
   CREATE_DIRECT_MESSAGE_CHANNEL_SUCCESS,
-} from '../actions/direct_messages';
+} from "../actions/direct_messages";
 
 const initialState = {
   users: [],

@@ -1,7 +1,8 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Field, reduxForm } from 'redux-form';
-import Switch from 'react-toggle-switch';
+import React from "react";
+import PropTypes from "prop-types";
+import { Field, reduxForm } from "redux-form";
+import { TextField } from "redux-form-antd";
+import { Button, Form, Switch } from "antd";
 
 class NewChannelForm extends React.Component {
   constructor(props) {
@@ -11,16 +12,14 @@ class NewChannelForm extends React.Component {
     };
   }
 
-  toggleSwitch = () => {
-    this.setState(prevState => ({
-      private: !prevState.private,
-    }));
+  toggleSwitch = (value) => {
+    this.setState({ private: value });
   };
 
   submit = (data) => {
     const params = {
       ...data,
-      type: this.state.private === true ? 'private' : 'public',
+      type: this.state.private === true ? "private" : "public",
     };
     this.props.onSubmit(params);
   };
@@ -28,31 +27,20 @@ class NewChannelForm extends React.Component {
   render() {
     const { handleSubmit, submitting } = this.props;
     return (
-      <form onSubmit={handleSubmit(data => this.submit(data))}>
-        <div className="input-group">
-          <Field
-            name="name"
-            type="text"
-            placeholder="Name"
-            component="input"
-            className="form-control"
-          />
-          <div className="input-group-btn">
-            <button
-              type="submit"
-              className="btn btn-primary"
-              disabled={submitting}
-            >
-              {submitting ? 'Saving...' : 'Submit'}
-            </button>
-          </div>
-        </div>
-        <div className="private-switch">
-          {' '}
-          <Switch onClick={this.toggleSwitch} on={this.state.private} />{' '}
-          {this.state.private === true ? 'Private' : 'Public'}{' '}
-        </div>
-      </form>
+      <Form layout="inline" onSubmit={handleSubmit(data => this.submit(data))}>
+        <Form.Item>
+          <Field name="name" component={TextField} placeholder="Name" />
+          <Switch checkedChildren="private" unCheckedChildren="public" onChange={this.toggleSwitch} />
+          <Button
+            type="submit"
+            className="btn btn-primary"
+            disabled={submitting}
+            htmlType="submit"
+          >
+            {submitting ? "Saving..." : "Submit"}
+          </Button>
+        </Form.Item>
+      </Form>
     );
   }
 }
@@ -60,7 +48,7 @@ class NewChannelForm extends React.Component {
 const validate = (values) => {
   const errors = {};
   if (!values.name) {
-    errors.name = 'Required';
+    errors.name = "Required";
   }
   return errors;
 };
@@ -72,6 +60,6 @@ NewChannelForm.propTypes = {
 };
 
 export default reduxForm({
-  form: 'newChannel',
+  form: "newChannel",
   validate,
 })(NewChannelForm);

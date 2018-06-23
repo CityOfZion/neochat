@@ -1,48 +1,30 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import Avatar from '../Avatar/Avatar';
-import './UserList.css';
+import React from "react";
+import PropTypes from "prop-types";
+import { List, Button } from "antd";
+import Avatar from "../Avatar/Avatar";
+import "./UserList.css";
 
-const UserList = (props) => {
-  const { users, addUserToChannel } = props;
-  return (
-    <div className="UserList">
-      {users.map(user => (
-        <User user={user} addUserToChannel={addUserToChannel} />
-      ))}
-    </div>
-  );
-};
-
-function User(props) {
-  const { user, addUserToChannel } = props;
-  return (
-    <div className="User" key={user.id}>
-      <Avatar email={user.email} />
-      <div className="UserName">{user.username}</div>
-      <button
-        className="AddToChannel"
-        onClick={() => {
-          addUserToChannel(user.id);
-        }}
+const UserList = ({ users, addUserToChannel }) => (
+  <List
+    itemLayout="horizontal"
+    dataSource={users}
+    renderItem={user => (
+      <List.Item actions={[
+        <Button
+          onClick={() => addUserToChannel(user.id)}
+          className="btn btn-sm"
+        >Add
+        </Button>]}
       >
-        Add
-      </button>
-    </div>
-  );
-}
+        <Avatar email={user.email} />
+        <List.Item.Meta title={user.username} />
+
+      </List.Item>)}
+  />
+);
 
 UserList.propTypes = {
   users: PropTypes.array.isRequired,
-  addUserToChannel: PropTypes.func.isRequired,
-};
-
-User.propTypes = {
-  user: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    email: PropTypes.string.isRequired,
-    username: PropTypes.string.isRequired,
-  }).isRequired,
   addUserToChannel: PropTypes.func.isRequired,
 };
 

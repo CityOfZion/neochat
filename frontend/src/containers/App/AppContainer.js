@@ -1,6 +1,7 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { Layout } from "antd";
 import {
   HomeContainer,
   NotFoundContainer,
@@ -8,12 +9,12 @@ import {
   SignupContainer,
   ChannelContainer,
   DirectMessageAddContainer,
-} from 'containers';
-import { RedirectAuthenticated, MatchAuthenticated, Sidebar } from 'components';
-import { HashRouter as Router, Route, Switch } from 'react-router-dom';
-import './AppContainer.css';
+} from "containers";
+import { RedirectAuthenticated, MatchAuthenticated, Sidebar } from "components";
+import { HashRouter as Router, Route, Switch } from "react-router-dom";
+import "./AppContainer.css";
 
-import { authenticate, unauthenticate, logout } from '../../actions/session';
+import { authenticate, unauthenticate, logout } from "../../actions/session";
 
 class AppContainer extends Component {
   static propTypes = {
@@ -29,11 +30,11 @@ class AppContainer extends Component {
   };
 
   static defaultProps = {
-    currentUser: { username: '' },
+    currentUser: { username: "" },
   };
 
   componentDidMount() {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     if (token) {
       this.props.authenticate();
     } else {
@@ -46,51 +47,56 @@ class AppContainer extends Component {
   render() {
     return (
       <Router>
-        <div className="root">
-          <Sidebar
-            router={this.context.router}
-            currentUserChannels={this.props.currentUserChannels}
-            channels={this.props.channels}
-            direct_messages={this.props.currentUserDirectMessageChannels}
-            onLogoutClick={this.handleLogout}
-            username={this.props.currentUser.username}
-          />
-          <Switch>
-            <MatchAuthenticated
-              exact
-              path="/"
-              component={HomeContainer}
-              isAuthenticated={this.props.isAuthenticated}
-              willAuthenticate={this.props.willAuthenticate}
+        <Layout className="App" style={{ minHeight: "100vh" }}>
+          <div className="root">
+            <Sidebar
+              mode="inline"
+              router={this.context.router}
+              currentUserChannels={this.props.currentUserChannels}
+              channels={this.props.channels}
+              direct_messages={this.props.currentUserDirectMessageChannels}
+              onLogoutClick={this.handleLogout}
+              username={this.props.currentUser.username}
             />
-            <MatchAuthenticated
-              exact
-              path="/direct_messages"
-              component={DirectMessageAddContainer}
-              isAuthenticated={this.props.isAuthenticated}
-              willAuthenticate={this.props.willAuthenticate}
-            />
-            <RedirectAuthenticated
-              path="/login"
-              component={LoginContainer}
-              isAuthenticated={this.props.isAuthenticated}
-              willAuthenticate={this.props.willAuthenticate}
-            />
-            <RedirectAuthenticated
-              path="/signup"
-              component={SignupContainer}
-              isAuthenticated={this.props.isAuthenticated}
-              willAuthenticate={this.props.willAuthenticate}
-            />
-            <MatchAuthenticated
-              path="/channel/:id"
-              component={ChannelContainer}
-              isAuthenticated={this.props.isAuthenticated}
-              willAuthenticate={this.props.willAuthenticate}
-            />
-            <Route component={NotFoundContainer} />
-          </Switch>
-        </div>
+            <Layout>
+              <Switch>
+                <MatchAuthenticated
+                  exact
+                  path="/"
+                  component={HomeContainer}
+                  isAuthenticated={this.props.isAuthenticated}
+                  willAuthenticate={this.props.willAuthenticate}
+                />
+                <MatchAuthenticated
+                  exact
+                  path="/direct_messages"
+                  component={DirectMessageAddContainer}
+                  isAuthenticated={this.props.isAuthenticated}
+                  willAuthenticate={this.props.willAuthenticate}
+                />
+                <RedirectAuthenticated
+                  path="/login"
+                  component={LoginContainer}
+                  isAuthenticated={this.props.isAuthenticated}
+                  willAuthenticate={this.props.willAuthenticate}
+                />
+                <RedirectAuthenticated
+                  path="/signup"
+                  component={SignupContainer}
+                  isAuthenticated={this.props.isAuthenticated}
+                  willAuthenticate={this.props.willAuthenticate}
+                />
+                <MatchAuthenticated
+                  path="/channel/:id"
+                  component={ChannelContainer}
+                  isAuthenticated={this.props.isAuthenticated}
+                  willAuthenticate={this.props.willAuthenticate}
+                />
+                <Route component={NotFoundContainer} />
+              </Switch>
+            </Layout>
+          </div>
+        </Layout>
       </Router>
     );
   }
@@ -103,7 +109,7 @@ export default connect(
     currentUserChannels: state.channels.currentUserChannels,
     channels: state.channels.channels,
     currentUserDirectMessageChannels:
-      state.direct_messages.currentUserDirectMessageChannels,
+    state.direct_messages.currentUserDirectMessageChannels,
     currentUser: state.session.currentUser,
   }),
   { authenticate, unauthenticate, logout },

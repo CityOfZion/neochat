@@ -1,6 +1,6 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Route, Redirect } from 'react-router-dom';
+import React from "react";
+import PropTypes from "prop-types";
+import { Route, Redirect } from "react-router-dom";
 
 const MatchAuthenticated = ({
   exact,
@@ -20,7 +20,7 @@ const MatchAuthenticated = ({
         return null;
       }
       if (!willAuthenticate && !isAuthenticated) {
-        return <Redirect to={{ pathname: '/login' }} />;
+        return <Redirect to={{ pathname: "/login" }} />;
       }
       return null;
     }}

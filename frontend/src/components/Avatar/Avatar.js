@@ -1,5 +1,5 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
 
 const Avatar = (props) => {
   const uri = `https://secure.gravatar.com/avatar/${props.email_hash}`;
@@ -10,7 +10,7 @@ const Avatar = (props) => {
       style={{
         width: `${props.size}px`,
         height: `${props.size}px`,
-        borderRadius: '4px',
+        borderRadius: "4px",
         ...props.style,
       }}
     />

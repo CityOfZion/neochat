@@ -1,12 +1,13 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { UserList } from 'components';
-import PropTypes from 'prop-types';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { Link } from "react-router-dom";
+import { UserList } from "components";
+import PropTypes from "prop-types";
+import { Row, Col } from "antd";
 import {
   getOptedOutUserChannel,
   optInUserForChannel,
-} from '../../actions/channels';
+} from "../../actions/channels";
 
 class ChannelOptionContainer extends Component {
   static propTypes = {
@@ -46,10 +47,17 @@ class ChannelOptionContainer extends Component {
       <div>
         <Link to={`/channel/${id}`}>Return to chat</Link>
         <div>
-          <UserList
-            users={this.state.users}
-            addUserToChannel={addUserToChannel}
-          />
+          <Row>
+            <Col span={10} offset={7}>
+              <h3 style={{ marginBottom: "2rem", textAlign: "center" }}>
+                Users
+              </h3>
+              <UserList
+                users={this.state.users}
+                addUserToChannel={addUserToChannel}
+              />
+            </Col>
+          </Row>
         </div>
       </div>
     );

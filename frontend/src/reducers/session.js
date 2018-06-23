@@ -4,7 +4,7 @@ import {
   AUTHENTICATION_FAILURE,
   LOGOUT,
   SOCKET_CONNECTED,
-} from '../actions/session';
+} from "../actions/session";
 
 const initialState = {
   isAuthenticated: false,

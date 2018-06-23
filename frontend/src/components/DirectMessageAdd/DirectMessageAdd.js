@@ -1,7 +1,8 @@
-import React from 'react';
-import { Navbar, UserListItem } from 'components';
-import PropTypes from 'prop-types';
-import './DirectMessageAdd.css';
+import React from "react";
+import { Navbar, UserList } from "components";
+import PropTypes from "prop-types";
+import { Row, Col } from "antd";
+import "./DirectMessageAdd.css";
 
 class DirectMessageAdd extends React.Component {
   static contextTypes = {
@@ -14,27 +15,24 @@ class DirectMessageAdd extends React.Component {
     users: PropTypes.array.isRequired,
   };
 
-  handleChannelJoin = userId =>
+  onChannelJoin = userId =>
     this.props.createDirectMessage({ user_id: userId }, this.context.router);
-
-  renderUsers() {
-    return this.props.users.map(user => (
-      <UserListItem
-        key={user.id}
-        user={user}
-        onChannelJoin={this.handleChannelJoin}
-      />
-    ));
-  }
 
   render() {
     return (
-      <div style={{ flex: '1' }}>
+      <div style={{ flex: "1" }}>
         <Navbar />
-        <div className="card">
-          <h3 style={{ marginBottom: '2rem', textAlign: 'center' }}>Users</h3>
-          {this.renderUsers()}
-        </div>
+        <Row>
+          <Col span={10} offset={7}>
+            <h3 style={{ marginBottom: "2rem", textAlign: "center" }}>
+              Users
+            </h3>
+            <UserList
+              users={this.props.users}
+              addUserToChannel={this.onChannelJoin}
+            />
+          </Col>
+        </Row>
       </div>
     );
   }

@@ -1,19 +1,20 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { Field, reduxForm } from 'redux-form';
-import './MessageFormContainer.css';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { Field, reduxForm } from "redux-form";
+import { Button, Form, Input, Icon } from "antd";
+import "./MessageFormContainer.css";
 
 export const FileField = (data) => {
   const { input, type } = data;
   delete input.value;
 
   return (
-    <div>
+    <span>
       <label htmlFor={input.name} className="btn button buttonFile">
-        +
+        <Icon type="upload" style={{ fontSize: 26, color: "#08c" }} />
       </label>
       <input {...input} id={input.name} type={type} className="inputFile" />
-    </div>
+    </span>
   );
 };
 
@@ -35,32 +36,33 @@ class MessageFormContainer extends Component {
     const { handleSubmit, submitting } = this.props;
 
     return (
-      <form
+      <Form
         id="messageForm"
         onSubmit={handleSubmit(this.handleSubmit)}
         className="form"
+        layout="inline"
       >
-        <div className="input-group">
+        <Input.Group compact>
           <Field
             name="file"
             type="file"
             component={FileField}
             onChange={this.handleFileChange}
             className="inputFile"
+            style={{ width: "5%" }}
           />
           <Field
+            component="input"
             name="text"
             type="text"
-            component="input"
-            className="form-control input"
+            style={{ width: "85%" }}
+            className="ant-input"
           />
-          <div className="input-group-append input-group-btn">
-            <button disabled={submitting} className="btn button">
-              Send
-            </button>
-          </div>
-        </div>
-      </form>
+          <Button htmlType="submit" disabled={submitting} className="btn button" style={{ width: "10%" }}>
+            Send
+          </Button>
+        </Input.Group>
+      </Form>
     );
   }
 }
@@ -68,12 +70,12 @@ class MessageFormContainer extends Component {
 const validate = (values) => {
   const errors = {};
   if (!(values.text || values.file)) {
-    errors.text = 'Required';
+    errors.text = "Required";
   }
   return errors;
 };
 
 export default reduxForm({
-  form: 'newMessage',
+  form: "newMessage",
   validate,
 })(MessageFormContainer);

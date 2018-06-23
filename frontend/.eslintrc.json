@@ -1,15 +1,10 @@
 {
   "parser": "babel-eslint",
-  "plugins": [
-    "react",
-    "flowtype",
-    "jsx-a11y"
-  ],
+  "plugins": ["react", "flowtype", "jsx-a11y"],
   "extends": [
     "airbnb",
-    "plugin:flowtype/recommended",
-    "airbnb",
     "react-app",
+    "plugin:flowtype/recommended",
     "plugin:jsx-a11y/recommended"
   ],
   "rules": {
@@ -17,10 +12,16 @@
     "import/prefer-default-export": 0,
     "react/no-unused-prop-types": 0,
     "camelcase": 0,
+    "quotes": ["error", "double"],
     "jsx-a11y/href-no-hash": "off",
     "react/forbid-prop-types": "off",
     "jsx-a11y/label-has-for": "off",
-    "jsx-a11y/anchor-is-valid": ["warn", { "aspects": ["invalidHref"] }]
+    "jsx-a11y/anchor-is-valid": [
+      "warn",
+      {
+        "aspects": ["invalidHref"]
+      }
+    ]
   },
   "globals": {
     "fetch": true,

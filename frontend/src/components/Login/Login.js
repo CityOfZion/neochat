@@ -1,9 +1,9 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { LoginForm, Navbar } from 'components';
+import React from "react";
+import PropTypes from "prop-types";
+import { LoginForm, Navbar } from "components";
 
 const Login = ({ handleLogin }) => (
-  <div style={{ flex: '1' }}>
+  <div style={{ flex: "1" }}>
     <Navbar />
     <LoginForm onSubmit={handleLogin} />
   </div>
