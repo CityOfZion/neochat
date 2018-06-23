@@ -5,15 +5,15 @@ import { List, Button, Row, Col } from "antd";
 import "./Home.css";
 
 class Home extends React.Component {
-  static contextTypes = {
-    router: PropTypes.object,
-  };
-
   static propTypes = {
     createChannel: PropTypes.func.isRequired,
     joinChannel: PropTypes.func.isRequired,
     currentUserChannels: PropTypes.array.isRequired,
     channels: PropTypes.array.isRequired,
+  };
+
+  static contextTypes = {
+    router: PropTypes.object,
   };
 
   onChannelJoin = channelId =>

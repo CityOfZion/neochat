@@ -15,7 +15,7 @@ const renderPayload = (payload) => {
   }
   if (payload.type === "file") {
     return (
-      <a target="_blank" href={`${WEB_URL}/uploads/${payload.filename}`}>
+      <a target="_blank" rel="noopener noreferrer" href={`${WEB_URL}/uploads/${payload.filename}`}>
         {payload.filename}
       </a>);
   }

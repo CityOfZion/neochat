@@ -5,14 +5,14 @@ import { Row, Col } from "antd";
 import "./DirectMessageAdd.css";
 
 class DirectMessageAdd extends React.Component {
-  static contextTypes = {
-    router: PropTypes.object,
-  };
-
   static propTypes = {
     createChannel: PropTypes.func.isRequired,
     createDirectMessage: PropTypes.func.isRequired,
     users: PropTypes.array.isRequired,
+  };
+
+  static contextTypes = {
+    router: PropTypes.object,
   };
 
   onChannelJoin = userId =>

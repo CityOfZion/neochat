@@ -5,12 +5,12 @@ import { Login } from "components";
 import { login } from "../../actions/session";
 
 class LoginContainer extends Component {
-  static contextTypes = {
-    router: PropTypes.object,
-  };
-
   static propTypes = {
     login: PropTypes.func.isRequired,
+  };
+
+  static contextTypes = {
+    router: PropTypes.object,
   };
 
   handleLogin = data => this.props.login(data, this.context.router);
