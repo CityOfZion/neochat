@@ -13,6 +13,7 @@ export const CHANNEL_JOINED = "CHANNEL_JOINED";
 export const FETCH_CHANNELS_SUCCESS = "FETCH_CHANNELS_SUCCESS";
 export const FETCH_USER_CHANNELS_SUCCESS = "FETCH_USER_CHANNELS_SUCCESS";
 export const MESSAGE_DELETED = "MESSAGE_DELETED";
+export const MESSAGE_UPDATED = "MESSAGE_UPDATED"
 
 const syncPresentUsers = (dispatch, presences, channelId) => {
   const presentUsers = [];
@@ -99,6 +100,10 @@ export function connectToChannel(socket, channelId) {
     phx_channel.on("message_deleted", (message) => {
       const { id: messageId } = message;
       dispatch({ type: MESSAGE_DELETED, messageId, channelId });
+    });
+
+    phx_channel.on("message_updated", (message) => {
+      dispatch({ type: MESSAGE_UPDATED, message, channelId });
     });
 
     phx_channel.on(USER_JOINED_CHANNEL, (message) => {

@@ -9,6 +9,7 @@ import {
   CREATE_CHANNEL_SUCCESS,
   CHANNEL_JOINED,
   MESSAGE_DELETED,
+  MESSAGE_UPDATED,
 } from "../actions/channels";
 
 const initialState = {
@@ -85,6 +86,18 @@ export default function (state = initialState, action) {
             ...state.channels[action.channelId],
             messages: state.channels[action.channelId].messages
               .filter(message => message.id !== action.messageId),
+          },
+        },
+      };
+    case MESSAGE_UPDATED:
+      return {
+        ...state,
+        channels: {
+          ...state.channels,
+          [action.channelId]: {
+            ...state.channels[action.channelId],
+            messages: state.channels[action.channelId].messages
+              .map((message) => message.id !== action.message.id ? message : action.message),
           },
         },
       };

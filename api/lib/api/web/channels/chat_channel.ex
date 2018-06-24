@@ -83,7 +83,7 @@ defmodule Api.Web.ChatChannel do
     broadcast!(socket, "message_created", rendered_message)
   end
 
-  def broadcast_message_deleted(socket, id) do
+  defp broadcast_message_deleted(socket, id) do
     broadcast!(socket, "message_deleted", %{id: id})
   end
 
