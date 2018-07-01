@@ -97,7 +97,7 @@ export default function (state = initialState, action) {
           [action.channelId]: {
             ...state.channels[action.channelId],
             messages: state.channels[action.channelId].messages
-              .map((message) => message.id !== action.message.id ? message : action.message),
+              .map(message => (message.id !== action.message.id ? message : action.message)),
           },
         },
       };

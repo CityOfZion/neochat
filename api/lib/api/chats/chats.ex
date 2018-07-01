@@ -7,6 +7,7 @@ defmodule Api.Chats do
   alias Api.Accounts.User
   alias Api.Chats.Channel
   alias Api.Chats.ChannelUser
+  alias Api.Chats.LinkRenderer
   alias Api.Repo
   @behaviour Bodyguard.Policy
 
@@ -252,10 +253,15 @@ defmodule Api.Chats do
 
   """
   def create_message(channel, user, attrs) do
-    channel
-    |> Ecto.build_assoc(:messages, user_id: user.id)
-    |> Message.changeset(attrs)
-    |> Repo.insert()
+    message =
+      channel
+      |> Ecto.build_assoc(:messages, user_id: user.id)
+      |> Message.changeset(attrs)
+      |> Repo.insert()
+
+    LinkRenderer.process(message)
+
+    message
   end
 
   def create_upload_message(channel, user, filename) do

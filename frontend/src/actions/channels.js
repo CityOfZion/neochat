@@ -13,7 +13,7 @@ export const CHANNEL_JOINED = "CHANNEL_JOINED";
 export const FETCH_CHANNELS_SUCCESS = "FETCH_CHANNELS_SUCCESS";
 export const FETCH_USER_CHANNELS_SUCCESS = "FETCH_USER_CHANNELS_SUCCESS";
 export const MESSAGE_DELETED = "MESSAGE_DELETED";
-export const MESSAGE_UPDATED = "MESSAGE_UPDATED"
+export const MESSAGE_UPDATED = "MESSAGE_UPDATED";
 
 const syncPresentUsers = (dispatch, presences, channelId) => {
   const presentUsers = [];

@@ -1,6 +1,6 @@
 import {
   FETCH_USERS_SUCCESS,
-  FETCH_DIRECT_MESSSAGE_CHANNELS_SUCCESS,
+  FETCH_DIRECT_MESSAGE_CHANNELS_SUCCESS,
   CREATE_DIRECT_MESSAGE_CHANNEL_SUCCESS,
 } from "../actions/direct_messages";
 
@@ -16,7 +16,7 @@ export default function (state = initialState, action) {
         ...state,
         users: action.response.data,
       };
-    case FETCH_DIRECT_MESSSAGE_CHANNELS_SUCCESS:
+    case FETCH_DIRECT_MESSAGE_CHANNELS_SUCCESS:
       return {
         ...state,
         currentUserDirectMessageChannels: action.response.data,

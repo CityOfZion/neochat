@@ -49,9 +49,13 @@ defmodule Api.Mixfile do
       {:argon2_elixir, "~> 1.2"},
       {:guardian, "~> 1.0"},
       {:bodyguard, "~> 2.2"},
-      {:credo, "~> 0.9.0-rc1", only: [:dev, :test], runtime: false},
       {:ecto_enum, "~> 1.0"},
       {:uuid, "~> 1.1"},
+      {:floki, "~> 0.20.3"},
+      {:httpoison, "~> 1.2"},
+      {:fuzzyurl, "~> 1.0"},
+      {:credo, "~> 0.9.0-rc1", only: [:dev, :test], runtime: false},
+      {:mock, "~> 0.3.1", only: [:dev, :test], runtime: false},
       {:distillery, "~> 1.5", runtime: false}
     ]
   end

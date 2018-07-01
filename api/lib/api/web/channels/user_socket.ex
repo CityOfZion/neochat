@@ -1,4 +1,3 @@
-
 defmodule Api.Web.UserSocket do
   use Phoenix.Socket
   alias Api.Web.ChatChannel

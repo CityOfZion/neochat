@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import moment from "moment";
 import { Avatar } from "components";
 import { connect } from "react-redux";
-import { Button } from "antd";
+import { Button, Row, Col, Card } from "antd";
 import "./Message.css";
 import { deleteMessage } from "../../actions/channels";
 
@@ -18,6 +18,20 @@ const renderPayload = (payload) => {
       <a target="_blank" rel="noopener noreferrer" href={`${WEB_URL}/uploads/${payload.filename}`}>
         {payload.filename}
       </a>);
+  } else if (payload.type === "link") {
+    return (
+      <div>
+        <Row gutter={0}>
+          {payload.images[0] ?
+            <Col span={4}>
+              <img alt="example" src={payload.images[0]} style={{ width: "100%" }} />
+            </Col> : ""}
+          <Col span={20}>
+            <Card title={payload.real_url} bordered={false}>{payload.description}</Card>
+          </Col>
+        </Row>
+      </div>
+    );
   }
   return "";
 };
@@ -50,7 +64,7 @@ const MessageContainer = ({
             {moment(inserted_at).format("h:mm A")}
           </time>
         </div>
-        <div>{renderPayload(payload)} {text} </div>
+        <div>{renderPayload(payload)} <br /> {text} </div>
       </div>
       {userId === user.id ? (
         <div className="messageOptions">
