@@ -29,6 +29,7 @@ defmodule Api.Chats.LinkRenderer do
     case Regex.run(@url, message.text, capture: :first) do
       [link] ->
         extension = Path.extname(link)
+
         render(link, extension)
         |> update(message)
         |> broadcast
@@ -45,6 +46,7 @@ defmodule Api.Chats.LinkRenderer do
   def render("https://youtu.be/" <> id, _) do
     {:youtube, %{id: id}}
   end
+
   def render("https://www.youtube.com/watch?v=" <> id, _) do
     {:youtube, %{id: id}}
   end
@@ -54,6 +56,7 @@ defmodule Api.Chats.LinkRenderer do
       {:ok, %HTTPoison.Response{body: body}} ->
         {:ok, link_meta} = Default.parse(body, link)
         {:link, link_meta}
+
       error ->
         Logger.error(fn -> inspect(error) end)
         nil

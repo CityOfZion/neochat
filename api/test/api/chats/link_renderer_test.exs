@@ -36,8 +36,6 @@ defmodule Api.LinkRendererTest do
     assert_push("message_updated", %{id: ^id})
   end
 
-
-
   test "render images", %{users: [user_1, _], channel: channel} do
     Chats.join_channel(channel, user_1)
 
@@ -47,7 +45,10 @@ defmodule Api.LinkRendererTest do
 
     {:ok, message} =
       with_mock LinkRenderer, process: fn _ -> nil end do
-        Chats.create_message(channel, user_1, %{text: "Go check this link https://www.google.fr/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png"})
+        Chats.create_message(channel, user_1, %{
+          text:
+            "Go check this link https://www.google.fr/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png"
+        })
       end
 
     LinkRenderer.run(message)
@@ -68,7 +69,9 @@ defmodule Api.LinkRendererTest do
 
     {:ok, message} =
       with_mock LinkRenderer, process: fn _ -> nil end do
-        Chats.create_message(channel, user_1, %{text: "Go check this link https://www.youtube.com/watch?v=OKliyZ2PjRwY"})
+        Chats.create_message(channel, user_1, %{
+          text: "Go check this link https://www.youtube.com/watch?v=OKliyZ2PjRwY"
+        })
       end
 
     LinkRenderer.run(message)

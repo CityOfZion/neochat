@@ -1,7 +1,7 @@
 defmodule Api.Chats.LinkRenderer.Default do
   @moduledoc """
-  Default link renderer
-"""
+    Default link renderer
+  """
   def parse(body, url) do
     {:ok,
      %{
