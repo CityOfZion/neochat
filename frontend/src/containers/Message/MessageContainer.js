@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import moment from "moment";
 import { Avatar } from "components";
 import { connect } from "react-redux";
+import YouTube from 'react-youtube';
 import { Button, Row, Col, Card } from "antd";
 import "./Message.css";
 import { deleteMessage } from "../../actions/channels";
@@ -13,27 +14,33 @@ const renderPayload = (payload) => {
   if (!payload) {
     return "";
   }
-  if (payload.type === "file") {
-    return (
-      <a target="_blank" rel="noopener noreferrer" href={`${WEB_URL}/uploads/${payload.filename}`}>
-        {payload.filename}
-      </a>);
-  } else if (payload.type === "link") {
-    return (
-      <div>
-        <Row gutter={0}>
-          {payload.images[0] ?
-            <Col span={4}>
-              <img alt="example" src={payload.images[0]} style={{ width: "100%" }} />
-            </Col> : ""}
-          <Col span={20}>
-            <Card title={payload.real_url} bordered={false}>{payload.description}</Card>
-          </Col>
-        </Row>
-      </div>
-    );
+  switch (payload.type ) {
+    case "file":
+      return (
+        <a target="_blank" rel="noopener noreferrer" href={`${WEB_URL}/uploads/${payload.filename}`}>
+          {payload.filename}
+        </a>);
+    case "link":
+      return (
+        <div>
+          <Row gutter={0}>
+            {payload.images[0] ?
+              <Col span={4}>
+                <img alt="example" src={payload.images[0]} style={{ width: "100%" }} />
+              </Col> : ""}
+            <Col span={20}>
+              <Card title={payload.real_url} bordered={false}>{payload.description}</Card>
+            </Col>
+          </Row>
+        </div>
+      );
+    case "image":
+      return(<img src={payload.url} style={{ maxWidth: "100%", maxHeight: "200px" }} />);
+    default:
+        return "";
+    case "youtube":
+      return(<YouTube videoId={payload.id} />)
   }
-  return "";
 };
 
 const MessageContainer = ({

@@ -28,7 +28,8 @@ defmodule Api.Chats.LinkRenderer do
   def run(message) do
     case Regex.run(@url, message.text, capture: :first) do
       [link] ->
-        render(link)
+        extension = Path.extname(link)
+        render(link, extension)
         |> update(message)
         |> broadcast
 
@@ -37,19 +38,30 @@ defmodule Api.Chats.LinkRenderer do
     end
   end
 
-  def render(link) do
+  def render(link, extension) when extension in [".jpg", ".jpeg", ".png", ".gif"] do
+    {:image, %{url: link}}
+  end
+
+  def render("https://youtu.be/" <> id, _) do
+    {:youtube, %{id: id}}
+  end
+  def render("https://www.youtube.com/watch?v=" <> id, _) do
+    {:youtube, %{id: id}}
+  end
+
+  def render(link, _) do
     case HTTPoison.get(link, [{"Accept-Language", "en-US"}], follow_redirect: true) do
       {:ok, %HTTPoison.Response{body: body}} ->
-        Default.parse(body, link)
-
+        {:ok, link_meta} = Default.parse(body, link)
+        {:link, link_meta}
       error ->
         Logger.error(fn -> inspect(error) end)
         nil
     end
   end
 
-  def update({:ok, link_meta}, message) do
-    link_meta = Map.put(link_meta, :type, :link)
+  def update({type, link_meta}, message) do
+    link_meta = Map.put(link_meta, :type, type)
 
     Changeset.change(message, %{payload: link_meta})
     |> Repo.update()
