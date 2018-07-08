@@ -35,7 +35,7 @@ const renderPayload = (payload) => {
         </div>
       );
     case "image":
-      return(<img src={payload.url} style={{ maxWidth: "100%", maxHeight: "200px" }} />);
+      return(<img src={payload.url} alt={payload.url} style={{ maxWidth: "100%", maxHeight: "200px" }} />);
     default:
         return "";
     case "youtube":
