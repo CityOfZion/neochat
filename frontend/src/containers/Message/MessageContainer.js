@@ -1,9 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
 import moment from "moment";
-import { Avatar } from "components";
+import { Avatar, Neoscan } from "components";
 import { connect } from "react-redux";
-import YouTube from 'react-youtube';
+import YouTube from "react-youtube";
+import Linkify from "react-linkify";
 import { Button, Row, Col, Card } from "antd";
 import "./Message.css";
 import { deleteMessage } from "../../actions/channels";
@@ -14,7 +15,7 @@ const renderPayload = (payload) => {
   if (!payload) {
     return "";
   }
-  switch (payload.type ) {
+  switch (payload.type) {
     case "file":
       return (
         <a target="_blank" rel="noopener noreferrer" href={`${WEB_URL}/uploads/${payload.filename}`}>
@@ -35,13 +36,19 @@ const renderPayload = (payload) => {
         </div>
       );
     case "image":
-      return(<img src={payload.url} alt={payload.url} style={{ maxWidth: "100%", maxHeight: "200px" }} />);
+      return (<img src={payload.url} alt={payload.url} style={{ maxWidth: "100%", maxHeight: "200px" }} />);
     default:
-        return "";
+      return "";
     case "youtube":
-      return(<YouTube videoId={payload.id} />)
+      return (<YouTube videoId={payload.id} />);
+    case "neoscan":
+      return (<Neoscan {...payload} />);
   }
 };
+
+const renderText = text => (
+  <Linkify properties={{ target: "_blank" }}>{text}</Linkify>
+);
 
 const MessageContainer = ({
   message: {
@@ -71,7 +78,7 @@ const MessageContainer = ({
             {moment(inserted_at).format("h:mm A")}
           </time>
         </div>
-        <div>{renderPayload(payload)} <br /> {text} </div>
+        <div>{renderPayload(payload)} <br /> {renderText(text)} </div>
       </div>
       {userId === user.id ? (
         <div className="messageOptions">

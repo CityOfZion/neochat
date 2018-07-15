@@ -11,6 +11,7 @@ defmodule Api.Chats.LinkRenderer do
   use GenServer
   require Logger
   @url ~r/(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?/
+  @neoscan_api "https://neoscan.io//api/main_net/v1"
 
   def start_link do
     GenServer.start_link(__MODULE__, %{}, name: __MODULE__)
@@ -49,6 +50,16 @@ defmodule Api.Chats.LinkRenderer do
 
   def render("https://www.youtube.com/watch?v=" <> id, _) do
     {:youtube, %{id: id}}
+  end
+
+  def render("https://neoscan.io/transaction/" <> id, _) do
+    link = @neoscan_api <> "/get_transaction/" <> id
+
+    %HTTPoison.Response{body: body} =
+      HTTPoison.get!(link, [{"Accept-Language", "en-US"}], follow_redirect: true)
+
+    data = Poison.decode!(body)
+    {:neoscan, %{sub_type: :transaction, vin: data["vin"], vouts: data["vouts"]}}
   end
 
   def render(link, _) do

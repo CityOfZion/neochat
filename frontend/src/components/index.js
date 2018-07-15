@@ -17,3 +17,4 @@ export { default as Avatar } from "./Avatar/Avatar";
 export { default as UserList } from "./UserList/UserList";
 export { default as DirectMessageAdd } from "./DirectMessageAdd/DirectMessageAdd";
 export { default as UserListItem } from "./UserListItem/UserListItem";
+export { default as Neoscan } from "./Neoscan/Neoscan";

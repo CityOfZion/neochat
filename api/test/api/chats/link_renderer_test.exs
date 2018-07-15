@@ -82,4 +82,30 @@ defmodule Api.LinkRendererTest do
 
     assert_push("message_updated", %{id: ^id})
   end
+
+  test "render neoscan", %{users: [user_1, _], channel: channel} do
+    Chats.join_channel(channel, user_1)
+
+    link =
+      "https://neoscan.io/transaction/3b4ef84183e05cbb9d706786d54fa6a105d1dbd48bc4f0140a036c48cd3211b8"
+
+    {:ok, _, _} =
+      socket("user:id", %{current_user: user_1})
+      |> subscribe_and_join(ChatChannel, "channels:#{channel.id}")
+
+    {:ok, message} =
+      with_mock LinkRenderer, process: fn _ -> nil end do
+        Chats.create_message(channel, user_1, %{
+          text: "Go check this link " <> link
+        })
+      end
+
+    LinkRenderer.run(message)
+
+    id = message.id
+    message = Repo.get(Message, id)
+    assert message.payload["type"] == "neoscan"
+
+    assert_push("message_updated", %{id: ^id})
+  end
 end
