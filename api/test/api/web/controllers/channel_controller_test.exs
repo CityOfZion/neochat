@@ -89,7 +89,7 @@ defmodule Api.Web.ChannelControllerTest do
   test "user leave", %{
     conn: conn,
     channel: channel,
-    users: [user, user_2]
+    users: [user, _]
   } do
     Chats.join_channel(channel, user)
     resp = post(conn, "/api/channels/#{channel.id}/leave")
