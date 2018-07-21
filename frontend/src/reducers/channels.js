@@ -10,6 +10,7 @@ import {
   CHANNEL_JOINED,
   MESSAGE_DELETED,
   MESSAGE_UPDATED,
+  LEFT_CHANNEL,
 } from "../actions/channels";
 
 const initialState = {
@@ -164,6 +165,12 @@ export default function (state = initialState, action) {
           ...state.currentUserChannels,
           action.response.data,
         ],
+      };
+    case LEFT_CHANNEL:
+      return {
+        ...state,
+        currentUserChannels: state.currentUserChannels
+          .filter(channel => channel.id !== action.channelId),
       };
     default:
       return state;

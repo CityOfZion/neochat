@@ -127,6 +127,14 @@ defmodule Api.Chats do
 
   def join_channel(channel, user), do: join_channel(channel.id, user.id)
 
+  def leave_channel(channel, user) when is_integer(channel) and is_integer(user) do
+    Repo.delete_all(
+      from(cu in ChannelUser, where: cu.channel_id == ^channel and cu.user_id == ^user)
+    )
+  end
+
+  def leave_channel(channel, user), do: leave_channel(channel.id, user.id)
+
   def get_user_channels(user) do
     user
     |> Repo.preload(:channels)

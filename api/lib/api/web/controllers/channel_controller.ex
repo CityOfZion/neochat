@@ -9,6 +9,7 @@ defmodule Api.Web.ChannelController do
   alias Api.Web.UserView
 
   @user_joined_channel "USER_JOINED_CHANNEL"
+  @user_left_channel "USER_LEFT_CHANNEL"
 
   action_fallback(Api.Web.FallbackController)
 
@@ -95,6 +96,21 @@ defmodule Api.Web.ChannelController do
     else
       {:error, :forbidden}
     end
+  end
+
+  def leave(conn, %{"id" => channel_id}) do
+    current_user = GPlug.current_resource(conn)
+    channel = Chats.get_channel!(channel_id)
+    Chats.leave_channel(channel, current_user)
+
+    Endpoint.broadcast!(
+      "channels:" <> channel_id,
+      @user_left_channel,
+      UserView.render("user_summary.json", %{user: current_user})
+    )
+
+    conn
+    |> json(%{})
   end
 
   def opted_out_users(conn, %{"id" => channel_id}) do

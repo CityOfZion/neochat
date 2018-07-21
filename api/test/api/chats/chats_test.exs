@@ -50,5 +50,10 @@ defmodule Api.ChatsTest do
       assert {:error, :not_allowed} == Chats.delete_message(id, user_2)
       assert Kernel.match?({:ok, _}, Chats.delete_message(id, user_1))
     end
+
+    test "leave", %{users: [user_1, _], channel: channel} do
+      Chats.join_channel(channel, user_1)
+      assert {1, nil} == Chats.leave_channel(channel, user_1)
+    end
   end
 end

@@ -14,6 +14,7 @@ export const FETCH_CHANNELS_SUCCESS = "FETCH_CHANNELS_SUCCESS";
 export const FETCH_USER_CHANNELS_SUCCESS = "FETCH_USER_CHANNELS_SUCCESS";
 export const MESSAGE_DELETED = "MESSAGE_DELETED";
 export const MESSAGE_UPDATED = "MESSAGE_UPDATED";
+export const LEFT_CHANNEL = "LEFT_CHANNEL";
 
 const syncPresentUsers = (dispatch, presences, channelId) => {
   const presentUsers = [];
@@ -151,4 +152,11 @@ export function deleteMessage(phx_channel, id) {
         .receive("ok", () => resolve())
         .receive("error", () => reject());
     });
+}
+
+export function leaveChannel(channelId) {
+  api.post(`/channels/${channelId}/leave`);
+  return (dispatch) => {
+    dispatch({ type: LEFT_CHANNEL, channelId });
+  };
 }

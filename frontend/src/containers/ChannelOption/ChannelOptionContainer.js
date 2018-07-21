@@ -3,25 +3,33 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { UserList } from "components";
 import PropTypes from "prop-types";
-import { Row, Col } from "antd";
+import { Row, Col, Button } from "antd";
 import {
   getOptedOutUserChannel,
   optInUserForChannel,
+  leaveChannel,
 } from "../../actions/channels";
 
 class ChannelOptionContainer extends Component {
   static propTypes = {
+    leaveChannel: PropTypes.func.isRequired,
     match: PropTypes.shape({
       params: PropTypes.shape({
         id: PropTypes.number.isRequired,
       }).isRequired,
     }).isRequired,
   };
+
+  static contextTypes = {
+    router: PropTypes.object,
+  };
+
   constructor(props) {
     super(props);
     this.state = {
       users: [],
     };
+    this.leave = this.leave.bind(this);
   }
 
   componentDidMount() {
@@ -29,6 +37,12 @@ class ChannelOptionContainer extends Component {
     getOptedOutUserChannel(id)
       .then(response => this.setState({ users: response.data }))
       .catch((error) => {});
+  }
+
+  leave() {
+    const { id } = this.props.match.params;
+    this.props.leaveChannel(parseInt(id, 10));
+    this.context.router.history.push("/");
   }
 
   render() {
@@ -46,6 +60,8 @@ class ChannelOptionContainer extends Component {
     return (
       <div>
         <Link to={`/channel/${id}`}>Return to chat</Link>
+        <br />
+        <Button onClick={this.leave}>Leave</Button>
         <div>
           <Row>
             <Col span={10} offset={7}>
@@ -58,10 +74,11 @@ class ChannelOptionContainer extends Component {
               />
             </Col>
           </Row>
+
         </div>
       </div>
     );
   }
 }
 
-export default connect(() => {})(ChannelOptionContainer);
+export default connect(() => {}, { leaveChannel })(ChannelOptionContainer);
