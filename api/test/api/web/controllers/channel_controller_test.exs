@@ -92,7 +92,7 @@ defmodule Api.Web.ChannelControllerTest do
     users: [user, user_2]
   } do
     Chats.join_channel(channel, user)
-    conn = post(conn, "/api/channels/#{channel.id}/leave")
+    resp = post(conn, "/api/channels/#{channel.id}/leave")
     assert resp.status == 200
   end
 end
